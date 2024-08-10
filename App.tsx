@@ -1,62 +1,33 @@
-import React, {useEffect} from 'react';
-import {Alert, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 import axios from 'axios';
 
 export default function App() {
-  useEffect(() => {
-    // Axios 요청
-    axios
-      .get(
-        'http://openapi.seoul.go.kr:8088/724c4f6f79666c753931556966736e/xml/AccInfo/1/5/',
-      )
-      .then(response => {
-        console.log('Axios response', response);
-      })
-      .catch(error => {
-        console.error('Error fetching data with Axios: ', error);
-      });
+  const [data, setData] = useState(null);
 
-    // XMLHttpRequest 요청
-    var xhr = new XMLHttpRequest();
-    xhr.open(
-      'GET',
-      'http://openapi.seoul.go.kr:8088/724c4f6f79666c753931556966736e/xml/AccInfo/1/5/',
-    );
-    xhr.onreadystatechange = function () {
-      if (this.readyState === xhr.DONE) {
-        console.log('okokok');
-        console.log(xhr.status);
-        if (xhr.status === 200 || xhr.status === 201) {
-          console.log(xhr.status);
-          Alert.alert(
-            'Status: ' +
-              this.status +
-              '\nHeaders: ' +
-              JSON.stringify(this.getAllResponseHeaders()) +
-              '\nBody: ' +
-              this.responseText,
-          );
-        }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const url =
+          'http://openapi.seoul.go.kr:8088/724c4f6f79666c753931556966736e/xml/AccInfo/1/5/';
+        const response = await axios.get(url);
+        setData(response.data);
+        console.log('Data fetched:', response.data);
+
+        // 데이터를 다 불러온 다음 실행할 코드
+        console.log('데이터가 성공적으로 불러와졌습니다.');
+      } catch (error) {
+        console.error('Error fetching data:', error);
       }
     };
-    xhr.send('');
 
-    // Fetch API 요청
-    fetch(
-      'http://openapi.seoul.go.kr:8088/724c4f6f79666c753931556966736e/xml/AccInfo/1/5/',
-    )
-      .then(response => response.text())
-      .then(data => {
-        Alert.alert('Response from fetch: ', data);
-      })
-      .catch(error => {
-        console.error('Error fetching data with fetch: ', error);
-      });
-  }, []); // 빈 배열([])은 이 효과가 컴포넌트가 처음 마운트될 때만 실행되도록 합니다.
+    fetchData();
+  }, []);
 
   return (
     <View style={styles.container}>
-      <Text>hello </Text>
+      <Text>hello</Text>
+      {data && <Text>Data loaded: {JSON.stringify(data)}</Text>}
     </View>
   );
 }
