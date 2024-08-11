@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
 import axios from 'axios';
+import React, {useEffect, useState} from 'react';
+import {SafeAreaView, ScrollView, StyleSheet, Text} from 'react-native';
 
 export default function App() {
   const [data, setData] = useState(null);
@@ -25,10 +25,15 @@ export default function App() {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Text>hello</Text>
-      {data && <Text>Data loaded: {JSON.stringify(data)}</Text>}
-    </View>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+        {data ? (
+          <Text>Data loaded: {JSON.stringify(data)}</Text>
+        ) : (
+          <Text>Loading...</Text>
+        )}
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
