@@ -1,9 +1,4 @@
 {
   "extends": "@react-native/typescript-config/tsconfig.json",
-  "compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "crypto": ["node_modules/crypto-js"]
-    }
-  }
+
 }
