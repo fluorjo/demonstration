@@ -7,6 +7,14 @@ export default function App() {
   const [accInfoData, setAccInfoData] = useState([]);
   const parser = new XMLParser();
 
+  async function loadHTML() {
+    const searchUrl =
+      'https://www.smpa.go.kr/user/nd54882.do?View&uQ=&pageST=SUBJECT&pageSV=&imsi=imsi&page=1&pageSC=SORT_ORDER&pageSO=DESC&dmlType=&boardNo=00310495&returnUrl=https://www.smpa.go.kr:443/user/nd54882.do';
+    const HTMLresponse = await fetch(searchUrl); // fetch page
+
+    const htmlString = await HTMLresponse.text(); // get response text
+    console.log('htmlString', htmlString);
+  }
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -15,7 +23,7 @@ export default function App() {
         const response = await axios.get(url);
         setData(response);
         var jsonData = parser.parse(response.data);
-        console.log(jsonData.AccInfo.row[0].acc_info);
+        // console.log(jsonData.AccInfo.row[0].acc_info);
         // console.log('Data fetched:', response.data);
         const accInfoArray = jsonData.AccInfo.row ? jsonData.AccInfo.row : [];
         setAccInfoData(accInfoArray);
@@ -25,12 +33,14 @@ export default function App() {
     };
 
     fetchData();
+    loadHTML();
   }, []);
   const renderItem = ({item}) => (
     <View>
-      <Text>{item.acc_info}</Text>
+      <Text style={styles.demoName}>{item.acc_info}</Text>
     </View>
   );
+
   return (
     <SafeAreaView style={styles.container}>
       {accInfoData.length > 0 ? (
@@ -38,6 +48,8 @@ export default function App() {
           data={accInfoData}
           renderItem={renderItem}
           keyExtractor={(item, index) => index.toString()}
+          style={styles.flatList}
+          numColumns={1}
         />
       ) : (
         <Text>Loading data...</Text>
@@ -52,5 +64,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  flatList: {
+    backgroundColor: 'blue',
+  },
+  demoName: {
+    backgroundColor: 'green',
   },
 });
