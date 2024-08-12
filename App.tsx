@@ -1,7 +1,14 @@
 import axios from 'axios';
 import {XMLParser} from 'fast-xml-parser';
 import React, {useEffect, useState} from 'react';
-import {FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 export default function App() {
   const [data, setData] = useState(null);
   const [accInfoData, setAccInfoData] = useState([]);
@@ -13,7 +20,7 @@ export default function App() {
     const HTMLresponse = await fetch(searchUrl); // fetch page
 
     const htmlString = await HTMLresponse.text(); // get response text
-    console.log('htmlString', htmlString);
+    console.log('htmlString');
   }
   useEffect(() => {
     const fetchData = async () => {
@@ -54,6 +61,12 @@ export default function App() {
       ) : (
         <Text>Loading data...</Text>
       )}
+      <Image
+        source={{
+          uri: 'https://www.smpa.go.kr/common/attachfile/attachfileView.do?attachNo=00244699',
+        }}
+        style={styles.TodayDemoInfoImg}
+      />
     </SafeAreaView>
   );
 }
@@ -70,5 +83,11 @@ const styles = StyleSheet.create({
   },
   demoName: {
     backgroundColor: 'green',
+  },
+  TodayDemoInfoImg: {
+    width: 400,
+    height: 600,
+    marginRight: 8,
+    backgroundColor: 'red',
   },
 });
