@@ -4,6 +4,7 @@ import {XMLParser} from 'fast-xml-parser';
 import React, {useState} from 'react';
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import RestRoomPage from './page/RestRoomPage';
 
 const Tab = createBottomTabNavigator();
 function HomeScreen() {
@@ -11,7 +12,7 @@ function HomeScreen() {
 }
 
 function RestRoom() {
-  return <Text>RestRoom</Text>;
+  return <RestRoomPage />;
 }
 
 export default function App() {
@@ -73,7 +74,7 @@ export default function App() {
         style={styles.TodayDemoInfoImg}
       /> */}
       <NavigationContainer>
-        <Tab.Navigator initialRouteName="Home">
+        <Tab.Navigator initialRouteName="RestRoom">
           <Tab.Screen
             name="Home"
             component={HomeScreen}
@@ -85,7 +86,7 @@ export default function App() {
             }}
           />
           <Tab.Screen
-            name="Search"
+            name="RestRoom"
             component={RestRoom}
             options={{
               title: '화장실 정보',
