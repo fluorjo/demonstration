@@ -2,6 +2,7 @@ import axios from 'axios';
 import {XMLParser} from 'fast-xml-parser';
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView, Text} from 'react-native';
+import MyIcon from '../icons/IconFont';
 
 export default function RestRoomPage() {
   const [RestRoomData, setRestRoomData] = useState(null);
@@ -27,9 +28,10 @@ export default function RestRoomPage() {
 
     fetchData();
   }, []);
-  
+
   return (
     <SafeAreaView>
+      <MyIcon name="demoicon" size={20} />
       {RestRoomData ? (
         <Text>RestRoomData loaded: {JSON.stringify(RestRoomData)}</Text>
       ) : (

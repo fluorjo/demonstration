@@ -4,8 +4,8 @@ import {XMLParser} from 'fast-xml-parser';
 import React, {useState} from 'react';
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import RestRoomPage from './page/RestRoomPage';
-
+import CustomIcon from './src/icons/IconFont';
+import RestRoomPage from './src/page/RestRoomPage';
 const Tab = createBottomTabNavigator();
 function HomeScreen() {
   return <Text>Home</Text>;
@@ -13,6 +13,9 @@ function HomeScreen() {
 
 function RestRoom() {
   return <RestRoomPage />;
+}
+function Demo() {
+  return <DemoInfoPage />;
 }
 
 export default function App() {
@@ -93,6 +96,16 @@ export default function App() {
               tabBarIcon: ({color, size}) => (
                 <Icon name="family-restroom" color={color} size={size} />
               ),
+            }}
+          />
+          <Tab.Screen
+            name="Demo"
+            component={Demo}
+            options={{
+              title: '집회',
+              // tabBarIcon: ({color, size}) => (
+              //   <CustomIcon name="DemoIcon" size={20} />
+              // ),
             }}
           />
         </Tab.Navigator>
