@@ -1,4 +1,4 @@
-package com.demonstration
+package com.fluorjo.demonstration
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

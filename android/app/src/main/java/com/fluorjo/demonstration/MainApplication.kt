@@ -1,4 +1,4 @@
-package com.demonstration
+package com.fluorjo.demonstration
 
 import android.app.Application
 import com.facebook.react.PackageList

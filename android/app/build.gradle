@@ -74,9 +74,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.demonstration"
+    namespace "com.fluorjo.demonstration"
     defaultConfig {
-        applicationId "com.demonstration"
+        applicationId "com.fluorjo.demonstration"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
