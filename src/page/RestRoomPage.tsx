@@ -2,6 +2,7 @@ import axios from 'axios';
 import {XMLParser} from 'fast-xml-parser';
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView, Text} from 'react-native';
+import Map from '../components/map';
 
 export default function RestRoomPage() {
   const [RestRoomData, setRestRoomData] = useState(null);
@@ -30,11 +31,12 @@ export default function RestRoomPage() {
 
   return (
     <SafeAreaView>
-      {RestRoomData ? (
+      {/* {RestRoomData ? (
         <Text>RestRoomData loaded: {JSON.stringify(RestRoomData)}</Text>
       ) : (
         <Text>null</Text>
-      )}
+      )} */}
+      <Map/>
     </SafeAreaView>
   );
 }

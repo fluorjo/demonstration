@@ -3,7 +3,6 @@ import MapView, { PROVIDER_DEFAULT, PROVIDER_GOOGLE } from "react-native-maps";
 
 const Map = () => {
   return (
-    <View style={styles.screen}>
     <MapView 
       style={styles.map}
       initialRegion={{
@@ -15,17 +14,13 @@ const Map = () => {
       provider={
         Platform.OS === "android" ? PROVIDER_GOOGLE : PROVIDER_DEFAULT
       }
-    ></MapView>
-  </View>
+    />
   );
 };
 
 export default Map;
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-  },
   map: {
     width: "100%",
     height: "100%",
