@@ -1,8 +1,8 @@
-import axios from 'axios';
-import {XMLParser} from 'fast-xml-parser';
-import React, {useEffect, useState} from 'react';
-import {SafeAreaView, Text} from 'react-native';
-import Map from '../components/map';
+import axios from "axios";
+import { XMLParser } from "fast-xml-parser";
+import React, { useEffect, useState } from "react";
+import { SafeAreaView } from "react-native";
+import Map from "../components/map";
 
 export default function RestRoomPage() {
   const [RestRoomData, setRestRoomData] = useState(null);
@@ -13,7 +13,7 @@ export default function RestRoomPage() {
     const fetchData = async () => {
       try {
         const url =
-          'http://openAPI.seoul.go.kr:8088/724c4f6f79666c753931556966736e/xml/SearchPublicToiletPOIService/1/5/';
+          "http://openAPI.seoul.go.kr:8088/724c4f6f79666c753931556966736e/xml/SearchPublicToiletPOIService/1/5/";
         const response = await axios.get(url);
         setRestRoomData(response);
         var jsonData = parser.parse(response.data);
@@ -22,7 +22,7 @@ export default function RestRoomPage() {
         // const accInfoArray = jsonData.AccInfo.row ? jsonData.AccInfo.row : [];
         // setAccInfoData(accInfoArray);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
@@ -36,7 +36,7 @@ export default function RestRoomPage() {
       ) : (
         <Text>null</Text>
       )} */}
-      <Map/>
+      <Map />
     </SafeAreaView>
   );
 }
