@@ -8,6 +8,7 @@ import DemoIcon from "./src/icons/DemoIcon";
 import RestroomIcon from "./src/icons/RestroomIcon";
 import DemoInfoPage from "./src/page/DemoInfoPage";
 import RestRoomPage from "./src/page/RestRoomPage";
+import { getCurrentLocation } from "./src/func/getCurrentLocation";
 
 const Tab = createBottomTabNavigator();
 
@@ -15,27 +16,27 @@ export default function App() {
   const [city, setCity] = useState<string>();
   const [location, setLocation] = useState();
   const [ok, setOk] = useState(true);
-  const ask = async () => {
-    const { granted } = await Location.requestForegroundPermissionsAsync();
-    if (!granted) {
-      setOk(false);
-    }
-    const {
-      coords: { latitude, longitude },
-    } = await Location.getCurrentPositionAsync({ accuracy: 5 });
-    const location = await Location.reverseGeocodeAsync(
-      { latitude, longitude },
-      { useGoogleMaps: false }
-    );
-    if (location[0].city) {
-      setCity(location[0].city);
-    } else {
-      setCity("no city");
-    }
-  };
+  // const ask = async () => {
+  //   const { granted } = await Location.requestForegroundPermissionsAsync();
+  //   if (!granted) {
+  //     setOk(false);
+  //   }
+  //   const {
+  //     coords: { latitude, longitude },
+  //   } = await Location.getCurrentPositionAsync({ accuracy: 5 });
+  //   const location = await Location.reverseGeocodeAsync(
+  //     { latitude, longitude },
+  //     { useGoogleMaps: false }
+  //   );
+  //   if (location[0].city) {
+  //     setCity(location[0].city);
+  //   } else {
+  //     setCity("no city");
+  //   }
+  // };
 
   useEffect(() => {
-    ask();
+    getCurrentLocation();
   }, []);
   function HomeScreen() {
     return <Text>{city}</Text>;
