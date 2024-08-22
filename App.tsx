@@ -3,43 +3,50 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import * as Location from "expo-location";
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, StyleSheet, Text } from "react-native";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import DemoIcon from "./src/icons/DemoIcon";
 import RestroomIcon from "./src/icons/RestroomIcon";
 import DemoInfoPage from "./src/page/DemoInfoPage";
 import RestRoomPage from "./src/page/RestRoomPage";
-import { getCurrentLocation } from "./src/func/getCurrentLocation";
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
   const [city, setCity] = useState<string>();
-  const [location, setLocation] = useState();
+  const [currentLatitude, setLatitude] = useState<number>();
+  const [currentLongitude, setLongitude] = useState<number>();
   const [ok, setOk] = useState(true);
-  // const ask = async () => {
-  //   const { granted } = await Location.requestForegroundPermissionsAsync();
-  //   if (!granted) {
-  //     setOk(false);
-  //   }
-  //   const {
-  //     coords: { latitude, longitude },
-  //   } = await Location.getCurrentPositionAsync({ accuracy: 5 });
-  //   const location = await Location.reverseGeocodeAsync(
-  //     { latitude, longitude },
-  //     { useGoogleMaps: false }
-  //   );
-  //   if (location[0].city) {
-  //     setCity(location[0].city);
-  //   } else {
-  //     setCity("no city");
-  //   }
-  // };
+  const ask = async () => {
+    const { granted } = await Location.requestForegroundPermissionsAsync();
+    if (!granted) {
+      setOk(false);
+    }
+    const {
+      coords: { latitude, longitude },
+    } = await Location.getCurrentPositionAsync({ accuracy: 5 });
+    const location = await Location.reverseGeocodeAsync(
+      { latitude, longitude },
+      { useGoogleMaps: false }
+    );
+    if (location[0].city) {
+      setCity(location[0].city);
+      setLatitude(latitude);
+      setLongitude(longitude);
+    } else {
+      setCity("no city");
+    }
+  };
 
   useEffect(() => {
-    getCurrentLocation();
+    ask();
   }, []);
   function HomeScreen() {
-    return <Text>{city}</Text>;
+    return (
+      <View>
+        <Text>{currentLatitude}</Text>
+        <Text>{currentLongitude}</Text>
+      </View>
+    );
   }
 
   function RestRoom() {
