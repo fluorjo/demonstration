@@ -4,7 +4,12 @@ import MapView, {
   PROVIDER_DEFAULT,
   PROVIDER_GOOGLE,
 } from "react-native-maps";
+const locations = [
+  { place: "1", lat: 37.576187, lng: 126.976882 },
+  { place: "2", lat: 37.578187, lng: 126.976882 },
+  { place: "3", lat: 37.580187, lng: 126.976882 },
 
+];
 const Map = () => {
   return (
     <MapView
@@ -12,16 +17,18 @@ const Map = () => {
       initialRegion={{
         latitude: 37.574187,
         longitude: 126.976882,
-        latitudeDelta: 0.05,
-        longitudeDelta: 0.05,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
       }}
       provider={Platform.OS === "android" ? PROVIDER_GOOGLE : PROVIDER_DEFAULT}
     >
-      <Marker
-        coordinate={{ latitude: 37.574187, longitude: 126.976882 }}
-        title="this is a marker"
-        description="this is a marker example"
-      />
+    {locations.map((location, index) => (
+        <Marker
+          key={index}
+          coordinate={{ latitude: location.lat, longitude: location.lng }}
+          title={location.place}
+        />
+      ))}
     </MapView>
   );
 };
