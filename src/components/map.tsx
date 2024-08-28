@@ -11,6 +11,7 @@ interface CurrentLocation {
 
 interface Location extends CurrentLocation {
   place: string;
+  placeType: string;
 }
 
 interface MapProps {
@@ -23,7 +24,18 @@ const Map = ({ currentLocation, locations }: MapProps) => {
     lat: 37.574187,
     lng: 126.976882,
   };
-
+  const getMarkerImage = (placeType: string) => {
+    switch (placeType) {
+      case "A":
+        return require("../../assets/icon.png");
+      case "B":
+        return require("../../assets/splash.png");
+      case "민간개방화장실":
+        return require("../../assets/favicon.png");
+      default:
+        return require("../../assets/YOUR_MARKER.png");
+    }
+  };
   return (
     <MapView
       style={styles.map}
@@ -40,7 +52,12 @@ const Map = ({ currentLocation, locations }: MapProps) => {
           key={index}
           coordinate={{ latitude: location.lat, longitude: location.lng }}
           title={location.place}
-        />
+        >
+          <Image
+            source={getMarkerImage(location.placeType)}
+            style={{ width: 30, height: 30 }}
+          />
+        </Marker>
       ))}
       <Marker
         coordinate={{
@@ -51,7 +68,7 @@ const Map = ({ currentLocation, locations }: MapProps) => {
       >
         <Image
           source={require("../../assets/YOUR_MARKER.png")}
-          style={{ width: 30, height: 30 }} 
+          style={{ width: 30, height: 30 }}
         />
         {/* <Callout>
           <Image source={require("../../assets/YOUR_MARKER.png")} />

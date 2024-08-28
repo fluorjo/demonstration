@@ -21,13 +21,14 @@ export default function RestRoomPage() {
           (item) => {
             return {
               place: item.FNAME,
-              // ANAME: item.ANAME,
+              placeType: item.ANAME,
               lng: item.X_WGS84,
               lat: item.Y_WGS84,
             };
           }
         );
         setRestRoomData(extractedData);
+        console.log(extractedData)
 
       } catch (error) {
         console.error("Error fetching data:", error);
