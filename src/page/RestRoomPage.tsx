@@ -15,29 +15,33 @@ export default function RestRoomPage() {
         const url =
           "http://openAPI.seoul.go.kr:8088/724c4f6f79666c753931556966736e/xml/SearchPublicToiletPOIService/1/5/";
         const response = await axios.get(url);
-        setRestRoomData(response);
         var jsonData = parser.parse(response.data);
-        console.log(jsonData.SearchPublicToiletPOIService.row[0].FNAME);
-        // console.log('Data fetched:', response.data);
-        // const accInfoArray = jsonData.AccInfo.row ? jsonData.AccInfo.row : [];
-        // setAccInfoData(accInfoArray);
+
+        const extractedData = jsonData.SearchPublicToiletPOIService.row.map(
+          (item) => {
+            return {
+              place: item.FNAME,
+              // ANAME: item.ANAME,
+              lng: item.X_WGS84,
+              lat: item.Y_WGS84,
+            };
+          }
+        );
+        console.log(extractedData)
+        setRestRoomData(extractedData);
+
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
+
   }, []);
   const currentLocation = {
     lat: 37.574187,
     lng: 126.976882,
   };
-  const locations = [
-    { place: "1", lat: 37.576187, lng: 126.976882 },
-    { place: "2", lat: 37.578187, lng: 126.976882 },
-    { place: "3", lat: 37.580187, lng: 126.976882 },
-  ];
-  
   return (
     <SafeAreaView>
       {/* {RestRoomData ? (
@@ -45,7 +49,7 @@ export default function RestRoomPage() {
       ) : (
         <Text>null</Text>
       )} */}
-       <Map currentLocation={currentLocation} locations={locations} />
+      <Map currentLocation={currentLocation} locations={RestRoomData!} />
     </SafeAreaView>
   );
 }
