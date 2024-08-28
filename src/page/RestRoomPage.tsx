@@ -27,7 +27,6 @@ export default function RestRoomPage() {
             };
           }
         );
-        console.log(extractedData)
         setRestRoomData(extractedData);
 
       } catch (error) {
