@@ -1,8 +1,8 @@
 import { Image, Platform, StyleSheet } from "react-native";
 import MapView, {
-  Marker,
-  PROVIDER_DEFAULT,
-  PROVIDER_GOOGLE,
+    Marker,
+    PROVIDER_DEFAULT,
+    PROVIDER_GOOGLE,
 } from "react-native-maps";
 interface CurrentLocation {
   lat: number;
@@ -26,12 +26,20 @@ const Map = ({ currentLocation, locations }: MapProps) => {
   };
   const getMarkerImage = (placeType: string) => {
     switch (placeType) {
-      case "A":
-        return require("../../assets/icon.png");
-      case "B":
-        return require("../../assets/splash.png");
+      case "개":
+      case "개방":
       case "민간개방화장실":
-        return require("../../assets/favicon.png");
+        return require("../../assets/Building.png");
+      case "공공":
+      case "공공기":
+      case "공공기관":
+      case "공공청사":
+        return require("../../assets/Government.png");
+      case "공중":
+        return require("../../assets/PublicToilet.png");
+      case "지하철":
+      case "지하철역":
+        return require("../../assets/Subway.png");
       default:
         return require("../../assets/YOUR_MARKER.png");
     }

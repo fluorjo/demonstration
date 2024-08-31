@@ -13,7 +13,7 @@ export default function RestRoomPage() {
     const fetchData = async () => {
       try {
         const url =
-          "http://openAPI.seoul.go.kr:8088/724c4f6f79666c753931556966736e/xml/SearchPublicToiletPOIService/1/5/";
+          "http://openAPI.seoul.go.kr:8088/724c4f6f79666c753931556966736e/xml/SearchPublicToiletPOIService/4167/4192/";
         const response = await axios.get(url);
         var jsonData = parser.parse(response.data);
 
@@ -28,7 +28,6 @@ export default function RestRoomPage() {
           }
         );
         setRestRoomData(extractedData);
-        console.log(extractedData)
 
       } catch (error) {
         console.error("Error fetching data:", error);
