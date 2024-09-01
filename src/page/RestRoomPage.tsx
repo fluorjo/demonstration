@@ -2,40 +2,26 @@ import axios from "axios";
 import { XMLParser } from "fast-xml-parser";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native";
+import RestRoomDataJson from "../../assets/data/RestRoomData.json";
 import Map from "../components/map";
 
 export default function RestRoomPage() {
-  const [RestRoomData, setRestRoomData] = useState(null);
+  const [RestRoomData, setRestRoomData] = useState();
   const [accInfoData, setAccInfoData] = useState([]);
   const parser = new XMLParser();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const url =
-          "http://openAPI.seoul.go.kr:8088/724c4f6f79666c753931556966736e/xml/SearchPublicToiletPOIService/4167/4192/";
-        const response = await axios.get(url);
-        var jsonData = parser.parse(response.data);
-
-        const extractedData = jsonData.SearchPublicToiletPOIService.row.map(
-          (item) => {
-            return {
-              place: item.FNAME,
-              placeType: item.ANAME,
-              lng: item.X_WGS84,
-              lat: item.Y_WGS84,
-            };
-          }
-        );
-        setRestRoomData(extractedData);
-
+        var jsonData = RestRoomDataJson;
+        setRestRoomData(jsonData);
+        console.log("dd", RestRoomData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-
   }, []);
   const currentLocation = {
     lat: 37.574187,
