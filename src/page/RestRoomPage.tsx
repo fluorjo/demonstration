@@ -5,24 +5,29 @@ import { SafeAreaView } from "react-native";
 import RestRoomDataJson from "../../assets/data/RestRoomData.json";
 import Map from "../components/map";
 
+interface RestRoom {
+  place: string;
+  placeType: string;
+  lat: number;
+  lng: number;
+}
+
+
 export default function RestRoomPage() {
-  const [RestRoomData, setRestRoomData] = useState();
-  const [accInfoData, setAccInfoData] = useState([]);
-  const parser = new XMLParser();
+  const [RestRoomData, setRestRoomData] = useState<RestRoom[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const getRestRoomData = async () => {
       try {
-        var jsonData = RestRoomDataJson;
-        setRestRoomData(jsonData);
-        console.log("dd", RestRoomData);
+        setRestRoomData(RestRoomDataJson);
+        // console.log("dd", RestRoomData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
-    fetchData();
+    getRestRoomData();
   }, []);
+
   const currentLocation = {
     lat: 37.574187,
     lng: 126.976882,
