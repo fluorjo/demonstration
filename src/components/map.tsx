@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { Image, Platform, StyleSheet } from "react-native";
 import MapView, {
-    Marker,
-    PROVIDER_DEFAULT,
-    PROVIDER_GOOGLE,
+  Marker,
+  PROVIDER_DEFAULT,
+  PROVIDER_GOOGLE,
+  Region,
 } from "react-native-maps";
 interface CurrentLocation {
   lat: number;
@@ -17,12 +19,34 @@ interface Location extends CurrentLocation {
 interface MapProps {
   currentLocation?: CurrentLocation;
   locations?: Location[];
+  filteredLocations?: Location[];
 }
 
 const Map = ({ currentLocation, locations }: MapProps) => {
+  const [filteredLocations, setFilteredLocations] = useState<Location[]>();
   const initialLocation = currentLocation || {
     lat: 37.574187,
     lng: 126.976882,
+  };
+  const filterLocations = (region: Region) => {
+    const { latitude, longitude, latitudeDelta, longitudeDelta } = region;
+
+    const minLat = latitude - latitudeDelta / 2;
+    const maxLat = latitude + latitudeDelta / 2;
+    const minLng = longitude - longitudeDelta / 2;
+    const maxLng = longitude + longitudeDelta / 2;
+
+    // 현재 지도 영역에 포함된 마커 필터링
+    if (locations) {
+      const filtered = locations.filter(
+        (location) =>
+          location.lat >= minLat &&
+          location.lat <= maxLat &&
+          location.lng >= minLng &&
+          location.lng <= maxLng
+      );
+      setFilteredLocations(filtered);
+    }
   };
   const getMarkerImage = (placeType: string) => {
     switch (placeType) {
@@ -53,9 +77,11 @@ const Map = ({ currentLocation, locations }: MapProps) => {
         latitudeDelta: 0.01,
         longitudeDelta: 0.01,
       }}
+      onRegionChangeComplete={filterLocations} // 지도 영역 변경 시 호출
+
       provider={Platform.OS === "android" ? PROVIDER_GOOGLE : PROVIDER_DEFAULT}
     >
-      {locations?.map((location, index) => (
+      {filteredLocations?.map((location, index) => (
         <Marker
           key={index}
           coordinate={{ latitude: location.lat, longitude: location.lng }}
