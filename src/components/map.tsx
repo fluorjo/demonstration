@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Image, Platform, StyleSheet } from "react-native";
+// import MapView from "react-native-map-clustering";
 import MapView, {
   Marker,
   PROVIDER_DEFAULT,
   PROVIDER_GOOGLE,
   Region,
 } from "react-native-maps";
+
 interface CurrentLocation {
   lat: number;
   lng: number;
@@ -68,6 +70,12 @@ const Map = ({ currentLocation, locations }: MapProps) => {
         return require("../../assets/YOUR_MARKER.png");
     }
   };
+  const [mapWidth, setMapWidth] = useState("99%");
+
+  const updateMapStyle = () => {
+    setMapWidth("100%");
+  };
+
   return (
     <MapView
       style={styles.map}
@@ -77,9 +85,13 @@ const Map = ({ currentLocation, locations }: MapProps) => {
         latitudeDelta: 0.01,
         longitudeDelta: 0.01,
       }}
-      onRegionChangeComplete={filterLocations} // 지도 영역 변경 시 호출
-
+      onRegionChangeComplete={filterLocations}
       provider={Platform.OS === "android" ? PROVIDER_GOOGLE : PROVIDER_DEFAULT}
+      showsMyLocationButton={true}
+      showsUserLocation={true}
+      onMapReady={() => {
+        updateMapStyle();
+      }}
     >
       {filteredLocations?.map((location, index) => (
         <Marker
@@ -119,5 +131,8 @@ const styles = StyleSheet.create({
   map: {
     width: "100%",
     height: "100%",
+    justifyContent: 'center',
+    
   },
+  
 });
