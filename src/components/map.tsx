@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Image, Platform, StyleSheet } from "react-native";
+import { Image, Platform, StyleSheet, TouchableOpacity } from "react-native";
 // import MapView from "react-native-map-clustering";
 import MapView, {
   Marker,
@@ -38,7 +38,6 @@ const Map = ({ currentLocation, locations }: MapProps) => {
     const minLng = longitude - longitudeDelta / 2;
     const maxLng = longitude + longitudeDelta / 2;
 
-    // 현재 지도 영역에 포함된 마커 필터링
     if (locations) {
       const filtered = locations.filter(
         (location) =>
@@ -75,7 +74,21 @@ const Map = ({ currentLocation, locations }: MapProps) => {
   const updateMapStyle = () => {
     setMapWidth("100%");
   };
+  const [mapRef, setMapRef] = useState<MapView | null>(null);
 
+  const moveToCurrentLocation = () => {
+    console.log(mapRef)
+    if (mapRef && currentLocation) {
+      const currentLo = {
+        latitude: 37.574187,
+        longitude: 126.976882,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+      };
+    
+      mapRef.animateToRegion(currentLo, 100);
+    }
+  };
   return (
     <MapView
       style={styles.map}
@@ -92,6 +105,8 @@ const Map = ({ currentLocation, locations }: MapProps) => {
       onMapReady={() => {
         updateMapStyle();
       }}
+      ref={(ref) => setMapRef(ref)}
+
     >
       {filteredLocations?.map((location, index) => (
         <Marker
@@ -116,11 +131,9 @@ const Map = ({ currentLocation, locations }: MapProps) => {
           source={require("../../assets/YOUR_MARKER.png")}
           style={{ width: 30, height: 30 }}
         />
-        {/* <Callout>
-          <Image source={require("../../assets/YOUR_MARKER.png")} />
-          <Text>aaa </Text>
-        </Callout> */}
       </Marker>
+      <TouchableOpacity style={styles.floatingbtn} onPress={moveToCurrentLocation}>
+</TouchableOpacity>
     </MapView>
   );
 };
@@ -132,7 +145,19 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     justifyContent: 'center',
-    
   },
+  floatingbtn:{
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.2)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 50,
+    position: 'absolute',
+    bottom: 5,
+    right: 10,
+    height: 50,
+    backgroundColor: 'black',
+    borderRadius: 100,
+ }
   
 });
