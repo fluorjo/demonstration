@@ -1,12 +1,20 @@
-import { StyleSheet, TouchableOpacity } from "react-native";
-// import MapView from "react-native-map-clustering";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import React from "react";
+import { StyleSheet, TouchableOpacity, ViewStyle } from "react-native";
+interface FloatingButtonProps {
+  IconName: keyof typeof MaterialIcons.glyphMap;
+  onPress: () => void;
+  ExtraStyle?: ViewStyle;
+}
 
-const FloatingButton = ({ onPress }) => (
-  <TouchableOpacity style={styles.floatingbtn} onPress={onPress}>
+const FloatingButton: React.FC<FloatingButtonProps> = ({
+  onPress,
+  IconName,
+  ExtraStyle
+}) => (
+  <TouchableOpacity style={[styles.floatingbtn, ExtraStyle]}  onPress={onPress}>
     <MaterialIcons
-      name="my-location"
+      name={IconName}
       color="black"
       style={styles.floatingbtnIcon}
     />

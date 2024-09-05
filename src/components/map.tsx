@@ -1,13 +1,5 @@
 import { useCallback, useState } from "react";
-import {
-  Image,
-  Platform,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
-// import MapView from "react-native-map-clustering";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { Image, Platform, StyleSheet, View } from "react-native";
 import MapView, {
   Marker,
   PROVIDER_DEFAULT,
@@ -127,13 +119,15 @@ const Map = ({ currentLocation, locations }: MapProps) => {
           </Marker>
         ))}
       </MapView>
-      {/* <TouchableOpacity
-        style={styles.floatingbtn}
+      <FloatingButton
         onPress={moveToCurrentLocation}
-      >
-        <MaterialIcons name="my-location" size={36} color="black" />
-      </TouchableOpacity> */}
-      <FloatingButton onPress={moveToCurrentLocation}/>
+        IconName={"filter-alt"}
+        ExtraStyle={{ top: 20 }}
+      />
+      <FloatingButton
+        onPress={moveToCurrentLocation}
+        IconName={"my-location"}
+      />
     </View>
   );
 };
@@ -146,25 +140,4 @@ const styles = StyleSheet.create({
     height: "100%",
     zIndex: 1,
   },
-  floatingbtn: {
-    borderWidth: 1,
-    borderColor: "rgba(0,0,0,0.2)",
-    alignItems: "center",
-    justifyContent: "center",
-    position: "absolute",
-    bottom: 20,
-    right: 20,
-    width: 50,
-    height: 50,
-    backgroundColor: "white",
-    borderRadius: 100,
-    zIndex: 100,
-  },
-  // floatingbtnIcon: {
-  //   width: 120,
-  //   height: 120,
-  //   position: "absolute",
-  //   bottom: 20,
-  //   right: 20,
-  // },
 });
