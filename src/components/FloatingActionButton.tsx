@@ -1,8 +1,7 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import React from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Image, Pressable, StyleSheet, View } from "react-native";
 import Animated, {
-  interpolate,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
@@ -20,12 +19,11 @@ const SPRING_CONFIG = {
 
 const OFFSET = 60;
 
-const FloatingActionButton = ({ isExpanded, index, buttonLetter }) => {
+const FloatingActionButton = ({ isExpanded, index, icon }) => {
   const animatedStyles = useAnimatedStyle(() => {
     const moveValue = isExpanded.value ? OFFSET * index : 0;
     const translateValue = withSpring(moveValue, SPRING_CONFIG);
     const delay = index * 10;
-
     const scaleValue = isExpanded.value ? 1 : 0;
 
     return {
@@ -40,7 +38,10 @@ const FloatingActionButton = ({ isExpanded, index, buttonLetter }) => {
 
   return (
     <AnimatedPressable style={[animatedStyles, styles.shadow, styles.button]}>
-      <Animated.Text style={styles.content}>{buttonLetter}</Animated.Text>
+      <Image
+        source={icon}
+        style={{ width: 30, height: 30 }}
+      />
     </AnimatedPressable>
   );
 };
@@ -52,44 +53,33 @@ export default function FloatingActionBtn() {
     isExpanded.value = !isExpanded.value;
   };
 
-  const plusIconStyle = useAnimatedStyle(() => {
-    const moveValue = interpolate(Number(isExpanded.value), [0, 1], [0, 2]);
-    const translateValue = withTiming(moveValue);
-    const rotateValue = isExpanded.value ? "45deg" : "0deg";
-
-    return {
-      transform: [
-        { translateX: translateValue },
-        { rotate: withTiming(rotateValue) },
-      ],
-    };
-  });
-
   return (
     <View style={styles.buttonContainer}>
       <AnimatedPressable
         onPress={handlePress}
         style={[styles.shadow, mainButtonStyles.button]}
       >
-        {/* <Animated.Text style={[plusIconStyle, mainButtonStyles.content]}>
-          +
-        </Animated.Text> */}
         <MaterialIcons name="filter-alt" size={24} color="black" />
       </AnimatedPressable>
       <FloatingActionButton
         isExpanded={isExpanded}
         index={1}
-        buttonLetter={"M"}
+        icon={require("../../assets/Building.png")}
       />
       <FloatingActionButton
         isExpanded={isExpanded}
         index={2}
-        buttonLetter={"W"}
+        icon={require("../../assets/Government.png")}
       />
       <FloatingActionButton
         isExpanded={isExpanded}
         index={3}
-        buttonLetter={"S"}
+        icon={require("../../assets/Subway.png")}
+      />
+      <FloatingActionButton
+        isExpanded={isExpanded}
+        index={4}
+        icon={require("../../assets/PublicToilet.png")}
       />
     </View>
   );
@@ -97,7 +87,7 @@ export default function FloatingActionBtn() {
 
 const mainButtonStyles = StyleSheet.create({
   button: {
-    zIndex: 1,
+    zIndex: 2,
     height: 40,
     width: 40,
     borderRadius: 100,
@@ -124,7 +114,7 @@ const styles = StyleSheet.create({
   button: {
     width: 40,
     height: 40,
-    backgroundColor: "#82cab2",
+    backgroundColor: "#9f9f9f",
     position: "absolute",
     borderRadius: 100,
     display: "flex",
@@ -140,6 +130,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     top: 20,
     right: 20,
+    zIndex: 1,
   },
   shadow: {
     shadowColor: "#171717",
