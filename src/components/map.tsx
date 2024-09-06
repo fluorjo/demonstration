@@ -7,6 +7,7 @@ import MapView, {
   Region,
 } from "react-native-maps";
 import FloatingButton from "./FloatingButton";
+import FloatingActionBtn from "./FloatingActionButton";
 
 interface CurrentLocation {
   lat: number;
@@ -104,6 +105,8 @@ const Map = ({ currentLocation, locations }: MapProps) => {
           Platform.OS === "android" ? PROVIDER_GOOGLE : PROVIDER_DEFAULT
         }
         showsUserLocation={true}
+        showsMyLocationButton={false}
+        showsCompass={false}
         ref={(ref) => setMapRef(ref)}
       >
         {filteredLocations?.map((location, index) => (
@@ -118,12 +121,14 @@ const Map = ({ currentLocation, locations }: MapProps) => {
             />
           </Marker>
         ))}
+      <FloatingActionBtn />
       </MapView>
-      <FloatingButton
+
+      {/* <FloatingButton
         onPress={moveToCurrentLocation}
         IconName={"filter-alt"}
         ExtraStyle={{ top: 20 }}
-      />
+      /> */}
       <FloatingButton
         onPress={moveToCurrentLocation}
         IconName={"my-location"}

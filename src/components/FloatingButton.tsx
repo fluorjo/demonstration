@@ -10,9 +10,9 @@ interface FloatingButtonProps {
 const FloatingButton: React.FC<FloatingButtonProps> = ({
   onPress,
   IconName,
-  ExtraStyle
+  ExtraStyle,
 }) => (
-  <TouchableOpacity style={[styles.floatingbtn, ExtraStyle]}  onPress={onPress}>
+  <TouchableOpacity style={[styles.floatingbtn, ExtraStyle]} onPress={onPress}>
     <MaterialIcons
       name={IconName}
       color="black"
@@ -23,10 +23,6 @@ const FloatingButton: React.FC<FloatingButtonProps> = ({
 
 export default FloatingButton;
 const styles = StyleSheet.create({
-  map: {
-    width: "100%",
-    height: "100%",
-  },
   floatingbtn: {
     borderWidth: 1,
     borderColor: "rgba(0,0,0,0.2)",
