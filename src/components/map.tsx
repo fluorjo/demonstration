@@ -34,21 +34,36 @@ const Map = ({ currentLocation, locations }: MapProps) => {
   const filterLocations = useCallback(
     (region: Region) => {
       const { latitude, longitude, latitudeDelta, longitudeDelta } = region;
-
       const minLat = latitude - latitudeDelta / 2;
       const maxLat = latitude + latitudeDelta / 2;
       const minLng = longitude - longitudeDelta / 2;
       const maxLng = longitude + longitudeDelta / 2;
 
       if (locations) {
+        const arr = ["지하철", "공공청사"];
+
         const filtered = locations.filter(
           (location) =>
             location.lat >= minLat &&
             location.lat <= maxLat &&
             location.lng >= minLng &&
             location.lng <= maxLng
+          // location.placeType.includes("공중") ||
+          // location.placeType.includes("지하철") ||
+          // location.placeType.split("지하철")
         );
-        setFilteredLocations(filtered);
+        // const filteredType = filtered.filter((locations)=>locations.placeType.includes(arr[0]))
+        var typedarr = [];
+        for (let i = 0; i < arr.length; i++) {
+          const filteredType = filtered.filter((locations) =>
+            locations.placeType.includes(arr[i])
+          );
+          for (let e = 0; e < filteredType.length; e++) {
+            const element = filteredType[e];
+            typedarr.push(element);
+          }
+        }
+        setFilteredLocations(typedarr);
       }
     },
     [locations]
@@ -56,19 +71,13 @@ const Map = ({ currentLocation, locations }: MapProps) => {
 
   const getMarkerImage = (placeType: string) => {
     switch (placeType) {
-      case "개":
-      case "개방":
       case "민간개방화장실":
         return require("../../assets/Building.png");
-      case "공공":
-      case "공공기":
-      case "공공기관":
       case "공공청사":
         return require("../../assets/Government.png");
       case "공중":
         return require("../../assets/PublicToilet.png");
       case "지하철":
-      case "지하철역":
         return require("../../assets/Subway.png");
       default:
         return require("../../assets/YOUR_MARKER.png");
@@ -109,6 +118,18 @@ const Map = ({ currentLocation, locations }: MapProps) => {
         showsCompass={false}
         ref={(ref: any) => setMapRef(ref)}
       >
+        {/* {filteredLocations?.map((location, index) => (
+          <Marker
+            key={index}
+            coordinate={{ latitude: location.lat, longitude: location.lng }}
+            title={location.place}
+          >
+            <Image
+              source={getMarkerImage(location.placeType)}
+              style={{ width: 30, height: 30 }}
+            />
+          </Marker>
+        ))} */}
         {filteredLocations?.map((location, index) => (
           <Marker
             key={index}
