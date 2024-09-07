@@ -34,6 +34,13 @@ const Map = ({ currentLocation, locations }: MapProps) => {
     "공공청사",
     "민간개방화장실",
   ]);
+  const toggleFilterType = (type: string) => {
+    setFilteredType((prevTypes) =>
+      prevTypes.includes(type)
+        ? prevTypes.filter((t) => t !== type)
+        : [...prevTypes, type]
+    );
+  };
   const initialLocation = currentLocation || {
     lat: 37.574187,
     lng: 126.976882,
@@ -54,23 +61,25 @@ const Map = ({ currentLocation, locations }: MapProps) => {
             location.lat >= minLat &&
             location.lat <= maxLat &&
             location.lng >= minLng &&
-            location.lng <= maxLng
+            location.lng <= maxLng &&
+            filteredType.includes(location.placeType)
         );
-        var typedarr = [];
-        if (arr)
-          for (let i = 0; i < arr.length; i++) {
-            const filteredType = filtered.filter((locations) =>
-              locations.placeType.includes(arr[i])
-            );
-            for (let e = 0; e < filteredType.length; e++) {
-              const element = filteredType[e];
-              typedarr.push(element);
-            }
-          }
-        setFilteredLocations(typedarr);
+        // var typedarr = [];
+        // if (arr)
+        //   for (let i = 0; i < arr.length; i++) {
+        //     const filteredType = filtered.filter((locations) =>
+        //       locations.placeType.includes(arr[i])
+        //     );
+        //     for (let e = 0; e < filteredType.length; e++) {
+        //       const element = filteredType[e];
+        //       typedarr.push(element);
+        //     }
+        //   }
+        // setFilteredLocations(typedarr);
+        setFilteredLocations(filtered);
       }
     },
-    [locations]
+    [locations, filteredType]
   );
 
   const getMarkerImage = (placeType: string) => {
@@ -139,7 +148,7 @@ const Map = ({ currentLocation, locations }: MapProps) => {
         onPress={moveToCurrentLocation}
         IconName={"my-location"}
       />
-      <FloatingActionBtn />
+      <FloatingActionBtn toggleFilter={toggleFilterType} />  
     </View>
   );
 };
