@@ -23,10 +23,17 @@ interface MapProps {
   currentLocation?: CurrentLocation;
   locations?: Location[];
   filteredLocations?: Location[];
+  filteredType?: string[];
 }
 
 const Map = ({ currentLocation, locations }: MapProps) => {
   const [filteredLocations, setFilteredLocations] = useState<Location[]>();
+  const [filteredType, setFilteredType] = useState([
+    "지하철",
+    "공중",
+    "공공청사",
+    "민간개방화장실",
+  ]);
   const initialLocation = currentLocation || {
     lat: 37.574187,
     lng: 126.976882,
@@ -40,7 +47,7 @@ const Map = ({ currentLocation, locations }: MapProps) => {
       const maxLng = longitude + longitudeDelta / 2;
 
       if (locations) {
-        const arr = ["지하철", "공공청사"];
+        const arr = filteredType;
 
         const filtered = locations.filter(
           (location) =>
@@ -48,21 +55,18 @@ const Map = ({ currentLocation, locations }: MapProps) => {
             location.lat <= maxLat &&
             location.lng >= minLng &&
             location.lng <= maxLng
-          // location.placeType.includes("공중") ||
-          // location.placeType.includes("지하철") ||
-          // location.placeType.split("지하철")
         );
-        // const filteredType = filtered.filter((locations)=>locations.placeType.includes(arr[0]))
         var typedarr = [];
-        for (let i = 0; i < arr.length; i++) {
-          const filteredType = filtered.filter((locations) =>
-            locations.placeType.includes(arr[i])
-          );
-          for (let e = 0; e < filteredType.length; e++) {
-            const element = filteredType[e];
-            typedarr.push(element);
+        if (arr)
+          for (let i = 0; i < arr.length; i++) {
+            const filteredType = filtered.filter((locations) =>
+              locations.placeType.includes(arr[i])
+            );
+            for (let e = 0; e < filteredType.length; e++) {
+              const element = filteredType[e];
+              typedarr.push(element);
+            }
           }
-        }
         setFilteredLocations(typedarr);
       }
     },
@@ -118,18 +122,6 @@ const Map = ({ currentLocation, locations }: MapProps) => {
         showsCompass={false}
         ref={(ref: any) => setMapRef(ref)}
       >
-        {/* {filteredLocations?.map((location, index) => (
-          <Marker
-            key={index}
-            coordinate={{ latitude: location.lat, longitude: location.lng }}
-            title={location.place}
-          >
-            <Image
-              source={getMarkerImage(location.placeType)}
-              style={{ width: 30, height: 30 }}
-            />
-          </Marker>
-        ))} */}
         {filteredLocations?.map((location, index) => (
           <Marker
             key={index}
@@ -143,7 +135,6 @@ const Map = ({ currentLocation, locations }: MapProps) => {
           </Marker>
         ))}
       </MapView>
-
       <FloatingButton
         onPress={moveToCurrentLocation}
         IconName={"my-location"}

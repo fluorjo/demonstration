@@ -12,9 +12,7 @@ interface RestRoom {
 
 export default function RestRoomPage() {
   const [RestRoomData, setRestRoomData] = useState<RestRoom[]>([]);
-  const [FilteredRestRoomData, setFilteredRestRoomData] = useState<RestRoom[]>(
-    []
-  );
+
 
   useEffect(() => {
     const getRestRoomData = async () => {
@@ -40,7 +38,10 @@ export default function RestRoomPage() {
       ) : (
         <Text>null</Text>
       )} */}
-      <Map currentLocation={currentLocation} locations={RestRoomData!} />
+      <Map
+        currentLocation={currentLocation}
+        locations={RestRoomData!}
+      />
     </SafeAreaView>
   );
 }
