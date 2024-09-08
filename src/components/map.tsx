@@ -158,6 +158,7 @@ const Map = ({ currentLocation, locations }: MapProps) => {
             : [...filteredType, type];
           setFilteredType(newFilteredType);
         }}
+        filteredType={filteredType}
       />
     </View>
   );
