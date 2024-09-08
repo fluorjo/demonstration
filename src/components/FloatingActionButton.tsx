@@ -39,7 +39,6 @@ const FloatingActionButton = ({ isExpanded, index, icon, onPress }) => {
   return (
     <AnimatedPressable
       style={[animatedStyles, styles.shadow, styles.button]}
-      // onPress={onPress}
       onPress={onPress}
     >
       <Image source={icon} style={{ width: 30, height: 30 }} />

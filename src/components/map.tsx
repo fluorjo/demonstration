@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Image, Platform, StyleSheet, View } from "react-native";
 import MapView, {
   Marker,
@@ -34,6 +34,8 @@ const Map = ({ currentLocation, locations }: MapProps) => {
     "공공청사",
     "민간개방화장실",
   ]);
+  const [mapRegion, setMapRegion] = useState<Region | null>(null);
+
   const toggleFilterType = (type: string) => {
     setFilteredType((prevTypes) =>
       prevTypes.includes(type)
@@ -54,8 +56,6 @@ const Map = ({ currentLocation, locations }: MapProps) => {
       const maxLng = longitude + longitudeDelta / 2;
 
       if (locations) {
-        const arr = filteredType;
-
         const filtered = locations.filter(
           (location) =>
             location.lat >= minLat &&
@@ -81,7 +81,11 @@ const Map = ({ currentLocation, locations }: MapProps) => {
     },
     [locations, filteredType]
   );
-
+  useEffect(() => {
+    if (mapRegion) {
+      filterLocations(mapRegion);
+    }
+  }, [filteredType, filterLocations, mapRegion]);
   const getMarkerImage = (placeType: string) => {
     switch (placeType) {
       case "민간개방화장실":
@@ -148,7 +152,14 @@ const Map = ({ currentLocation, locations }: MapProps) => {
         onPress={moveToCurrentLocation}
         IconName={"my-location"}
       />
-      <FloatingActionBtn toggleFilter={toggleFilterType} />  
+      <FloatingActionBtn
+        toggleFilter={(type) => {
+          const newFilteredType = filteredType.includes(type)
+            ? filteredType.filter((t) => t !== type)
+            : [...filteredType, type];
+          setFilteredType(newFilteredType);
+        }}
+      />
     </View>
   );
 };
