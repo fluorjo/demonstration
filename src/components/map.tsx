@@ -27,7 +27,7 @@ interface MapProps {
 }
 
 const Map = ({ currentLocation, locations }: MapProps) => {
-  const [filteredLocations, setFilteredLocations] = useState<Location[]>();
+  const [filteredLocations, setFilteredLocations] = useState<Location[]>([]);
   const [filteredType, setFilteredType] = useState([
     "지하철",
     "공중",
@@ -36,13 +36,6 @@ const Map = ({ currentLocation, locations }: MapProps) => {
   ]);
   const [mapRegion, setMapRegion] = useState<Region | null>(null);
 
-  const toggleFilterType = (type: string) => {
-    setFilteredType((prevTypes) =>
-      prevTypes.includes(type)
-        ? prevTypes.filter((t) => t !== type)
-        : [...prevTypes, type]
-    );
-  };
   const initialLocation = currentLocation || {
     lat: 37.574187,
     lng: 126.976882,
@@ -64,28 +57,31 @@ const Map = ({ currentLocation, locations }: MapProps) => {
             location.lng <= maxLng &&
             filteredType.includes(location.placeType)
         );
-        // var typedarr = [];
-        // if (arr)
-        //   for (let i = 0; i < arr.length; i++) {
-        //     const filteredType = filtered.filter((locations) =>
-        //       locations.placeType.includes(arr[i])
-        //     );
-        //     for (let e = 0; e < filteredType.length; e++) {
-        //       const element = filteredType[e];
-        //       typedarr.push(element);
-        //     }
-        //   }
-        // setFilteredLocations(typedarr);
+
         setFilteredLocations(filtered);
       }
     },
     [locations, filteredType]
   );
   useEffect(() => {
+    if (!mapRegion && locations?.length) {
+      const initialRegion = {
+        latitude: initialLocation.lat,
+        longitude: initialLocation.lng,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+      };
+      setMapRegion(initialRegion);
+      filterLocations(initialRegion);
+    }
+  }, [locations, initialLocation, mapRegion, filterLocations]);
+
+  useEffect(() => {
     if (mapRegion) {
       filterLocations(mapRegion);
     }
-  }, [filteredType, filterLocations, mapRegion]);
+  }, [filteredType, mapRegion, filterLocations]);
+
   const getMarkerImage = (placeType: string) => {
     switch (placeType) {
       case "민간개방화장실":
@@ -126,7 +122,10 @@ const Map = ({ currentLocation, locations }: MapProps) => {
           latitudeDelta: 0.01,
           longitudeDelta: 0.01,
         }}
-        onRegionChangeComplete={filterLocations}
+        onRegionChangeComplete={(region) => {
+          setMapRegion(region);
+          filterLocations(region);
+        }}
         provider={
           Platform.OS === "android" ? PROVIDER_GOOGLE : PROVIDER_DEFAULT
         }
