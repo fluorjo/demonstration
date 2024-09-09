@@ -1,38 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, Text } from "react-native";
+import { Image, ScrollView, StyleSheet, Text } from "react-native";
 export default function PoliceDemoInfoPage() {
-  const [data, setData] = useState("");
-  const [attachedFileNo, setAttachedFileNo] = useState("");
+  const [IMG_URL, setIMG_URL] = useState("");
 
-  async function loadHTML() {
-    const searchUrl = "https://www.smpa.go.kr/user/nd54882.do";
-    const HTMLresponse = await fetch(searchUrl);
-    const htmlString = await HTMLresponse.text();
-    const splitByTodayDemo = htmlString.split("오늘의 집회 ");
-    const Date = splitByTodayDemo[2].substring(0, 6);
-    const boardNum = splitByTodayDemo[2].split(Date);
-    // const boardNum = splitByTodayDemo[1].split("View")[2].substring(3, 11);
+  async function searchByDate(html: string, date: string) {
+    const splitByDate = html.split(date)[0].split(`');`);
+    const BoardNumber = splitByDate[splitByDate.length - 2].substring(
+      splitByDate[splitByDate.length - 2].length - 8
+    );
+    const BoardURL = `https://www.smpa.go.kr/user/nd54882.do?View&uQ=&pageST=SUBJECT&pageSV=&imsi=imsi&page=1&pageSC=SORT_ORDER&pageSO=DESC&dmlType=&boardNo=${BoardNumber}&returnUrl=https://www.smpa.go.kr:443/user/nd54882.do`;
+    return BoardURL;
   }
-  useEffect(() => {
-    loadHTML();
-  }, []);
-  // async function searchByDate(html: string, date: number) {
-  //   const HTMLresponse = await fetch(searchUrl);
-  //   const htmlString = await HTMLresponse.text();
-  //   const splitByAttachNo = htmlString.split("attachNo=");
-  //   const attachNo = splitByAttachNo[1].substring(0, 8);
-  //   setAttachedFileNo(attachNo);
-  //   console.log("attachNo", attachNo);
-  // }
-  async function searchByDate(html: string, date: number) {
-    const HTMLresponse = await fetch(searchUrl);
-    const htmlString = await HTMLresponse.text();
-    const splitByAttachNo = htmlString.split("attachNo=");
-    const attachNo = splitByAttachNo[1].substring(0, 8);
-    setAttachedFileNo(attachNo);
-    console.log("attachNo", attachNo);
+
+  async function getImgURL(BoardURL: string) {
+    const BoardURL_Response = await fetch(BoardURL);
+    const BoardURL_Response_String = await BoardURL_Response.text();
+    const splitByAttachNo = BoardURL_Response_String.split("attachNo=");
+    const IMG_URL = `https://www.smpa.go.kr/common/attachfile/attachfileView.do?attachNo=${await splitByAttachNo[1].substring(
+      0,
+      8
+    )}`;
+    return IMG_URL;
   }
-  const fetchPageData = async (pageNumber: string) => {
+
+  const fetchPageData = async (pageNumber: string, date: string) => {
     const formData = new URLSearchParams();
     formData.append("uQ", "");
     formData.append("pageST", "SUBJECT");
@@ -59,14 +50,9 @@ export default function PoliceDemoInfoPage() {
 
       if (response.ok) {
         const html = await response.text();
-        const splitByDate = html.split("240905")[0].split(`');`);
-        const BoardNumber = splitByDate[splitByDate.length - 2].substring(
-          splitByDate[splitByDate.length - 2].length - 8
-        );
-        const BoardURL = `https://www.smpa.go.kr/user/nd54882.do?View&uQ=&pageST=SUBJECT&pageSV=&imsi=imsi&page=1&pageSC=SORT_ORDER&pageSO=DESC&dmlType=&boardNo=${BoardNumber}&returnUrl=https://www.smpa.go.kr:443/user/nd54882.do`;
-        const BoardURL_Response = await fetch(BoardURL);
-        const BoardURL_Response_String = await BoardURL_Response.text();
-        setData(BoardURL_Response_String)
+        const BoardURL = searchByDate(html, date);
+        const IMG_URL = getImgURL(await BoardURL);
+        setIMG_URL(await IMG_URL);
       } else {
         console.error("페이지 요청 실패:", response.status);
       }
@@ -74,20 +60,31 @@ export default function PoliceDemoInfoPage() {
       console.error("요청 중 오류 발생:", error);
     }
   };
-
+  function getTodayDate() {
+    let today = new Date();
+    let year = today.getFullYear().toString().substring(2, 4);
+    let month = (today.getMonth() + 1).toString().padStart(2, "0");
+    let date = today.getDate().toString().padStart(2, "0");
+    let todayDate = `${year}${month}${date}`;
+    return todayDate;
+  }
   useEffect(() => {
-    fetchPageData("1");
+    fetchPageData("1", getTodayDate());
   }, []);
 
   return (
     <ScrollView style={styles.container}>
-      {/* <Image
-        source={{
-          uri: `https://www.smpa.go.kr/common/attachfile/attachfileView.do?attachNo=${attachedFileNo}`,
-        }}
-        style={styles.TodayDemoInfoImg}
-      /> */}
-      <Text>{data}</Text>
+      {IMG_URL ? (
+        <Image
+          source={{
+            uri: IMG_URL,
+          }}
+          style={styles.TodayDemoInfoImg}
+        />
+      ) : (
+        <Text>loading...</Text>
+      )}
+      <Text></Text>
     </ScrollView>
   );
 }
