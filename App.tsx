@@ -6,7 +6,8 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import DemoIcon from "./src/icons/DemoIcon";
 import RestroomIcon from "./src/icons/RestroomIcon";
-import DemoInfoPage from "./src/page/DemoInfoPage";
+// import DemoInfoPage from "./src/page/DemoInfoPage";
+import PoliceDemoInfoPage from "./src/page/PoliceDemoInfoPage";
 import RestRoomPage from "./src/page/RestRoomPage";
 
 const Tab = createBottomTabNavigator();
@@ -53,13 +54,13 @@ export default function App() {
     return <RestRoomPage />;
   }
   function Demo() {
-    return <DemoInfoPage />;
+    return <PoliceDemoInfoPage />;
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <NavigationContainer>
-        <Tab.Navigator initialRouteName="RestRoom">
+        <Tab.Navigator initialRouteName="Demo">
           <Tab.Screen
             name="Home"
             component={HomeScreen}
