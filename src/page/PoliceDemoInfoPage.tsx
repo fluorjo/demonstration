@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text } from "react-native";
 export default function PoliceDemoInfoPage() {
-  const [IMG_URL_Array, setIMG_URL_Array] = useState<String[]>([]);
+  const [IMG_URL_Array, setIMG_URL_Array] = useState<String[] | null>(null);
+
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   async function searchByDate(html: string, date: string) {
-    const splitByDate = html.split(date)[0].split(`');`);
-    const BoardNumber = splitByDate[splitByDate.length - 2].substring(
-      splitByDate[splitByDate.length - 2].length - 8
+    const splitByDate = html.split(date);
+    if (splitByDate.length !== 2) {
+      setErrorMessage("해당되는 날짜의 집회 정보가 없습니다.");
+      return null;
+    }
+    const splitBySymbol = splitByDate[0].split(`');`);
+    const BoardNumber = splitBySymbol[splitBySymbol.length - 2].substring(
+      splitBySymbol[splitBySymbol.length - 2].length - 8
     );
     const BoardURL = `https://www.smpa.go.kr/user/nd54882.do?View&uQ=&pageST=SUBJECT&pageSV=&imsi=imsi&page=1&pageSC=SORT_ORDER&pageSO=DESC&dmlType=&boardNo=${BoardNumber}&returnUrl=https://www.smpa.go.kr:443/user/nd54882.do`;
     return BoardURL;
@@ -24,10 +31,6 @@ export default function PoliceDemoInfoPage() {
         ].substring(0, 8)}`
       );
     }
-    // const IMG_URL = `https://www.smpa.go.kr/common/attachfile/attachfileView.do?attachNo=${await splitByAttachNo[1].substring(
-    //   0,
-    //   8
-    // )}`;
     return IMG_URL_Array;
   }
 
@@ -58,10 +61,11 @@ export default function PoliceDemoInfoPage() {
 
       if (response.ok) {
         const html = await response.text();
-        const BoardURL = searchByDate(html, date);
-        const IMG_URL_Array = getImgURL(await BoardURL);
-        console.log(IMG_URL_Array);
-        setIMG_URL_Array(await IMG_URL_Array);
+        const BoardURL = await searchByDate(html, date);
+        if (BoardURL) {
+          const IMG_URL_Array = await getImgURL(BoardURL);
+          setIMG_URL_Array(IMG_URL_Array);
+        }
       } else {
         console.error("페이지 요청 실패:", response.status);
       }
@@ -81,12 +85,14 @@ export default function PoliceDemoInfoPage() {
   //   fetchPageData("1", getTodayDate());
   // }, []);
   useEffect(() => {
-    fetchPageData("1", "240907");
+    fetchPageData("1", "240910");
   }, []);
 
   return (
     <ScrollView style={styles.container}>
-      {IMG_URL_Array ? (
+      {errorMessage ? (
+        <Text>{errorMessage}</Text>
+      ) : IMG_URL_Array ? (
         IMG_URL_Array.map((i) => (
           <Image
             source={{
@@ -98,7 +104,6 @@ export default function PoliceDemoInfoPage() {
       ) : (
         <Text>loading...</Text>
       )}
-      <Text>{IMG_URL_Array[0]}</Text>
     </ScrollView>
   );
 }
