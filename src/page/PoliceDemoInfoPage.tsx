@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text } from "react-native";
 export default function PoliceDemoInfoPage() {
-  const [IMG_URL, setIMG_URL] = useState("");
+  const [IMG_URL_Array, setIMG_URL_Array] = useState<String[]>([]);
 
   async function searchByDate(html: string, date: string) {
     const splitByDate = html.split(date)[0].split(`');`);
@@ -16,11 +16,19 @@ export default function PoliceDemoInfoPage() {
     const BoardURL_Response = await fetch(BoardURL);
     const BoardURL_Response_String = await BoardURL_Response.text();
     const splitByAttachNo = BoardURL_Response_String.split("attachNo=");
-    const IMG_URL = `https://www.smpa.go.kr/common/attachfile/attachfileView.do?attachNo=${await splitByAttachNo[1].substring(
-      0,
-      8
-    )}`;
-    return IMG_URL;
+    let IMG_URL_Array: string[] = [];
+    for (let i = 1; i < splitByAttachNo.length; i++) {
+      IMG_URL_Array.push(
+        `https://www.smpa.go.kr/common/attachfile/attachfileView.do?attachNo=${await splitByAttachNo[
+          i
+        ].substring(0, 8)}`
+      );
+    }
+    // const IMG_URL = `https://www.smpa.go.kr/common/attachfile/attachfileView.do?attachNo=${await splitByAttachNo[1].substring(
+    //   0,
+    //   8
+    // )}`;
+    return IMG_URL_Array;
   }
 
   const fetchPageData = async (pageNumber: string, date: string) => {
@@ -51,8 +59,9 @@ export default function PoliceDemoInfoPage() {
       if (response.ok) {
         const html = await response.text();
         const BoardURL = searchByDate(html, date);
-        const IMG_URL = getImgURL(await BoardURL);
-        setIMG_URL(await IMG_URL);
+        const IMG_URL_Array = getImgURL(await BoardURL);
+        console.log(IMG_URL_Array);
+        setIMG_URL_Array(await IMG_URL_Array);
       } else {
         console.error("페이지 요청 실패:", response.status);
       }
@@ -68,23 +77,28 @@ export default function PoliceDemoInfoPage() {
     let todayDate = `${year}${month}${date}`;
     return todayDate;
   }
+  // useEffect(() => {
+  //   fetchPageData("1", getTodayDate());
+  // }, []);
   useEffect(() => {
-    fetchPageData("1", getTodayDate());
+    fetchPageData("1", "240907");
   }, []);
 
   return (
     <ScrollView style={styles.container}>
-      {IMG_URL ? (
-        <Image
-          source={{
-            uri: IMG_URL,
-          }}
-          style={styles.TodayDemoInfoImg}
-        />
+      {IMG_URL_Array ? (
+        IMG_URL_Array.map((i) => (
+          <Image
+            source={{
+              uri: i.toString(),
+            }}
+            style={styles.TodayDemoInfoImg}
+          />
+        ))
       ) : (
         <Text>loading...</Text>
       )}
-      <Text></Text>
+      <Text>{IMG_URL_Array[0]}</Text>
     </ScrollView>
   );
 }
