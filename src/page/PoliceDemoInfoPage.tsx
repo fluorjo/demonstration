@@ -1,13 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Image, ScrollView, StyleSheet, Text, NativeSyntheticEvent, NativeScrollEvent } from "react-native";
+import {
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
+import CalendarComponent from "../components/Calendar";
 import FloatingButton from "../components/FloatingButton";
-
 export default function PoliceDemoInfoPage() {
   const [IMG_URL_Array, setIMG_URL_Array] = useState<String[] | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const scrollViewRef = useRef<ScrollView>(null);
   const [zoomScale, setZoomScale] = useState<number>(1);
-  const isButtonZoom = useRef<boolean>(false); 
+  const isButtonZoom = useRef<boolean>(false);
 
   async function searchByDate(html: string, date: string) {
     const splitByDate = html.split(date);
@@ -120,10 +125,11 @@ export default function PoliceDemoInfoPage() {
         bouncesZoom={true}
         maximumZoomScale={4.5}
         zoomScale={zoomScale}
-        onScroll={handleScroll} 
-        scrollEventThrottle={16} 
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
       >
-        {errorMessage ? (
+        <CalendarComponent />
+        {/* {errorMessage ? (
           <Text>{errorMessage}</Text>
         ) : IMG_URL_Array ? (
           IMG_URL_Array.map((i) => (
@@ -137,7 +143,7 @@ export default function PoliceDemoInfoPage() {
           ))
         ) : (
           <Text>loading...</Text>
-        )}
+        )} */}
       </ScrollView>
       <FloatingButton
         IconName={zoomScale === 1 ? "zoom-in" : "zoom-out"}
