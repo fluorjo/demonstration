@@ -45,11 +45,29 @@ export default function CalendarComponent() {
     today: "오늘",
   };
   LocaleConfig.defaultLocale = "ko";
+
   return (
     <View>
       <Calendar
         onDayPress={(day) => {
           console.log(day);
+        }}
+        monthFormat={"yyyy년 MM월"}
+        theme={{
+          backgroundColor: "#ffffff",
+          calendarBackground: "#ffffff",
+          selectedDayTextColor: "#6491ff",
+          selectedDayBackgroundColor: "#eef6ff",
+          todayTextColor: "#ffffff",
+          todayBackgroundColor: "#6491ff",
+          dayTextColor: "#616d82",
+          textDisabledColor: "#d9e1e8",
+          arrowColor: "orange",
+          textDayFontFamily: "monospace",
+          textMonthFontFamily: "monospace",
+          textDayHeaderFontFamily: "monospace",
+          textDayFontWeight: "300",
+          textMonthFontWeight: "bold",
         }}
       />
     </View>
