@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Image, ScrollView, StyleSheet, Text } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, NativeSyntheticEvent, NativeScrollEvent } from "react-native";
 import FloatingButton from "../components/FloatingButton";
+
 export default function PoliceDemoInfoPage() {
   const [IMG_URL_Array, setIMG_URL_Array] = useState<String[] | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [zoomScrollView, setZoomScrollView] = useState<boolean>(false);
   const scrollViewRef = useRef<ScrollView>(null);
+  const [zoomScale, setZoomScale] = useState<number>(1);
+  const isButtonZoom = useRef<boolean>(false); 
 
   async function searchByDate(html: string, date: string) {
     const splitByDate = html.split(date);
@@ -75,6 +77,7 @@ export default function PoliceDemoInfoPage() {
       console.error("요청 중 오류 발생:", error);
     }
   };
+
   function getTodayDate() {
     let today = new Date();
     let year = today.getFullYear().toString().substring(2, 4);
@@ -83,20 +86,31 @@ export default function PoliceDemoInfoPage() {
     let todayDate = `${year}${month}${date}`;
     return todayDate;
   }
-  // useEffect(() => {
-  //   fetchPageData("1", getTodayDate());
-  // }, []);
-  function zoom() {
-    setZoomScrollView((prevZoom) => {
-      if (prevZoom) {
-        scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false });
-      }
-      return !prevZoom;
-    });
-  }
+
   useEffect(() => {
     fetchPageData("1", "240910");
   }, []);
+
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    if (!isButtonZoom.current) {
+      const zoom = event.nativeEvent.zoomScale || 1;
+      setZoomScale(zoom);
+    }
+  };
+
+  function zoom() {
+    if (zoomScale !== 1) {
+      scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false });
+      setZoomScale(1);
+    } else {
+      setZoomScale(2.5);
+    }
+
+    isButtonZoom.current = true;
+    setTimeout(() => {
+      isButtonZoom.current = false;
+    }, 300);
+  }
 
   return (
     <>
@@ -104,8 +118,10 @@ export default function PoliceDemoInfoPage() {
         ref={scrollViewRef}
         style={styles.container}
         bouncesZoom={true}
-        maximumZoomScale={3.0}
-        zoomScale={zoomScrollView ? 2.5 : 1.0}
+        maximumZoomScale={4.5}
+        zoomScale={zoomScale}
+        onScroll={handleScroll} 
+        scrollEventThrottle={16} 
       >
         {errorMessage ? (
           <Text>{errorMessage}</Text>
@@ -124,27 +140,21 @@ export default function PoliceDemoInfoPage() {
         )}
       </ScrollView>
       <FloatingButton
-        IconName={zoomScrollView ? "zoom-out" : "zoom-in"}
+        IconName={zoomScale === 1 ? "zoom-in" : "zoom-out"}
         onPress={zoom}
         ExtraStyle={styles.zoomButton}
       />
     </>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
   },
-  flatList: {
-    backgroundColor: "blue",
-  },
-  demoName: {
-    backgroundColor: "green",
-  },
   TodayDemoInfoImg: {
     width: "100%",
-    // width: '180%',
     height: 600,
     marginRight: 8,
     objectFit: "fill",
