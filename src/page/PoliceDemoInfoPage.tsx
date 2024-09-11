@@ -89,7 +89,7 @@ export default function PoliceDemoInfoPage() {
   }, []);
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} bouncesZoom={true} maximumZoomScale={3.0}>
       {errorMessage ? (
         <Text>{errorMessage}</Text>
       ) : IMG_URL_Array ? (
@@ -119,8 +119,10 @@ const styles = StyleSheet.create({
     backgroundColor: "green",
   },
   TodayDemoInfoImg: {
-    width: 400,
+    width: "100%",
+    // width: '180%',
     height: 600,
     marginRight: 8,
+    objectFit: "fill",
   },
 });
