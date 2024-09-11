@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text } from "react-native";
+import FloatingButton from "../components/FloatingButton";
 export default function PoliceDemoInfoPage() {
   const [IMG_URL_Array, setIMG_URL_Array] = useState<String[] | null>(null);
-
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [zoomScrollView, setZoomScrollView] = useState<boolean>(false);
+  const scrollViewRef = useRef<ScrollView>(null);
 
   async function searchByDate(html: string, date: string) {
     const splitByDate = html.split(date);
@@ -84,27 +86,49 @@ export default function PoliceDemoInfoPage() {
   // useEffect(() => {
   //   fetchPageData("1", getTodayDate());
   // }, []);
+  function zoom() {
+    setZoomScrollView((prevZoom) => {
+      if (prevZoom) {
+        scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false });
+      }
+      return !prevZoom;
+    });
+  }
   useEffect(() => {
     fetchPageData("1", "240910");
   }, []);
 
   return (
-    <ScrollView style={styles.container} bouncesZoom={true} maximumZoomScale={3.0}>
-      {errorMessage ? (
-        <Text>{errorMessage}</Text>
-      ) : IMG_URL_Array ? (
-        IMG_URL_Array.map((i) => (
-          <Image
-            source={{
-              uri: i.toString(),
-            }}
-            style={styles.TodayDemoInfoImg}
-          />
-        ))
-      ) : (
-        <Text>loading...</Text>
-      )}
-    </ScrollView>
+    <>
+      <ScrollView
+        ref={scrollViewRef}
+        style={styles.container}
+        bouncesZoom={true}
+        maximumZoomScale={3.0}
+        zoomScale={zoomScrollView ? 2.5 : 1.0}
+      >
+        {errorMessage ? (
+          <Text>{errorMessage}</Text>
+        ) : IMG_URL_Array ? (
+          IMG_URL_Array.map((i) => (
+            <Image
+              key={i.toString()}
+              source={{
+                uri: i.toString(),
+              }}
+              style={styles.TodayDemoInfoImg}
+            />
+          ))
+        ) : (
+          <Text>loading...</Text>
+        )}
+      </ScrollView>
+      <FloatingButton
+        IconName={zoomScrollView ? "zoom-out" : "zoom-in"}
+        onPress={zoom}
+        ExtraStyle={styles.zoomButton}
+      />
+    </>
   );
 }
 const styles = StyleSheet.create({
@@ -124,5 +148,9 @@ const styles = StyleSheet.create({
     height: 600,
     marginRight: 8,
     objectFit: "fill",
+  },
+  zoomButton: {
+    position: "absolute",
+    bottom: 20,
   },
 });

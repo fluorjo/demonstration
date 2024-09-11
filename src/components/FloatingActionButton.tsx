@@ -95,7 +95,6 @@ export default function FloatingActionBtn({ toggleFilter, filteredType }) {
         icon={require("../../assets/Subway.png")}
         onPress={() => toggleFilter("지하철")}
         backgroundColor={getBackgroundColor("지하철")}
-
       />
       <FloatingActionButton
         isExpanded={isExpanded}
@@ -103,7 +102,6 @@ export default function FloatingActionBtn({ toggleFilter, filteredType }) {
         icon={require("../../assets/PublicToilet.png")}
         onPress={() => toggleFilter("공중")}
         backgroundColor={getBackgroundColor("공중")}
-
       />
     </View>
   );
