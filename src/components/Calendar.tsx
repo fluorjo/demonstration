@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { View } from "react-native";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 
 export default function CalendarComponent() {
+    const [selectedDate, setSelectedDate] = useState<string>("");
+
   LocaleConfig.locales["ko"] = {
     monthNames: [
       "01월",
@@ -49,9 +51,17 @@ export default function CalendarComponent() {
   return (
     <View>
       <Calendar
-        onDayPress={(day) => {
-          console.log(day);
-        }}
+          onDayPress={(day) => {
+            setSelectedDate(day.dateString); 
+          }}
+
+          markedDates={{
+            [selectedDate]: {
+              selected: true, 
+              selectedColor: "#0000ff", 
+              selectedTextColor: "#ffffff", 
+            },
+          }}
         monthFormat={"yyyy년 MM월"}
         theme={{
           backgroundColor: "#ffffff",
@@ -59,7 +69,7 @@ export default function CalendarComponent() {
           selectedDayTextColor: "#6491ff",
           selectedDayBackgroundColor: "#eef6ff",
           todayTextColor: "#ffffff",
-          todayBackgroundColor: "#6491ff",
+          todayBackgroundColor: "#e80808",
           dayTextColor: "#616d82",
           textDisabledColor: "#d9e1e8",
           arrowColor: "orange",
