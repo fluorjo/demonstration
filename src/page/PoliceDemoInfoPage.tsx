@@ -45,7 +45,7 @@ export default function PoliceDemoInfoPage() {
     return IMG_URL_Array;
   }
 
-  const fetchPageData = async (pageNumber: string, date: string) => {
+  const fetchPageData = async (pageNumber: number, date: string) => {
     setErrorMessage(null);
     setIMG_URL_Array(null);
     const formData = new URLSearchParams();
@@ -53,7 +53,7 @@ export default function PoliceDemoInfoPage() {
     formData.append("pageST", "SUBJECT");
     formData.append("pageSV", "");
     formData.append("imsi", "imsi");
-    formData.append("page", pageNumber);
+    formData.append("page", pageNumber+'');
     formData.append("pageSC", "SORT_ORDER");
     formData.append("pageSO", "DESC");
     formData.append("dmlType", "SELECT");
@@ -97,7 +97,7 @@ export default function PoliceDemoInfoPage() {
   }
 
   useEffect(() => {
-    fetchPageData("1", getTodayDate());
+    fetchPageData(1, getTodayDate());
   }, []);
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
