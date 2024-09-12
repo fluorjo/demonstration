@@ -48,8 +48,7 @@ export default function PoliceDemoInfoPage() {
   }
 
   const fetchPageData = async (pageNumber: string, date: string) => {
-    console.log('date',date)
-    console.log('pageNum',pageNumber)
+    setIMG_URL_Array(null)
     const formData = new URLSearchParams();
     formData.append("uQ", "");
     formData.append("pageST", "SUBJECT");
@@ -77,7 +76,6 @@ export default function PoliceDemoInfoPage() {
       if (response.ok) {
         const html = await response.text();
         settestHTML(html)
-       
         const BoardURL = await searchByDate(html, date);
         if (BoardURL) {
           const IMG_URL_Array = await getImgURL(BoardURL);
@@ -139,7 +137,9 @@ export default function PoliceDemoInfoPage() {
         <CalendarComponent onPress={fetchPageData} />
         {errorMessage ? (
           <Text>{errorMessage}</Text>
-        ) : IMG_URL_Array ? (
+        ) : IMG_URL_Array===null ? (
+          <Text>loading...</Text>
+        ) : (
           IMG_URL_Array.map((i) => (
             <Image
               key={i.toString()}
@@ -149,8 +149,6 @@ export default function PoliceDemoInfoPage() {
               style={styles.TodayDemoInfoImg}
             />
           ))
-        ) : (
-          <Text>loading...</Text>
         )}
       </ScrollView>
       <FloatingButton
