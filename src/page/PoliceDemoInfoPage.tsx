@@ -15,8 +15,6 @@ export default function PoliceDemoInfoPage() {
   const scrollViewRef = useRef<ScrollView>(null);
   const [zoomScale, setZoomScale] = useState<number>(1);
   const isButtonZoom = useRef<boolean>(false);
-  const [testHTML, settestHTML] = useState<string | null>(null);
-
 
   async function searchByDate(html: string, date: string) {
     const splitByDate = html.split(date);
@@ -48,7 +46,8 @@ export default function PoliceDemoInfoPage() {
   }
 
   const fetchPageData = async (pageNumber: string, date: string) => {
-    setIMG_URL_Array(null)
+    setErrorMessage(null);
+    setIMG_URL_Array(null);
     const formData = new URLSearchParams();
     formData.append("uQ", "");
     formData.append("pageST", "SUBJECT");
@@ -75,7 +74,6 @@ export default function PoliceDemoInfoPage() {
 
       if (response.ok) {
         const html = await response.text();
-        settestHTML(html)
         const BoardURL = await searchByDate(html, date);
         if (BoardURL) {
           const IMG_URL_Array = await getImgURL(BoardURL);
@@ -137,7 +135,7 @@ export default function PoliceDemoInfoPage() {
         <CalendarComponent onPress={fetchPageData} />
         {errorMessage ? (
           <Text>{errorMessage}</Text>
-        ) : IMG_URL_Array===null ? (
+        ) : IMG_URL_Array === null ? (
           <Text>loading...</Text>
         ) : (
           IMG_URL_Array.map((i) => (
