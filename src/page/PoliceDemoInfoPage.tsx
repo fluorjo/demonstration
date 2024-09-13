@@ -6,7 +6,6 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
 } from "react-native";
 import CalendarComponent from "../components/Calendar";
 import FloatingButton from "../components/FloatingButton";
@@ -20,7 +19,7 @@ export default function PoliceDemoInfoPage() {
 
   async function searchByDate(html: string, date: string) {
     const splitByDate = html.split(date);
-    setTest(splitByDate[0])
+    setTest(splitByDate[0]);
     if (splitByDate.length !== 2) {
       setErrorMessage("해당되는 날짜의 집회 정보가 없습니다.");
       throw new Error("해당되는 날짜의 집회 정보가 없습니다.");
@@ -50,11 +49,30 @@ export default function PoliceDemoInfoPage() {
   }
 
   async function changeDateFormat(targetDate: string) {
-    let FormattedTagetDate =
+    if (
+      (targetDate ===
+        "2024-08-01" ||
+        "2024-08-02" ||
+        "2024-08-03" ||
+        "2024-08-04" ||
+        "2024-08-05" ||
+        "2024-08-06" ||
+        "2024-08-07")
+    ) {
+      let FormattedTagetDate =
+        targetDate.split("-")[0].substring(2, 4) +
+        '0'+
+        targetDate.split("-")[1] +
+        targetDate.split("-")[2];
+      return FormattedTagetDate;
+    }
+    else{
+      let FormattedTagetDate =
       targetDate.split("-")[0].substring(2, 4) +
       targetDate.split("-")[1] +
       targetDate.split("-")[2];
     return FormattedTagetDate;
+    }
   }
 
   async function getDatePageNumber(targetDate: string) {
