@@ -54,11 +54,7 @@ export default function CalendarComponent({ onPress }) {
         onDayPress={(day) => {
           setSelectedDate(day.dateString);
           console.log(day.dateString);
-          const NewDateFormat =
-            day.dateString.split("-")[0].substring(2, 4) +
-            day.dateString.split("-")[1] +
-            day.dateString.split("-")[2];
-          onPress(1, NewDateFormat);
+          onPress(day.dateString);
         }}
         markedDates={{
           [selectedDate]: {

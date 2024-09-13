@@ -6,6 +6,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
 } from "react-native";
 import CalendarComponent from "../components/Calendar";
 import FloatingButton from "../components/FloatingButton";
@@ -15,11 +16,14 @@ export default function PoliceDemoInfoPage() {
   const scrollViewRef = useRef<ScrollView>(null);
   const [zoomScale, setZoomScale] = useState<number>(1);
   const isButtonZoom = useRef<boolean>(false);
+  const [test, setTest] = useState<string | null>(null);
 
   async function searchByDate(html: string, date: string) {
     const splitByDate = html.split(date);
+    setTest(splitByDate[0])
     if (splitByDate.length !== 2) {
       setErrorMessage("해당되는 날짜의 집회 정보가 없습니다.");
+      throw new Error("해당되는 날짜의 집회 정보가 없습니다.");
       return null;
     }
     const splitBySymbol = splitByDate[0].split(`');`);
@@ -45,15 +49,34 @@ export default function PoliceDemoInfoPage() {
     return IMG_URL_Array;
   }
 
-  const fetchPageData = async (pageNumber: number, date: string) => {
+  async function changeDateFormat(targetDate: string) {
+    let FormattedTagetDate =
+      targetDate.split("-")[0].substring(2, 4) +
+      targetDate.split("-")[1] +
+      targetDate.split("-")[2];
+    return FormattedTagetDate;
+  }
+
+  async function getDatePageNumber(targetDate: string) {
+    let today = new Date();
+    let endDate = new Date(targetDate);
+    let diffTime = today.getTime() - endDate.getTime();
+    let diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    let targetPage = Math.floor(diffDays / 10);
+    return targetPage;
+  }
+
+  const fetchPageData = async (targetDate: string) => {
     setErrorMessage(null);
     setIMG_URL_Array(null);
+    let date = changeDateFormat(targetDate);
     const formData = new URLSearchParams();
+    let targetPage = getDatePageNumber(targetDate);
+    formData.append("page", (await targetPage) + 1 + "");
     formData.append("uQ", "");
     formData.append("pageST", "SUBJECT");
     formData.append("pageSV", "");
     formData.append("imsi", "imsi");
-    formData.append("page", pageNumber+'');
     formData.append("pageSC", "SORT_ORDER");
     formData.append("pageSO", "DESC");
     formData.append("dmlType", "SELECT");
@@ -74,9 +97,9 @@ export default function PoliceDemoInfoPage() {
 
       if (response.ok) {
         const html = await response.text();
-        const BoardURL = await searchByDate(html, date);
+        const BoardURL = await searchByDate(html, await date);
         if (BoardURL) {
-          const IMG_URL_Array = await getImgURL(BoardURL);
+          let IMG_URL_Array = await getImgURL(BoardURL);
           setIMG_URL_Array(IMG_URL_Array);
         }
       } else {
@@ -89,15 +112,15 @@ export default function PoliceDemoInfoPage() {
 
   function getTodayDate() {
     let today = new Date();
-    let year = today.getFullYear().toString().substring(2, 4);
+    let year = today.getFullYear().toString();
     let month = (today.getMonth() + 1).toString().padStart(2, "0");
     let date = today.getDate().toString().padStart(2, "0");
-    let todayDate = `${year}${month}${date}`;
+    let todayDate = `${year}-${month}-${date}`;
     return todayDate;
   }
 
   useEffect(() => {
-    fetchPageData(1, getTodayDate());
+    fetchPageData(getTodayDate());
   }, []);
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -106,7 +129,6 @@ export default function PoliceDemoInfoPage() {
       setZoomScale(zoom);
     }
   };
-
   function zoom() {
     if (zoomScale !== 1) {
       scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false });
@@ -172,5 +194,12 @@ const styles = StyleSheet.create({
   zoomButton: {
     position: "absolute",
     bottom: 20,
+  },
+  testtest: {
+    backgroundColor: "red",
+    zIndex: 2,
+    top: 40,
+    width: 50,
+    height: 50,
   },
 });
