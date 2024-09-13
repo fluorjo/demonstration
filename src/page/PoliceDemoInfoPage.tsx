@@ -49,29 +49,27 @@ export default function PoliceDemoInfoPage() {
   }
 
   async function changeDateFormat(targetDate: string) {
-    if (
-      (targetDate ===
-        "2024-08-01" ||
-        "2024-08-02" ||
-        "2024-08-03" ||
-        "2024-08-04" ||
-        "2024-08-05" ||
-        "2024-08-06" ||
-        "2024-08-07")
-    ) {
-      let FormattedTagetDate =
-        targetDate.split("-")[0].substring(2, 4) +
-        '0'+
-        targetDate.split("-")[1] +
-        targetDate.split("-")[2];
-      return FormattedTagetDate;
-    }
-    else{
-      let FormattedTagetDate =
-      targetDate.split("-")[0].substring(2, 4) +
-      targetDate.split("-")[1] +
-      targetDate.split("-")[2];
-    return FormattedTagetDate;
+    switch (targetDate) {
+      case "2024-08-01":
+      case "2024-08-02":
+      case "2024-08-03":
+      case "2024-08-04":
+      case "2024-08-05":
+      case "2024-08-06":
+      case "2024-08-07":
+        let FormattedTagetDatePlus0 =
+          targetDate.split("-")[0].substring(2, 4) +
+          "0" +
+          targetDate.split("-")[1] +
+          targetDate.split("-")[2];
+        return FormattedTagetDatePlus0;
+
+      default:
+        let FormattedTagetDate =
+          targetDate.split("-")[0].substring(2, 4) +
+          targetDate.split("-")[1] +
+          targetDate.split("-")[2];
+        return FormattedTagetDate;
     }
   }
 
