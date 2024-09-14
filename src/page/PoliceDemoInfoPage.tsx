@@ -19,11 +19,11 @@ export default function PoliceDemoInfoPage() {
   const [zoomScale, setZoomScale] = useState<number>(1);
   const isButtonZoom = useRef<boolean>(false);
   const [test, setTest] = useState<string | null>(null);
+  const [NewestDay, setNewestDay] = useState<string | undefined>();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   async function searchByDate(html: string, date: string) {
     const splitByDate = html.split(date);
-    setTest(splitByDate.length + "");
     if (splitByDate.length !== 2) {
       setErrorMessage("해당되는 날짜의 집회 정보가 없습니다.");
       // throw new Error("해당되는 날짜의 집회 정보가 없습니다.");
@@ -77,10 +77,10 @@ export default function PoliceDemoInfoPage() {
     }
   }
 
-  async function getDatePageNumber(targetDate: string) {
-    let today = new Date();
-    let endDate = new Date(targetDate);
-    let diffTime = today.getTime() - endDate.getTime();
+  async function getDatePageNumber(NewestDay: string, targetDate: string) {
+    let newestDay = new Date(NewestDay);
+    let targetDay = new Date(targetDate);
+    let diffTime = newestDay.getTime() - targetDay.getTime();
     let diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
     let targetPage = Math.floor(diffDays / 10);
     return targetPage;
@@ -89,10 +89,12 @@ export default function PoliceDemoInfoPage() {
   const fetchPageData = async (targetDate: string) => {
     setErrorMessage(null);
     setIMG_URL_Array(null);
-    setIsModalVisible(false)
+    setIsModalVisible(false);
     let date = changeDateFormat(targetDate);
     const formData = new URLSearchParams();
-    let targetPage = getDatePageNumber(targetDate);
+    let targetPage =
+      NewestDay !== undefined ? getDatePageNumber(NewestDay, targetDate) : 0;
+    console.log("targetPage", targetPage);
     formData.append("page", (await targetPage) + 1 + "");
     formData.append("uQ", "");
     formData.append("pageST", "SUBJECT");
@@ -118,12 +120,21 @@ export default function PoliceDemoInfoPage() {
 
       if (response.ok) {
         const html = await response.text();
+        const NewestDay = html.split("오늘의 집회")[3].substring(1, 7);
+        const ChageNewestDayFormat =
+          "20" +
+          NewestDay.substring(0, 2) +
+          "-" +
+          NewestDay.substring(2, 4) +
+          "-" +
+          NewestDay.substring(4, 6);
         const BoardURL = await searchByDate(html, await date);
         // const BoardURL = await searchByDate(html, "240909");
         if (BoardURL) {
           let IMG_URL_Array = await getImgURL(BoardURL);
           setIMG_URL_Array(IMG_URL_Array);
         }
+        return ChageNewestDayFormat;
       } else {
         console.error("페이지 요청 실패:", response.status);
       }
@@ -142,7 +153,12 @@ export default function PoliceDemoInfoPage() {
   }
 
   useEffect(() => {
-    fetchPageData(getTodayDate());
+    const fetchData = async () => {
+      const todayDate = getTodayDate();
+      await fetchPageData(todayDate);
+      setNewestDay(await fetchPageData(todayDate));
+    };
+    fetchData();
   }, []);
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -164,7 +180,6 @@ export default function PoliceDemoInfoPage() {
       isButtonZoom.current = false;
     }, 300);
   }
-
 
   const setCalendarModal = () => {
     setIsModalVisible(!isModalVisible);
@@ -207,27 +222,14 @@ export default function PoliceDemoInfoPage() {
             transparent={true}
           >
             <View style={styles.modalView}>
-              <CalendarComponent
-              onPress={fetchPageData}
-                // onPress={async (targetDate: string) => {
-                //   try {
-                //     // fetchPageData를 먼저 실행
-                //     await fetchPageData(targetDate);
-                //     // fetchPageData가 완료된 후 onPressModalClose 실행
-                //   } catch (error) {
-                //     console.error("Error during fetchPageData:", error);
-                //   }
-                //   finally{
-                //     onPressModalClose();
-
-                //   }
-                // }}
-              />
-              <TouchableOpacity onPress={onPressModalClose} style={styles.modalClose}>
+              <CalendarComponent onPress={fetchPageData} />
+              <TouchableOpacity
+                onPress={onPressModalClose}
+                style={styles.modalClose}
+              >
                 <Text>X</Text>
               </TouchableOpacity>
             </View>
-  
           </Modal>
         </View>
       </ScrollView>
@@ -287,9 +289,9 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  modalClose:{
-    position:'absolute',
-    top:30,
-    right:30,
-  }
+  modalClose: {
+    position: "absolute",
+    top: 30,
+    right: 30,
+  },
 });
