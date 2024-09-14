@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
   Image,
+  Modal,
   NativeScrollEvent,
   NativeSyntheticEvent,
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import CalendarComponent from "../components/Calendar";
 import FloatingButton from "../components/FloatingButton";
@@ -16,13 +19,14 @@ export default function PoliceDemoInfoPage() {
   const [zoomScale, setZoomScale] = useState<number>(1);
   const isButtonZoom = useRef<boolean>(false);
   const [test, setTest] = useState<string | null>(null);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   async function searchByDate(html: string, date: string) {
     const splitByDate = html.split(date);
-    setTest(splitByDate[0]);
+    setTest(splitByDate.length + "");
     if (splitByDate.length !== 2) {
       setErrorMessage("해당되는 날짜의 집회 정보가 없습니다.");
-      throw new Error("해당되는 날짜의 집회 정보가 없습니다.");
+      // throw new Error("해당되는 날짜의 집회 정보가 없습니다.");
       return null;
     }
     const splitBySymbol = splitByDate[0].split(`');`);
@@ -85,6 +89,7 @@ export default function PoliceDemoInfoPage() {
   const fetchPageData = async (targetDate: string) => {
     setErrorMessage(null);
     setIMG_URL_Array(null);
+    setIsModalVisible(false)
     let date = changeDateFormat(targetDate);
     const formData = new URLSearchParams();
     let targetPage = getDatePageNumber(targetDate);
@@ -114,6 +119,7 @@ export default function PoliceDemoInfoPage() {
       if (response.ok) {
         const html = await response.text();
         const BoardURL = await searchByDate(html, await date);
+        // const BoardURL = await searchByDate(html, "240909");
         if (BoardURL) {
           let IMG_URL_Array = await getImgURL(BoardURL);
           setIMG_URL_Array(IMG_URL_Array);
@@ -159,6 +165,14 @@ export default function PoliceDemoInfoPage() {
     }, 300);
   }
 
+
+  const setCalendarModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
+  const onPressModalClose = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <>
       <ScrollView
@@ -170,7 +184,7 @@ export default function PoliceDemoInfoPage() {
         onScroll={handleScroll}
         scrollEventThrottle={16}
       >
-        <CalendarComponent onPress={fetchPageData} />
+        {/* <CalendarComponent onPress={fetchPageData} /> */}
         {errorMessage ? (
           <Text>{errorMessage}</Text>
         ) : IMG_URL_Array === null ? (
@@ -186,11 +200,46 @@ export default function PoliceDemoInfoPage() {
             />
           ))
         )}
+        <View style={{ marginTop: 400 }}>
+          <Modal
+            animationType="none"
+            visible={isModalVisible}
+            transparent={true}
+          >
+            <View style={styles.modalView}>
+              <CalendarComponent
+              onPress={fetchPageData}
+                // onPress={async (targetDate: string) => {
+                //   try {
+                //     // fetchPageData를 먼저 실행
+                //     await fetchPageData(targetDate);
+                //     // fetchPageData가 완료된 후 onPressModalClose 실행
+                //   } catch (error) {
+                //     console.error("Error during fetchPageData:", error);
+                //   }
+                //   finally{
+                //     onPressModalClose();
+
+                //   }
+                // }}
+              />
+              <TouchableOpacity onPress={onPressModalClose} style={styles.modalClose}>
+                <Text>X</Text>
+              </TouchableOpacity>
+            </View>
+  
+          </Modal>
+        </View>
       </ScrollView>
       <FloatingButton
         IconName={zoomScale === 1 ? "zoom-in" : "zoom-out"}
         onPress={zoom}
         ExtraStyle={styles.zoomButton}
+      />
+      <FloatingButton
+        IconName={"calendar-month"}
+        onPress={setCalendarModal}
+        ExtraStyle={styles.calendarButton}
       />
     </>
   );
@@ -211,6 +260,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 20,
   },
+  calendarButton: {
+    position: "absolute",
+    top: 20,
+  },
   testtest: {
     backgroundColor: "red",
     zIndex: 2,
@@ -218,4 +271,25 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
   },
+  modalView: {
+    marginTop: 230,
+    margin: 30,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalClose:{
+    position:'absolute',
+    top:30,
+    right:30,
+  }
 });
