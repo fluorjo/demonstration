@@ -21,6 +21,7 @@ export default function PoliceDemoInfoPage() {
   const [test, setTest] = useState<string | null>(null);
   const [NewestDay, setNewestDay] = useState<string | undefined>();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [targetDay, setTargetDay] = useState<string | undefined>(getTodayDate());
 
   async function searchByDate(html: string, date: string) {
     const splitByDate = html.split(date);
@@ -90,11 +91,12 @@ export default function PoliceDemoInfoPage() {
     setErrorMessage(null);
     setIMG_URL_Array(null);
     setIsModalVisible(false);
+    setTargetDay(targetDate)
     let date = changeDateFormat(targetDate);
     const formData = new URLSearchParams();
     let targetPage =
       NewestDay !== undefined ? getDatePageNumber(NewestDay, targetDate) : 0;
-    console.log("targetPage", targetPage);
+    // console.log("targetPage", targetPage);
     formData.append("page", (await targetPage) + 1 + "");
     formData.append("uQ", "");
     formData.append("pageST", "SUBJECT");
@@ -161,6 +163,10 @@ export default function PoliceDemoInfoPage() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    setTargetDay(targetDay)
+  }, [targetDay]);
+
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (!isButtonZoom.current) {
       const zoom = event.nativeEvent.zoomScale || 1;
@@ -222,7 +228,7 @@ export default function PoliceDemoInfoPage() {
             transparent={true}
           >
             <View style={styles.modalView}>
-              <CalendarComponent onPress={fetchPageData} />
+              <CalendarComponent onPress={fetchPageData} interSelectedDate={targetDay} />
               <TouchableOpacity
                 onPress={onPressModalClose}
                 style={styles.modalClose}

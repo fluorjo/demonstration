@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 
-export default function CalendarComponent({ onPress }) {
-  const [selectedDate, setSelectedDate] = useState<string>("");
-
+export default function CalendarComponent({ onPress, interSelectedDate }) {
+  const [selectedDate, setSelectedDate] = useState<string>();
+  useEffect(() => {
+    setSelectedDate(interSelectedDate);
+  }, []);
   LocaleConfig.locales["ko"] = {
     monthNames: [
       "01월",
