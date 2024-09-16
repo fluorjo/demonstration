@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
+  Dimensions,
   Image,
   Modal,
   NativeScrollEvent,
@@ -12,10 +13,15 @@ import {
 } from "react-native";
 import {
   Directions,
-  FlingGestureHandler,
+  Gesture,
+  GestureDetector,
   GestureHandlerRootView,
-  State,
 } from "react-native-gesture-handler";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 import CalendarComponent from "../components/Calendar";
 import FloatingButton from "../components/FloatingButton";
 
@@ -221,6 +227,35 @@ export default function PoliceDemoInfoPage() {
     changeTargetDay("right");
   };
 
+  const { width } = Dimensions.get("screen");
+
+  function clamp(val, min, max) {
+    return Math.min(Math.max(val, min), max);
+  }
+  const translateX = useSharedValue(0);
+  const startTranslateX = useSharedValue(0);
+  const fling = Gesture.Fling()
+    .direction(Directions.LEFT | Directions.RIGHT)
+    .onBegin((event) => {
+      startTranslateX.value = event.x;
+    })
+    .onStart((event) => {
+      const diffX = event.x - startTranslateX.value;
+
+      translateX.value = withTiming(
+        clamp(translateX.value + diffX, width / -2 + 100, width / 2 - 100),
+        { duration: 200 }
+      );
+      if (diffX > 0) {
+        onSwipeRight();
+      } else {
+        onSwipeLeft();
+      }
+    })
+    .runOnJS(true);
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: translateX.value }],
+  }));
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <>
@@ -239,24 +274,11 @@ export default function PoliceDemoInfoPage() {
             <Text>loading...</Text>
           ) : (
             IMG_URL_Array.map((i, index) => (
-              <FlingGestureHandler
-                key={`fling-gesture-right-${index}`}
-                direction={Directions.RIGHT}
-                onHandlerStateChange={(event) => {
-                  if (event.nativeEvent.state === State.END) {
-                    onSwipeRight();
-                  }
-                }}
+              <GestureDetector
+                key={`fling-gesture-detector-${index}`}
+                gesture={fling}
               >
-                <FlingGestureHandler
-                  key={`fling-gesture-left-${index}`}
-                  direction={Directions.LEFT}
-                  onHandlerStateChange={(event) => {
-                    if (event.nativeEvent.state === State.END) {
-                      onSwipeLeft();
-                    }
-                  }}
-                >
+                <Animated.View style={[animatedStyle]}>
                   <Image
                     key={i.toString()}
                     source={{
@@ -264,11 +286,15 @@ export default function PoliceDemoInfoPage() {
                     }}
                     style={styles.TodayDemoInfoImg}
                   />
-                </FlingGestureHandler>
-              </FlingGestureHandler>
+                </Animated.View>
+              </GestureDetector>
             ))
           )}
-
+          {/* <GestureDetector gesture={fling} >
+        <Animated.View style={[styles.box, boxAnimatedStyles]}>
+          <Image style={{height:70, width:70,}} source={require('../../assets/YOUR_MARKER.png')}></Image>
+        </Animated.View>
+      </GestureDetector> */}
           <View style={{ marginTop: 400 }}>
             <Modal
               animationType="none"
@@ -352,7 +378,10 @@ const styles = StyleSheet.create({
     top: 30,
     right: 30,
   },
-  swipe: {
-    flex: 1,
+  box: {
+    width: 100,
+    height: 100,
+    borderRadius: 20,
+    backgroundColor: "#b58df1",
   },
 });
