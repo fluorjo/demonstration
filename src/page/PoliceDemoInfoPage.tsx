@@ -202,7 +202,13 @@ export default function PoliceDemoInfoPage() {
   const onPressModalClose = () => {
     setIsModalVisible(false);
   };
+  const onSwipeLeft = () => {
+    console.log("left");
+  };
 
+  const onSwipeRight = () => {
+    console.log("right");
+  };
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <>
@@ -215,8 +221,7 @@ export default function PoliceDemoInfoPage() {
           onScroll={handleScroll}
           scrollEventThrottle={16}
         >
-          {/* <CalendarComponent onPress={fetchPageData} /> */}
-          {errorMessage ? (
+          {/* {errorMessage ? (
             <Text>{errorMessage}</Text>
           ) : IMG_URL_Array === null ? (
             <Text>loading...</Text>
@@ -226,7 +231,7 @@ export default function PoliceDemoInfoPage() {
                 direction={Directions.RIGHT | Directions.LEFT}
                 onHandlerStateChange={(e) => {
                   if (e.nativeEvent.state === State.ACTIVE) {
-                    console.log('gesture')
+                    console.log(e.nativeEvent.state)
                   }
                 }}
               >
@@ -239,7 +244,34 @@ export default function PoliceDemoInfoPage() {
                 />
               </FlingGestureHandler>
             ))
-          )}
+          )} */}
+          <FlingGestureHandler
+            direction={Directions.RIGHT}
+            onHandlerStateChange={(event) => {
+              if (event.nativeEvent.state === State.END) {
+                onSwipeRight();
+              }
+            }}
+          >
+            <FlingGestureHandler
+              direction={Directions.LEFT}
+              onHandlerStateChange={(event) => {
+                if (event.nativeEvent.state === State.END) {
+                  onSwipeLeft();
+                }
+              }}
+            >
+              <Image
+                // key={i.toString()}
+                // source={{
+                //   uri: i.toString(),
+                // }}
+                source={require("../../assets/Subway.png")}
+                style={styles.TodayDemoInfoImg}
+              />
+            </FlingGestureHandler>
+          </FlingGestureHandler>
+
           <View style={{ marginTop: 400 }}>
             <Modal
               animationType="none"
