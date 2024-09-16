@@ -202,13 +202,25 @@ export default function PoliceDemoInfoPage() {
   const onPressModalClose = () => {
     setIsModalVisible(false);
   };
+
+  function changeTargetDay(direction: string) {
+    if (targetDay) {
+      let newTargetDay =
+        direction === "left"
+          ? new Date(new Date(targetDay).getTime() + 1000 * 60 * 60 * 24)
+          : new Date(new Date(targetDay).getTime() - 1000 * 60 * 60 * 24);
+      const formattedNewTargetDay = newTargetDay.toISOString().split("T")[0];
+      fetchPageData(formattedNewTargetDay);
+    }
+  }
   const onSwipeLeft = () => {
-    console.log("left");
+    changeTargetDay("left");
   };
 
   const onSwipeRight = () => {
-    console.log("right");
+    changeTargetDay("right");
   };
+  
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <>
@@ -221,31 +233,40 @@ export default function PoliceDemoInfoPage() {
           onScroll={handleScroll}
           scrollEventThrottle={16}
         >
-          {/* {errorMessage ? (
+          {errorMessage ? (
             <Text>{errorMessage}</Text>
           ) : IMG_URL_Array === null ? (
             <Text>loading...</Text>
           ) : (
             IMG_URL_Array.map((i) => (
               <FlingGestureHandler
-                direction={Directions.RIGHT | Directions.LEFT}
-                onHandlerStateChange={(e) => {
-                  if (e.nativeEvent.state === State.ACTIVE) {
-                    console.log(e.nativeEvent.state)
+                direction={Directions.RIGHT}
+                onHandlerStateChange={(event) => {
+                  if (event.nativeEvent.state === State.END) {
+                    onSwipeRight();
                   }
                 }}
               >
-                <Image
-                  key={i.toString()}
-                  source={{
-                    uri: i.toString(),
+                <FlingGestureHandler
+                  direction={Directions.LEFT}
+                  onHandlerStateChange={(event) => {
+                    if (event.nativeEvent.state === State.END) {
+                      onSwipeLeft();
+                    }
                   }}
-                  style={styles.TodayDemoInfoImg}
-                />
+                >
+                  <Image
+                    key={i.toString()}
+                    source={{
+                      uri: i.toString(),
+                    }}
+                    style={styles.TodayDemoInfoImg}
+                  />
+                </FlingGestureHandler>
               </FlingGestureHandler>
             ))
-          )} */}
-          <FlingGestureHandler
+          )}
+          {/* <FlingGestureHandler
             direction={Directions.RIGHT}
             onHandlerStateChange={(event) => {
               if (event.nativeEvent.state === State.END) {
@@ -270,7 +291,7 @@ export default function PoliceDemoInfoPage() {
                 style={styles.TodayDemoInfoImg}
               />
             </FlingGestureHandler>
-          </FlingGestureHandler>
+          </FlingGestureHandler> */}
 
           <View style={{ marginTop: 400 }}>
             <Modal
