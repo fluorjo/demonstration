@@ -10,8 +10,15 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import {
+  Directions,
+  FlingGestureHandler,
+  GestureHandlerRootView,
+  State,
+} from "react-native-gesture-handler";
 import CalendarComponent from "../components/Calendar";
 import FloatingButton from "../components/FloatingButton";
+
 export default function PoliceDemoInfoPage() {
   const [IMG_URL_Array, setIMG_URL_Array] = useState<String[] | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -21,7 +28,9 @@ export default function PoliceDemoInfoPage() {
   const [test, setTest] = useState<string | null>(null);
   const [NewestDay, setNewestDay] = useState<string | undefined>();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [targetDay, setTargetDay] = useState<string | undefined>(getTodayDate());
+  const [targetDay, setTargetDay] = useState<string | undefined>(
+    getTodayDate()
+  );
 
   async function searchByDate(html: string, date: string) {
     const splitByDate = html.split(date);
@@ -91,7 +100,7 @@ export default function PoliceDemoInfoPage() {
     setErrorMessage(null);
     setIMG_URL_Array(null);
     setIsModalVisible(false);
-    setTargetDay(targetDate)
+    setTargetDay(targetDate);
     let date = changeDateFormat(targetDate);
     const formData = new URLSearchParams();
     let targetPage =
@@ -164,7 +173,7 @@ export default function PoliceDemoInfoPage() {
   }, []);
 
   useEffect(() => {
-    setTargetDay(targetDay)
+    setTargetDay(targetDay);
   }, [targetDay]);
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -195,61 +204,75 @@ export default function PoliceDemoInfoPage() {
   };
 
   return (
-    <>
-      <ScrollView
-        ref={scrollViewRef}
-        style={styles.container}
-        bouncesZoom={true}
-        maximumZoomScale={4.5}
-        zoomScale={zoomScale}
-        onScroll={handleScroll}
-        scrollEventThrottle={16}
-      >
-        {/* <CalendarComponent onPress={fetchPageData} /> */}
-        {errorMessage ? (
-          <Text>{errorMessage}</Text>
-        ) : IMG_URL_Array === null ? (
-          <Text>loading...</Text>
-        ) : (
-          IMG_URL_Array.map((i) => (
-            <Image
-              key={i.toString()}
-              source={{
-                uri: i.toString(),
-              }}
-              style={styles.TodayDemoInfoImg}
-            />
-          ))
-        )}
-        <View style={{ marginTop: 400 }}>
-          <Modal
-            animationType="none"
-            visible={isModalVisible}
-            transparent={true}
-          >
-            <View style={styles.modalView}>
-              <CalendarComponent onPress={fetchPageData} interSelectedDate={targetDay} />
-              <TouchableOpacity
-                onPress={onPressModalClose}
-                style={styles.modalClose}
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <>
+        <ScrollView
+          ref={scrollViewRef}
+          style={styles.container}
+          bouncesZoom={true}
+          maximumZoomScale={4.5}
+          zoomScale={zoomScale}
+          onScroll={handleScroll}
+          scrollEventThrottle={16}
+        >
+          {/* <CalendarComponent onPress={fetchPageData} /> */}
+          {errorMessage ? (
+            <Text>{errorMessage}</Text>
+          ) : IMG_URL_Array === null ? (
+            <Text>loading...</Text>
+          ) : (
+            IMG_URL_Array.map((i) => (
+              <FlingGestureHandler
+                direction={Directions.RIGHT | Directions.LEFT}
+                onHandlerStateChange={(e) => {
+                  if (e.nativeEvent.state === State.ACTIVE) {
+                    console.log('gesture')
+                  }
+                }}
               >
-                <Text>X</Text>
-              </TouchableOpacity>
-            </View>
-          </Modal>
-        </View>
-      </ScrollView>
-      <FloatingButton
-        IconName={zoomScale === 1 ? "zoom-in" : "zoom-out"}
-        onPress={zoom}
-        ExtraStyle={styles.zoomButton}
-      />
-      <FloatingButton
-        IconName={"calendar-month"}
-        onPress={setCalendarModal}
-        ExtraStyle={styles.calendarButton}
-      />
-    </>
+                <Image
+                  key={i.toString()}
+                  source={{
+                    uri: i.toString(),
+                  }}
+                  style={styles.TodayDemoInfoImg}
+                />
+              </FlingGestureHandler>
+            ))
+          )}
+          <View style={{ marginTop: 400 }}>
+            <Modal
+              animationType="none"
+              visible={isModalVisible}
+              transparent={true}
+            >
+              <View style={styles.modalView}>
+                <CalendarComponent
+                  onPress={fetchPageData}
+                  interSelectedDate={targetDay}
+                />
+                <TouchableOpacity
+                  onPress={onPressModalClose}
+                  style={styles.modalClose}
+                >
+                  <Text>X</Text>
+                </TouchableOpacity>
+              </View>
+            </Modal>
+          </View>
+        </ScrollView>
+        <FloatingButton
+          IconName={zoomScale === 1 ? "zoom-in" : "zoom-out"}
+          onPress={zoom}
+          ExtraStyle={styles.zoomButton}
+        />
+        <FloatingButton
+          IconName={"calendar-month"}
+          onPress={setCalendarModal}
+          ExtraStyle={styles.calendarButton}
+        />
+      </>
+    </GestureHandlerRootView>
   );
 }
 
@@ -299,5 +322,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 30,
     right: 30,
+  },
+  swipe: {
+    flex: 1,
   },
 });
