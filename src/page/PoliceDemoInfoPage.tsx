@@ -18,7 +18,7 @@ import {
 } from "react-native-gesture-handler";
 import Animated, {
   useAnimatedStyle,
-  useSharedValue,
+  useSharedValue,withTiming
 } from "react-native-reanimated";
 import CalendarComponent from "../components/Calendar";
 import FloatingButton from "../components/FloatingButton";
@@ -106,6 +106,7 @@ export default function PoliceDemoInfoPage() {
     setIMG_URL_Array(null);
     setIsModalVisible(false);
     setTargetDay(targetDate);
+    console.log(IMG_URL_Array)
     let date = changeDateFormat(targetDate);
     const formData = new URLSearchParams();
     let targetPage =
@@ -257,7 +258,7 @@ export default function PoliceDemoInfoPage() {
         -maxTranslateX,
         maxTranslateX
       );
-      console.log(event.translationY);
+      console.log(event.translationX);
       // console.log(event)
       if (IMG_URL_Array !== null) {
         if (event.translationY < -20) {
@@ -269,6 +270,19 @@ export default function PoliceDemoInfoPage() {
         }
       }
     })
+    .onEnd(() => {
+      if (translationX.value > 50) {
+        translationX.value = withTiming(0);
+        changeTargetDay("right");
+      } else if (translationX.value < -50) {
+        translationX.value = withTiming(-width);
+        translationX.value = withTiming(0);
+        changeTargetDay("left");
+      } else {
+        translationX.value = withTiming(0);
+      }
+    })
+    .minDistance(20)
     .runOnJS(true);
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
