@@ -12,7 +12,6 @@ import {
   View,
 } from "react-native";
 import {
-  Directions,
   Gesture,
   GestureDetector,
   GestureHandlerRootView,
@@ -227,35 +226,44 @@ export default function PoliceDemoInfoPage() {
     changeTargetDay("right");
   };
 
-  const { width } = Dimensions.get("screen");
+  const { width, height } = Dimensions.get('screen');
 
   function clamp(val, min, max) {
     return Math.min(Math.max(val, min), max);
   }
-  const translateX = useSharedValue(0);
-  const startTranslateX = useSharedValue(0);
-  const fling = Gesture.Fling()
-    .direction(Directions.LEFT | Directions.RIGHT)
-    .onBegin((event) => {
-      startTranslateX.value = event.x;
-    })
-    .onStart((event) => {
-      const diffX = event.x - startTranslateX.value;
+  const translationX = useSharedValue(0);
+  const translationY = useSharedValue(0);
+  const prevTranslationX = useSharedValue(0);
+  const prevTranslationY = useSharedValue(0);
 
-      translateX.value = withTiming(
-        clamp(translateX.value + diffX, width / -2 + 100, width / 2 - 100),
-        { duration: 200 }
-      );
-      if (diffX > 0) {
-        onSwipeRight();
-      } else {
-        onSwipeLeft();
-      }
-    })
-    .runOnJS(true);
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: translateX.value }],
+  const animatedStyles = useAnimatedStyle(() => ({
+    transform: [
+      { translateX: translationX.value },
+      { translateY: translationY.value },
+    ],
   }));
+  const pan = Gesture.Pan()
+  .minDistance(1)
+  .onStart(() => {
+    prevTranslationX.value = translationX.value;
+    prevTranslationY.value = translationY.value;
+  })
+  .onUpdate((event) => {
+    const maxTranslateX = width / 2 - 50;
+    const maxTranslateY = height / 2 - 50;
+
+    translationX.value = clamp(
+      prevTranslationX.value + event.translationX,
+      -maxTranslateX,
+      maxTranslateX
+    );
+    translationY.value = clamp(
+      prevTranslationY.value + event.translationY,
+      -maxTranslateY,
+      maxTranslateY
+    );
+  })
+  .runOnJS(true);
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <>
@@ -268,7 +276,7 @@ export default function PoliceDemoInfoPage() {
           onScroll={handleScroll}
           scrollEventThrottle={16}
         >
-          {errorMessage ? (
+           {errorMessage ? (
             <Text>{errorMessage}</Text>
           ) : IMG_URL_Array === null ? (
             <Text>loading...</Text>
@@ -276,9 +284,9 @@ export default function PoliceDemoInfoPage() {
             IMG_URL_Array.map((i, index) => (
               <GestureDetector
                 key={`fling-gesture-detector-${index}`}
-                gesture={fling}
+                gesture={pan}
               >
-                <Animated.View style={[animatedStyle]}>
+                <Animated.View style={[animatedStyles]}>
                   <Image
                     key={i.toString()}
                     source={{
@@ -289,12 +297,15 @@ export default function PoliceDemoInfoPage() {
                 </Animated.View>
               </GestureDetector>
             ))
-          )}
-          {/* <GestureDetector gesture={fling} >
-        <Animated.View style={[styles.box, boxAnimatedStyles]}>
-          <Image style={{height:70, width:70,}} source={require('../../assets/YOUR_MARKER.png')}></Image>
-        </Animated.View>
-      </GestureDetector> */}
+          )} 
+          {/* <GestureDetector gesture={pan}>
+            <Animated.View style={[styles.box,animatedStyles]}>
+              <Image
+                style={{ height: 70, width: 70 }}
+                source={require("../../assets/YOUR_MARKER.png")}
+              ></Image>
+            </Animated.View>
+          </GestureDetector> */}
           <View style={{ marginTop: 400 }}>
             <Modal
               animationType="none"
