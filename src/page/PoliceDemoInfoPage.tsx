@@ -19,7 +19,6 @@ import {
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  withTiming,
 } from "react-native-reanimated";
 import CalendarComponent from "../components/Calendar";
 import FloatingButton from "../components/FloatingButton";
@@ -36,6 +35,7 @@ export default function PoliceDemoInfoPage() {
   const [targetDay, setTargetDay] = useState<string | undefined>(
     getTodayDate()
   );
+  const [imgIndex, setImgIndex] = useState(0);
 
   async function searchByDate(html: string, date: string) {
     const splitByDate = html.split(date);
@@ -226,7 +226,7 @@ export default function PoliceDemoInfoPage() {
     changeTargetDay("right");
   };
 
-  const { width, height } = Dimensions.get('screen');
+  const { width, height } = Dimensions.get("screen");
 
   function clamp(val, min, max) {
     return Math.min(Math.max(val, min), max);
@@ -243,27 +243,33 @@ export default function PoliceDemoInfoPage() {
     ],
   }));
   const pan = Gesture.Pan()
-  .minDistance(1)
-  .onStart(() => {
-    prevTranslationX.value = translationX.value;
-    prevTranslationY.value = translationY.value;
-  })
-  .onUpdate((event) => {
-    const maxTranslateX = width / 2 - 50;
-    const maxTranslateY = height / 2 - 50;
+    .minDistance(1)
+    .onStart(() => {
+      prevTranslationX.value = translationX.value;
+      prevTranslationY.value = translationY.value;
+    })
+    .onUpdate((event) => {
+      const maxTranslateX = width / 2 - 50;
+      const maxTranslateY = height / 2 - 50;
 
-    translationX.value = clamp(
-      prevTranslationX.value + event.translationX,
-      -maxTranslateX,
-      maxTranslateX
-    );
-    translationY.value = clamp(
-      prevTranslationY.value + event.translationY,
-      -maxTranslateY,
-      maxTranslateY
-    );
-  })
-  .runOnJS(true);
+      translationX.value = clamp(
+        prevTranslationX.value + event.translationX,
+        -maxTranslateX,
+        maxTranslateX
+      );
+      console.log(event.translationY);
+      // console.log(event)
+      if (IMG_URL_Array !== null) {
+        if (event.translationY < -20) {
+          setImgIndex((prevIndex) =>
+            Math.min(prevIndex + 1, IMG_URL_Array.length - 1)
+          );
+        } else if (event.translationY > 20) {
+          setImgIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+        }
+      }
+    })
+    .runOnJS(true);
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <>
@@ -276,36 +282,41 @@ export default function PoliceDemoInfoPage() {
           onScroll={handleScroll}
           scrollEventThrottle={16}
         >
-           {errorMessage ? (
+          {errorMessage ? (
             <Text>{errorMessage}</Text>
           ) : IMG_URL_Array === null ? (
             <Text>loading...</Text>
           ) : (
-            IMG_URL_Array.map((i, index) => (
-              <GestureDetector
-                key={`fling-gesture-detector-${index}`}
-                gesture={pan}
-              >
-                <Animated.View style={[animatedStyles]}>
-                  <Image
-                    key={i.toString()}
-                    source={{
-                      uri: i.toString(),
-                    }}
-                    style={styles.TodayDemoInfoImg}
-                  />
-                </Animated.View>
-              </GestureDetector>
-            ))
-          )} 
+            // IMG_URL_Array.map((i, index) => (
+            //   <GestureDetector
+            //     key={`fling-gesture-detector-${index}`}
+            //     gesture={pan}
+            //   >
+            //     <Animated.View style={[animatedStyles]}>
+            //       <Image
+            //         key={i.toString()}
+            //         source={{
+            //           uri: i.toString(),
+            //         }}
+            //         style={styles.TodayDemoInfoImg}
+            //       />
+            //     </Animated.View>
+            //   </GestureDetector>
+            // ))
+
+            <GestureDetector gesture={pan}>
+              <Animated.View style={[animatedStyles]}>
+                <Image
+                  source={{ uri: IMG_URL_Array[imgIndex].toString() }}
+                  style={styles.TodayDemoInfoImg}
+                />
+              </Animated.View>
+            </GestureDetector>
+          )}
           {/* <GestureDetector gesture={pan}>
             <Animated.View style={[styles.box,animatedStyles]}>
-              <Image
-                style={{ height: 70, width: 70 }}
-                source={require("../../assets/YOUR_MARKER.png")}
-              ></Image>
             </Animated.View>
-          </GestureDetector> */}
+          </GestureDetector>  */}
           <View style={{ marginTop: 400 }}>
             <Modal
               animationType="none"
