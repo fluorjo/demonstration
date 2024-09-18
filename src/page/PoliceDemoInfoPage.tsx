@@ -1,7 +1,7 @@
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import React, { useEffect, useRef, useState } from "react";
 import {
   Dimensions,
-  Image,
   Modal,
   NativeScrollEvent,
   NativeSyntheticEvent,
@@ -18,7 +18,8 @@ import {
 } from "react-native-gesture-handler";
 import Animated, {
   useAnimatedStyle,
-  useSharedValue,withTiming
+  useSharedValue,
+  withTiming,
 } from "react-native-reanimated";
 import CalendarComponent from "../components/Calendar";
 import FloatingButton from "../components/FloatingButton";
@@ -106,12 +107,11 @@ export default function PoliceDemoInfoPage() {
     setIMG_URL_Array(null);
     setIsModalVisible(false);
     setTargetDay(targetDate);
-    console.log(IMG_URL_Array)
     let date = changeDateFormat(targetDate);
     const formData = new URLSearchParams();
     let targetPage =
       NewestDay !== undefined ? getDatePageNumber(NewestDay, targetDate) : 0;
-    // console.log("targetPage", targetPage);
+
     formData.append("page", (await targetPage) + 1 + "");
     formData.append("uQ", "");
     formData.append("pageST", "SUBJECT");
@@ -219,13 +219,6 @@ export default function PoliceDemoInfoPage() {
       fetchPageData(formattedNewTargetDay);
     }
   }
-  const onSwipeLeft = () => {
-    changeTargetDay("left");
-  };
-
-  const onSwipeRight = () => {
-    changeTargetDay("right");
-  };
 
   const { width, height } = Dimensions.get("screen");
 
@@ -258,8 +251,6 @@ export default function PoliceDemoInfoPage() {
         -maxTranslateX,
         maxTranslateX
       );
-      console.log(event.translationX);
-      // console.log(event)
       if (IMG_URL_Array !== null) {
         if (event.translationY < -20) {
           setImgIndex((prevIndex) =>
@@ -296,28 +287,12 @@ export default function PoliceDemoInfoPage() {
           onScroll={handleScroll}
           scrollEventThrottle={16}
         >
-          {errorMessage ? (
+          {/* {errorMessage ? (
             <Text>{errorMessage}</Text>
           ) : IMG_URL_Array === null ? (
+            // 로딩 화면 나중에 좀 제대로 만들어서 정보 없을 경우에도 스와이프 가능하게 해야 함.
             <Text>loading...</Text>
           ) : (
-            // IMG_URL_Array.map((i, index) => (
-            //   <GestureDetector
-            //     key={`fling-gesture-detector-${index}`}
-            //     gesture={pan}
-            //   >
-            //     <Animated.View style={[animatedStyles]}>
-            //       <Image
-            //         key={i.toString()}
-            //         source={{
-            //           uri: i.toString(),
-            //         }}
-            //         style={styles.TodayDemoInfoImg}
-            //       />
-            //     </Animated.View>
-            //   </GestureDetector>
-            // ))
-
             <GestureDetector gesture={pan}>
               <Animated.View style={[animatedStyles]}>
                 <Image
@@ -326,11 +301,10 @@ export default function PoliceDemoInfoPage() {
                 />
               </Animated.View>
             </GestureDetector>
-          )}
-          {/* <GestureDetector gesture={pan}>
-            <Animated.View style={[styles.box,animatedStyles]}>
-            </Animated.View>
-          </GestureDetector>  */}
+          )} */}
+          <GestureDetector gesture={pan}>
+            <Animated.View style={[styles.box, animatedStyles]}></Animated.View>
+          </GestureDetector>
           <View style={{ marginTop: 400 }}>
             <Modal
               animationType="none"
@@ -351,7 +325,18 @@ export default function PoliceDemoInfoPage() {
               </View>
             </Modal>
           </View>
+          <MaterialIcons
+            name={"arrow-back"}
+            color="black"
+            style={extra_styles.arrow_left}
+          />
+          <MaterialIcons
+            name={"arrow-forward"}
+            color="black"
+            style={extra_styles.arrow_right}
+          />
         </ScrollView>
+
         <FloatingButton
           IconName={zoomScale === 1 ? "zoom-in" : "zoom-out"}
           onPress={zoom}
@@ -419,5 +404,21 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 20,
     backgroundColor: "#b58df1",
+  },
+  arrow: {
+    top: "50%",
+    fontSize: 32,
+    position: "absolute",
+    opacity:0.4,
+  },
+});
+const extra_styles = StyleSheet.create({
+  arrow_left: {
+    left: 15,
+    ...styles.arrow,
+  },
+  arrow_right: {
+    right: 15,
+    ...styles.arrow,
   },
 });
