@@ -33,6 +33,7 @@ export default function PoliceDemoInfoPage() {
   const [test, setTest] = useState<string | null>(null);
   const [NewestDay, setNewestDay] = useState<string | undefined>();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [isArrowVisible, setIsArrowVisible] = useState<boolean>(false);
   const [targetDay, setTargetDay] = useState<string | undefined>(
     getTodayDate()
   );
@@ -261,6 +262,9 @@ export default function PoliceDemoInfoPage() {
         }
       }
     })
+    .onTouchesDown(() => {
+      setIsArrowVisible(true);
+    })
     .onEnd(() => {
       if (translationX.value > 50) {
         translationX.value = withTiming(0);
@@ -273,8 +277,21 @@ export default function PoliceDemoInfoPage() {
         translationX.value = withTiming(0);
       }
     })
+    .onFinalize(() => {
+      setIsArrowVisible(false);
+    })
     .minDistance(20)
     .runOnJS(true);
+
+  // const longPress = Gesture.LongPress()
+  //   .onBegin(() => {
+  //     console.log("1231e");
+  //   })
+  //   .onEnd(() => {
+  //     console.log("end");
+  //   });
+  const composed = Gesture.Race(pan);
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <>
@@ -302,7 +319,7 @@ export default function PoliceDemoInfoPage() {
               </Animated.View>
             </GestureDetector>
           )} */}
-          <GestureDetector gesture={pan}>
+          <GestureDetector gesture={composed}>
             <Animated.View style={[styles.box, animatedStyles]}></Animated.View>
           </GestureDetector>
           <View style={{ marginTop: 400 }}>
@@ -325,16 +342,20 @@ export default function PoliceDemoInfoPage() {
               </View>
             </Modal>
           </View>
-          <MaterialIcons
-            name={"arrow-back"}
-            color="black"
-            style={extra_styles.arrow_left}
-          />
-          <MaterialIcons
-            name={"arrow-forward"}
-            color="black"
-            style={extra_styles.arrow_right}
-          />
+          {isArrowVisible ? (
+            <>
+              <MaterialIcons
+                name={"arrow-back"}
+                color="black"
+                style={extra_styles.arrow_left}
+              />
+              <MaterialIcons
+                name={"arrow-forward"}
+                color="black"
+                style={extra_styles.arrow_right}
+              />
+            </>
+          ) : null}
         </ScrollView>
 
         <FloatingButton
@@ -409,7 +430,7 @@ const styles = StyleSheet.create({
     top: "50%",
     fontSize: 32,
     position: "absolute",
-    opacity:0.4,
+    opacity: 0.4,
   },
 });
 const extra_styles = StyleSheet.create({
