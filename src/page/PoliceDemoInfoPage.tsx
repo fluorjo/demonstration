@@ -174,8 +174,10 @@ export default function PoliceDemoInfoPage() {
   useEffect(() => {
     const fetchData = async () => {
       const todayDate = getTodayDate();
-      await fetchPageData(todayDate);
-      setNewestDay(await fetchPageData(todayDate));
+      // await fetchPageData(todayDate);
+      // setNewestDay(await fetchPageData(todayDate));
+      await fetchPageData("2024-09-07");
+      setNewestDay(await fetchPageData("2024-09-07"));
     };
     fetchData();
   }, []);
@@ -305,7 +307,15 @@ export default function PoliceDemoInfoPage() {
           onScroll={handleScroll}
           scrollEventThrottle={16}
         >
-          {errorMessage ? (
+          <GestureDetector gesture={pan}>
+            <Animated.View style={[animatedStyles]}>
+              <Image
+                source={require("../../assets/image.png")}
+                style={styles.TodayDemoInfoImg}
+              />
+            </Animated.View>
+          </GestureDetector>
+          {/* {errorMessage ? (
             <Text>{errorMessage}</Text>
           ) : IMG_URL_Array === null ? (
             // 로딩 화면 나중에 좀 제대로 만들어서 정보 없을 경우에도 스와이프 가능하게 해야 함.
@@ -319,11 +329,11 @@ export default function PoliceDemoInfoPage() {
                 />
               </Animated.View>
             </GestureDetector>
-          )}
+          )} */}
           {/* <GestureDetector gesture={composed}>
             <Animated.View style={[styles.box, animatedStyles]}></Animated.View>
           </GestureDetector> */}
-          <View style={{ marginTop: 400 }}>
+          <View style={{ marginTop: 0 }}>
             <Modal
               animationType="none"
               visible={isModalVisible}
@@ -343,8 +353,19 @@ export default function PoliceDemoInfoPage() {
               </View>
             </Modal>
           </View>
-          {IMG_URL_Array && IMG_URL_Array.length > 1 ? (
-            <>
+          {/* {IMG_URL_Array && IMG_URL_Array.length > 1 ? (
+            <View
+              style={{
+                display: "flex",
+                backgroundColor: "#ffffff0",
+                flex: 1,
+                position: "absolute",
+                zIndex: 3,
+                width: "100%",
+                height: "100%",
+                justifyContent: "center",
+              }}
+            >
               <MaterialIcons
                 name={"arrow-circle-up"}
                 color="black"
@@ -355,22 +376,8 @@ export default function PoliceDemoInfoPage() {
                 color="black"
                 style={extra_styles.arrow_down}
               />
-            </>
-          ) : null}
-          {isArrowVisible ? (
-            <>
-              <MaterialIcons
-                name={"arrow-back"}
-                color="black"
-                style={extra_styles.arrow_left}
-              />
-              <MaterialIcons
-                name={"arrow-forward"}
-                color="black"
-                style={extra_styles.arrow_right}
-              />
-            </>
-          ) : null}
+            </View>
+          ) : null} */}
         </ScrollView>
 
         <FloatingButton
@@ -383,6 +390,56 @@ export default function PoliceDemoInfoPage() {
           onPress={setCalendarModal}
           ExtraStyle={styles.calendarButton}
         />
+        {isArrowVisible ? (
+          <View
+            style={{
+              display: "flex",
+              backgroundColor: "##ff0909",
+              flex: 1,
+              position: "absolute",
+              zIndex: 3,
+              width: "100%",
+              height: "100%",
+              justifyContent: "center",
+            }}
+          >
+            <MaterialIcons
+              name={"chevron-left"}
+              color="black"
+              style={extra_styles.arrow_left}
+            />
+            <MaterialIcons
+              name={"chevron-right"}
+              color="black"
+              style={extra_styles.arrow_right}
+            />
+          </View>
+        ) : null}
+        {IMG_URL_Array && IMG_URL_Array.length > 1 ? (
+          <View
+            style={{
+              display: "flex",
+              backgroundColor: "#ffffff0",
+              flex: 1,
+              position: "absolute",
+              zIndex: 3,
+              width: "100%",
+              height: "100%",
+              alignItems: "center",
+            }}
+          >
+            <MaterialIcons
+              name={"arrow-drop-up"}
+              color="black"
+              style={extra_styles.arrow_up}
+            />
+            <MaterialIcons
+              name={"arrow-drop-down"}
+              color="black"
+              style={extra_styles.arrow_down}
+            />
+          </View>
+        ) : null}
       </>
     </GestureHandlerRootView>
   );
@@ -391,14 +448,12 @@ export default function PoliceDemoInfoPage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
   },
   TodayDemoInfoImg: {
     width: "100%",
     height: 600,
     marginRight: 8,
     objectFit: "fill",
-    backgroundColor:'red',
   },
   zoomButton: {
     position: "absolute",
@@ -450,23 +505,19 @@ const styles = StyleSheet.create({
 });
 const extra_styles = StyleSheet.create({
   arrow_left: {
-    top: "50%",
-    left: 15,
     ...styles.arrow,
+    left: 15,
   },
   arrow_right: {
-    top: "50%",
-    right: 15,
     ...styles.arrow,
+    right: 15,
   },
   arrow_up: {
-    top: 15,
-    left: "50%",
     ...styles.arrow,
+    top: 5,
   },
   arrow_down: {
-    left: "50%",
-    bottom: 15,
     ...styles.arrow,
+    bottom: 0,
   },
 });
