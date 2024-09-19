@@ -2,6 +2,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import React, { useEffect, useRef, useState } from "react";
 import {
   Dimensions,
+  Image,
   Modal,
   NativeScrollEvent,
   NativeSyntheticEvent,
@@ -304,7 +305,7 @@ export default function PoliceDemoInfoPage() {
           onScroll={handleScroll}
           scrollEventThrottle={16}
         >
-          {/* {errorMessage ? (
+          {errorMessage ? (
             <Text>{errorMessage}</Text>
           ) : IMG_URL_Array === null ? (
             // 로딩 화면 나중에 좀 제대로 만들어서 정보 없을 경우에도 스와이프 가능하게 해야 함.
@@ -318,10 +319,10 @@ export default function PoliceDemoInfoPage() {
                 />
               </Animated.View>
             </GestureDetector>
-          )} */}
-          <GestureDetector gesture={composed}>
+          )}
+          {/* <GestureDetector gesture={composed}>
             <Animated.View style={[styles.box, animatedStyles]}></Animated.View>
-          </GestureDetector>
+          </GestureDetector> */}
           <View style={{ marginTop: 400 }}>
             <Modal
               animationType="none"
@@ -342,6 +343,20 @@ export default function PoliceDemoInfoPage() {
               </View>
             </Modal>
           </View>
+          {IMG_URL_Array && IMG_URL_Array.length > 1 ? (
+            <>
+              <MaterialIcons
+                name={"arrow-circle-up"}
+                color="black"
+                style={extra_styles.arrow_up}
+              />
+              <MaterialIcons
+                name={"arrow-circle-down"}
+                color="black"
+                style={extra_styles.arrow_down}
+              />
+            </>
+          ) : null}
           {isArrowVisible ? (
             <>
               <MaterialIcons
@@ -383,6 +398,7 @@ const styles = StyleSheet.create({
     height: 600,
     marginRight: 8,
     objectFit: "fill",
+    backgroundColor:'red',
   },
   zoomButton: {
     position: "absolute",
@@ -427,7 +443,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#b58df1",
   },
   arrow: {
-    top: "50%",
     fontSize: 32,
     position: "absolute",
     opacity: 0.4,
@@ -435,11 +450,23 @@ const styles = StyleSheet.create({
 });
 const extra_styles = StyleSheet.create({
   arrow_left: {
+    top: "50%",
     left: 15,
     ...styles.arrow,
   },
   arrow_right: {
+    top: "50%",
     right: 15,
+    ...styles.arrow,
+  },
+  arrow_up: {
+    top: 15,
+    left: "50%",
+    ...styles.arrow,
+  },
+  arrow_down: {
+    left: "50%",
+    bottom: 15,
     ...styles.arrow,
   },
 });
