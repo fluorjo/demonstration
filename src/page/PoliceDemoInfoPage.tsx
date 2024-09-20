@@ -286,15 +286,6 @@ export default function PoliceDemoInfoPage() {
     .minDistance(20)
     .runOnJS(true);
 
-  // const longPress = Gesture.LongPress()
-  //   .onBegin(() => {
-  //     console.log("1231e");
-  //   })
-  //   .onEnd(() => {
-  //     console.log("end");
-  //   });
-  const composed = Gesture.Race(pan);
-
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <>
@@ -307,7 +298,15 @@ export default function PoliceDemoInfoPage() {
           onScroll={handleScroll}
           scrollEventThrottle={16}
         >
-          {errorMessage ? (
+          <GestureDetector gesture={pan}>
+            <Animated.View style={[animatedStyles]}>
+              <Image
+                source={require("../../assets/image.png")}
+                style={styles.TodayDemoInfoImg}
+              />
+            </Animated.View>
+          </GestureDetector>
+          {/* {errorMessage ? (
             <Text>{errorMessage}</Text>
           ) : IMG_URL_Array === null ? (
             // 로딩 화면 나중에 좀 제대로 만들어서 정보 없을 경우에도 스와이프 가능하게 해야 함.
@@ -335,7 +334,7 @@ export default function PoliceDemoInfoPage() {
                 ) : null}
               </Animated.View>
             </GestureDetector>
-          )}
+          )} */}
           {/* <GestureDetector gesture={composed}>
             <Animated.View style={[styles.box, animatedStyles]}></Animated.View>
           </GestureDetector> */}
@@ -384,20 +383,6 @@ export default function PoliceDemoInfoPage() {
               />
             </View>
           ) : null} */}
-          {IMG_URL_Array && IMG_URL_Array.length > 1 ? (
-            <>
-              <MaterialIcons
-                name={"arrow-drop-up"}
-                color="black"
-                style={extra_styles.arrow_up}
-              />
-              <MaterialIcons
-                name={"arrow-drop-down"}
-                color="black"
-                style={extra_styles.arrow_down}
-              />
-            </>
-          ) : null}
         </ScrollView>
 
         <FloatingButton
@@ -410,6 +395,20 @@ export default function PoliceDemoInfoPage() {
           onPress={setCalendarModal}
           ExtraStyle={styles.calendarButton}
         />
+        <View style={styles.updownArrowContainer}>
+          {/* {IMG_URL_Array && IMG_URL_Array.length > 1 ? ( */}
+              {/* <MaterialIcons
+                name={"arrow-drop-up"}
+                color="black"
+                style={extra_styles.arrow_up}
+              /> */}
+              <MaterialIcons
+                name={"arrow-drop-down"}
+                color="black"
+                style={extra_styles.arrow_down}
+              />
+          {/* ) : null} */}
+        </View>
       </>
     </GestureHandlerRootView>
   );
@@ -432,18 +431,15 @@ const styles = StyleSheet.create({
   zoomButton: {
     position: "absolute",
     bottom: 20,
+    zIndex:10,
   },
   calendarButton: {
     position: "absolute",
     top: 20,
+    zIndex:10,
+
   },
-  testtest: {
-    backgroundColor: "red",
-    zIndex: 2,
-    top: 40,
-    width: 50,
-    height: 50,
-  },
+
   modalView: {
     marginTop: 230,
     margin: 30,
@@ -476,6 +472,17 @@ const styles = StyleSheet.create({
     position: "absolute",
     opacity: 0.4,
   },
+  updownArrowContainer: {
+    backgroundColor: '#ffffff0',
+    position: "absolute",
+    height: 20,
+    zIndex: 1,
+    width: "100%",
+    bottom: 0,
+    alignItems: "center",
+    justifyContent: "center",
+    
+  },
 });
 const extra_styles = StyleSheet.create({
   arrow_left: {
@@ -488,10 +495,8 @@ const extra_styles = StyleSheet.create({
   },
   arrow_up: {
     ...styles.arrow,
-    top: 5,
   },
   arrow_down: {
     ...styles.arrow,
-    bottom: 0,
   },
 });
