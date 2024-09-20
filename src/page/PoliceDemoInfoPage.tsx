@@ -307,29 +307,35 @@ export default function PoliceDemoInfoPage() {
           onScroll={handleScroll}
           scrollEventThrottle={16}
         >
-          <GestureDetector gesture={pan}>
-            <Animated.View style={[animatedStyles]}>
-              <Image
-                source={require("../../assets/image.png")}
-                style={styles.TodayDemoInfoImg}
-              />
-            </Animated.View>
-          </GestureDetector>
-          {/* {errorMessage ? (
+          {errorMessage ? (
             <Text>{errorMessage}</Text>
           ) : IMG_URL_Array === null ? (
             // 로딩 화면 나중에 좀 제대로 만들어서 정보 없을 경우에도 스와이프 가능하게 해야 함.
             <Text>loading...</Text>
           ) : (
             <GestureDetector gesture={pan}>
-              <Animated.View style={[animatedStyles]}>
+              <Animated.View style={[animatedStyles, styles.ImgContainer]}>
                 <Image
-                  source={{ uri: IMG_URL_Array[imgIndex].toString() }}
+                  source={require("../../assets/image.png")}
                   style={styles.TodayDemoInfoImg}
                 />
+                {isArrowVisible ? (
+                  <>
+                    <MaterialIcons
+                      name={"chevron-left"}
+                      color="black"
+                      style={extra_styles.arrow_left}
+                    />
+                    <MaterialIcons
+                      name={"chevron-right"}
+                      color="black"
+                      style={extra_styles.arrow_right}
+                    />
+                  </>
+                ) : null}
               </Animated.View>
             </GestureDetector>
-          )} */}
+          )}
           {/* <GestureDetector gesture={composed}>
             <Animated.View style={[styles.box, animatedStyles]}></Animated.View>
           </GestureDetector> */}
@@ -378,6 +384,20 @@ export default function PoliceDemoInfoPage() {
               />
             </View>
           ) : null} */}
+          {IMG_URL_Array && IMG_URL_Array.length > 1 ? (
+            <>
+              <MaterialIcons
+                name={"arrow-drop-up"}
+                color="black"
+                style={extra_styles.arrow_up}
+              />
+              <MaterialIcons
+                name={"arrow-drop-down"}
+                color="black"
+                style={extra_styles.arrow_down}
+              />
+            </>
+          ) : null}
         </ScrollView>
 
         <FloatingButton
@@ -390,56 +410,6 @@ export default function PoliceDemoInfoPage() {
           onPress={setCalendarModal}
           ExtraStyle={styles.calendarButton}
         />
-        {isArrowVisible ? (
-          <View
-            style={{
-              display: "flex",
-              backgroundColor: "##ff0909",
-              flex: 1,
-              position: "absolute",
-              zIndex: 3,
-              width: "100%",
-              height: "100%",
-              justifyContent: "center",
-            }}
-          >
-            <MaterialIcons
-              name={"chevron-left"}
-              color="black"
-              style={extra_styles.arrow_left}
-            />
-            <MaterialIcons
-              name={"chevron-right"}
-              color="black"
-              style={extra_styles.arrow_right}
-            />
-          </View>
-        ) : null}
-        {IMG_URL_Array && IMG_URL_Array.length > 1 ? (
-          <View
-            style={{
-              display: "flex",
-              backgroundColor: "#ffffff0",
-              flex: 1,
-              position: "absolute",
-              zIndex: 3,
-              width: "100%",
-              height: "100%",
-              alignItems: "center",
-            }}
-          >
-            <MaterialIcons
-              name={"arrow-drop-up"}
-              color="black"
-              style={extra_styles.arrow_up}
-            />
-            <MaterialIcons
-              name={"arrow-drop-down"}
-              color="black"
-              style={extra_styles.arrow_down}
-            />
-          </View>
-        ) : null}
       </>
     </GestureHandlerRootView>
   );
@@ -454,6 +424,10 @@ const styles = StyleSheet.create({
     height: 600,
     marginRight: 8,
     objectFit: "fill",
+  },
+  ImgContainer: {
+    alignItems: "center",
+    justifyContent: "center",
   },
   zoomButton: {
     position: "absolute",
