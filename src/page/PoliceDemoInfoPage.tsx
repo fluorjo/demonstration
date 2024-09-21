@@ -259,18 +259,7 @@ export default function PoliceDemoInfoPage() {
     .onTouchesDown(() => {
       setIsArrowVisible(true);
     })
-    .onEnd((event) => {
-      console.log(event.translationY)
-      if (IMG_URL_Array !== null) {
-        if (event.translationY < -20) {
-          setImgIndex((prevIndex) =>
-            Math.min(prevIndex + 1, IMG_URL_Array.length - 1)
-          );
-        } else if (event.translationY > 20) {
-          setImgIndex((prevIndex) => Math.max(prevIndex - 1, 0));
-        }
-      }
-  
+    .onEnd(() => {
       if (translationX.value > 50) {
         translationX.value = withTiming(0);
         changeTargetDay("right");
@@ -287,6 +276,56 @@ export default function PoliceDemoInfoPage() {
     })
     .minDistance(20)
     .runOnJS(true);
+
+  function changePage(direction: string) {
+    if (IMG_URL_Array && IMG_URL_Array.length > 1)
+      direction === "down"
+        ? setImgIndex((prevIndex) =>
+            Math.min(prevIndex + 1, IMG_URL_Array.length - 1)
+          )
+        : setImgIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+  }
+  function renderArrows() {
+    if (!IMG_URL_Array || IMG_URL_Array.length <= 1) {
+      return null;
+    } else if (
+      IMG_URL_Array &&
+      IMG_URL_Array.length > 1 &&
+      IMG_URL_Array.indexOf(IMG_URL_Array[imgIndex]) === 0
+    ) {
+      return (
+        <TouchableOpacity
+          style={extra_styles.downArrowContainer}
+          onPress={() => changePage("down")}
+          activeOpacity={1}
+        >
+          <MaterialIcons
+            name={"arrow-drop-down"}
+            color="black"
+            style={styles.arrow}
+          />
+        </TouchableOpacity>
+      );
+    } else if (
+      IMG_URL_Array &&
+      IMG_URL_Array.length > 1 &&
+      IMG_URL_Array.indexOf(IMG_URL_Array[imgIndex]) !== 0
+    ) {
+      return (
+        <TouchableOpacity
+          style={extra_styles.upArrowContainer}
+          onPress={() => changePage("up")}
+          activeOpacity={1}
+        >
+          <MaterialIcons
+            name={"arrow-drop-up"}
+            color="black"
+            style={styles.arrow}
+          />
+        </TouchableOpacity>
+      );
+    }
+  }
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -371,26 +410,7 @@ export default function PoliceDemoInfoPage() {
           onPress={setCalendarModal}
           ExtraStyle={styles.calendarButton}
         />
-
-        {IMG_URL_Array && IMG_URL_Array.length === 1 ? null : IMG_URL_Array &&
-          IMG_URL_Array.length !== 1 &&
-          IMG_URL_Array.indexOf(IMG_URL_Array[imgIndex]) === 0 ? (
-          <View style={extra_styles.downArrowContainer}>
-            <MaterialIcons
-              name={"arrow-drop-down"}
-              color="black"
-              style={styles.arrow}
-            />
-          </View>
-        ) : (
-          <View style={extra_styles.upArrowContainer}>
-            <MaterialIcons
-              name={"arrow-drop-up"}
-              color="black"
-              style={styles.arrow}
-            />
-          </View>
-        )}
+        <>{renderArrows()}</>
       </>
     </GestureHandlerRootView>
   );
@@ -454,7 +474,7 @@ const styles = StyleSheet.create({
     opacity: 0.4,
   },
   ArrowContainer: {
-    backgroundColor: "#ffffff0",
+    backgroundColor: "#35353546",
     position: "absolute",
     height: 20,
     zIndex: 1,
