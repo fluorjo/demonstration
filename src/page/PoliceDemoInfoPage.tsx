@@ -255,8 +255,12 @@ export default function PoliceDemoInfoPage() {
         -maxTranslateX,
         maxTranslateX
       );
+    })
+    .onTouchesDown(() => {
+      setIsArrowVisible(true);
+    })
+    .onEnd((event) => {
       console.log(event.translationY)
-
       if (IMG_URL_Array !== null) {
         if (event.translationY < -20) {
           setImgIndex((prevIndex) =>
@@ -266,12 +270,7 @@ export default function PoliceDemoInfoPage() {
           setImgIndex((prevIndex) => Math.max(prevIndex - 1, 0));
         }
       }
-    })
-    .onTouchesDown(() => {
-      setIsArrowVisible(true);
-    })
-    .onEnd(() => {
-      
+  
       if (translationX.value > 50) {
         translationX.value = withTiming(0);
         changeTargetDay("right");
