@@ -395,18 +395,32 @@ export default function PoliceDemoInfoPage() {
           onPress={setCalendarModal}
           ExtraStyle={styles.calendarButton}
         />
-        <View style={styles.updownArrowContainer}>
+        <View style={extra_styles.upArrowContainer}>
           {/* {IMG_URL_Array && IMG_URL_Array.length > 1 ? ( */}
-              {/* <MaterialIcons
+          {/* <MaterialIcons
                 name={"arrow-drop-up"}
                 color="black"
                 style={extra_styles.arrow_up}
               /> */}
-              <MaterialIcons
-                name={"arrow-drop-down"}
+          <MaterialIcons
+            name={"arrow-drop-up"}
+            color="black"
+            style={styles.arrow}
+          />
+          {/* ) : null} */}
+        </View>
+        <View style={extra_styles.downArrowContainer}>
+          {/* {IMG_URL_Array && IMG_URL_Array.length > 1 ? ( */}
+          {/* <MaterialIcons
+                name={"arrow-drop-up"}
                 color="black"
-                style={extra_styles.arrow_down}
-              />
+                style={extra_styles.arrow_up}
+              /> */}
+          <MaterialIcons
+            name={"arrow-drop-down"}
+            color="black"
+            style={styles.arrow}
+          />
           {/* ) : null} */}
         </View>
       </>
@@ -431,13 +445,12 @@ const styles = StyleSheet.create({
   zoomButton: {
     position: "absolute",
     bottom: 20,
-    zIndex:10,
+    zIndex: 10,
   },
   calendarButton: {
     position: "absolute",
     top: 20,
-    zIndex:10,
-
+    zIndex: 10,
   },
 
   modalView: {
@@ -472,16 +485,15 @@ const styles = StyleSheet.create({
     position: "absolute",
     opacity: 0.4,
   },
-  updownArrowContainer: {
-    backgroundColor: '#ffffff0',
+  ArrowContainer: {
+    backgroundColor: "#ffffff0",
     position: "absolute",
     height: 20,
     zIndex: 1,
     width: "100%",
-    bottom: 0,
+
     alignItems: "center",
     justifyContent: "center",
-    
   },
 });
 const extra_styles = StyleSheet.create({
@@ -493,10 +505,12 @@ const extra_styles = StyleSheet.create({
     ...styles.arrow,
     right: 15,
   },
-  arrow_up: {
-    ...styles.arrow,
+  upArrowContainer: {
+    top: 0,
+    ...styles.ArrowContainer,
   },
-  arrow_down: {
-    ...styles.arrow,
+  downArrowContainer: {
+    bottom: 0,
+    ...styles.ArrowContainer,
   },
 });
