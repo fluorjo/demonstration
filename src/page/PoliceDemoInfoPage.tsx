@@ -255,6 +255,8 @@ export default function PoliceDemoInfoPage() {
         -maxTranslateX,
         maxTranslateX
       );
+      console.log(event.translationY)
+
       if (IMG_URL_Array !== null) {
         if (event.translationY < -20) {
           setImgIndex((prevIndex) =>
@@ -269,6 +271,7 @@ export default function PoliceDemoInfoPage() {
       setIsArrowVisible(true);
     })
     .onEnd(() => {
+      
       if (translationX.value > 50) {
         translationX.value = withTiming(0);
         changeTargetDay("right");
@@ -298,15 +301,15 @@ export default function PoliceDemoInfoPage() {
           onScroll={handleScroll}
           scrollEventThrottle={16}
         >
-          <GestureDetector gesture={pan}>
+          {/* <GestureDetector gesture={pan}>
             <Animated.View style={[animatedStyles]}>
               <Image
                 source={require("../../assets/image.png")}
                 style={styles.TodayDemoInfoImg}
               />
             </Animated.View>
-          </GestureDetector>
-          {/* {errorMessage ? (
+          </GestureDetector> */}
+          {errorMessage ? (
             <Text>{errorMessage}</Text>
           ) : IMG_URL_Array === null ? (
             // 로딩 화면 나중에 좀 제대로 만들어서 정보 없을 경우에도 스와이프 가능하게 해야 함.
@@ -315,7 +318,7 @@ export default function PoliceDemoInfoPage() {
             <GestureDetector gesture={pan}>
               <Animated.View style={[animatedStyles, styles.ImgContainer]}>
                 <Image
-                  source={require("../../assets/image.png")}
+                  source={{ uri: IMG_URL_Array[imgIndex].toString() }}
                   style={styles.TodayDemoInfoImg}
                 />
                 {isArrowVisible ? (
@@ -334,7 +337,7 @@ export default function PoliceDemoInfoPage() {
                 ) : null}
               </Animated.View>
             </GestureDetector>
-          )} */}
+          )}
           {/* <GestureDetector gesture={composed}>
             <Animated.View style={[styles.box, animatedStyles]}></Animated.View>
           </GestureDetector> */}
@@ -358,33 +361,7 @@ export default function PoliceDemoInfoPage() {
               </View>
             </Modal>
           </View>
-          {/* {IMG_URL_Array && IMG_URL_Array.length > 1 ? (
-            <View
-              style={{
-                display: "flex",
-                backgroundColor: "#ffffff0",
-                flex: 1,
-                position: "absolute",
-                zIndex: 3,
-                width: "100%",
-                height: "100%",
-                justifyContent: "center",
-              }}
-            >
-              <MaterialIcons
-                name={"arrow-circle-up"}
-                color="black"
-                style={extra_styles.arrow_up}
-              />
-              <MaterialIcons
-                name={"arrow-circle-down"}
-                color="black"
-                style={extra_styles.arrow_down}
-              />
-            </View>
-          ) : null} */}
         </ScrollView>
-
         <FloatingButton
           IconName={zoomScale === 1 ? "zoom-in" : "zoom-out"}
           onPress={zoom}
@@ -395,34 +372,26 @@ export default function PoliceDemoInfoPage() {
           onPress={setCalendarModal}
           ExtraStyle={styles.calendarButton}
         />
-        <View style={extra_styles.upArrowContainer}>
-          {/* {IMG_URL_Array && IMG_URL_Array.length > 1 ? ( */}
-          {/* <MaterialIcons
-                name={"arrow-drop-up"}
-                color="black"
-                style={extra_styles.arrow_up}
-              /> */}
-          <MaterialIcons
-            name={"arrow-drop-up"}
-            color="black"
-            style={styles.arrow}
-          />
-          {/* ) : null} */}
-        </View>
-        <View style={extra_styles.downArrowContainer}>
-          {/* {IMG_URL_Array && IMG_URL_Array.length > 1 ? ( */}
-          {/* <MaterialIcons
-                name={"arrow-drop-up"}
-                color="black"
-                style={extra_styles.arrow_up}
-              /> */}
-          <MaterialIcons
-            name={"arrow-drop-down"}
-            color="black"
-            style={styles.arrow}
-          />
-          {/* ) : null} */}
-        </View>
+
+        {IMG_URL_Array && IMG_URL_Array.length === 1 ? null : IMG_URL_Array &&
+          IMG_URL_Array.length !== 1 &&
+          IMG_URL_Array.indexOf(IMG_URL_Array[imgIndex]) === 0 ? (
+          <View style={extra_styles.downArrowContainer}>
+            <MaterialIcons
+              name={"arrow-drop-down"}
+              color="black"
+              style={styles.arrow}
+            />
+          </View>
+        ) : (
+          <View style={extra_styles.upArrowContainer}>
+            <MaterialIcons
+              name={"arrow-drop-up"}
+              color="black"
+              style={styles.arrow}
+            />
+          </View>
+        )}
       </>
     </GestureHandlerRootView>
   );
