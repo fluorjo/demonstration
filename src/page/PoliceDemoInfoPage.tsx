@@ -103,7 +103,7 @@ export default function PoliceDemoInfoPage() {
     let targetPage = Math.floor(diffDays / 10);
     return targetPage;
   }
-
+  // 가끔이랄지 뭔가 갱신할 때 삑사리가 잘 나는데 원인 파악하기.
   const fetchPageData = async (targetDate: string) => {
     setErrorMessage(null);
     setIMG_URL_Array(null);
@@ -285,7 +285,9 @@ export default function PoliceDemoInfoPage() {
           )
         : setImgIndex((prevIndex) => Math.max(prevIndex - 1, 0));
   }
+
   function renderArrows() {
+    // 가로로 좀 긴 타원형 해서 '다음/이전 페이지' 텍스트 넣는 식으로. 터치하면 색깔 바뀌고.
     if (!IMG_URL_Array || IMG_URL_Array.length <= 1) {
       return null;
     } else if (
@@ -299,11 +301,7 @@ export default function PoliceDemoInfoPage() {
           onPress={() => changePage("down")}
           activeOpacity={1}
         >
-          <MaterialIcons
-            name={"arrow-drop-down"}
-            color="black"
-            style={styles.arrow}
-          />
+          <Text style={styles.pageButtonText}>다음 페이지</Text>
         </TouchableOpacity>
       );
     } else if (
@@ -317,11 +315,7 @@ export default function PoliceDemoInfoPage() {
           onPress={() => changePage("up")}
           activeOpacity={1}
         >
-          <MaterialIcons
-            name={"arrow-drop-up"}
-            color="black"
-            style={styles.arrow}
-          />
+          <Text style={styles.pageButtonText}>이전 페이지</Text>
         </TouchableOpacity>
       );
     }
@@ -476,12 +470,17 @@ const styles = StyleSheet.create({
   ArrowContainer: {
     backgroundColor: "#35353546",
     position: "absolute",
-    height: 20,
+    height: 25,
     zIndex: 1,
-    width: "100%",
-
+    width: 120,
     alignItems: "center",
     justifyContent: "center",
+    left: "50%",
+    transform: [{ translateX: -50 }, { translateY: -10 }],
+    borderRadius: 15,
+  },
+  pageButtonText: {
+    color: "white",
   },
 });
 const extra_styles = StyleSheet.create({
@@ -494,7 +493,9 @@ const extra_styles = StyleSheet.create({
     right: 15,
   },
   upArrowContainer: {
-    top: 0,
+    top: 25,
+    transform: [{ translateY: 10 }],
+
     ...styles.ArrowContainer,
   },
   downArrowContainer: {
