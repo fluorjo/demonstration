@@ -31,7 +31,6 @@ export default function PoliceDemoInfoPage() {
   const scrollViewRef = useRef<ScrollView>(null);
   const [zoomScale, setZoomScale] = useState<number>(1);
   const isButtonZoom = useRef<boolean>(false);
-  const [test, setTest] = useState<string | null>(null);
   const [NewestDay, setNewestDay] = useState<string | undefined>();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isArrowVisible, setIsArrowVisible] = useState<boolean>(false);
@@ -260,15 +259,17 @@ export default function PoliceDemoInfoPage() {
       setIsArrowVisible(true);
     })
     .onEnd(() => {
-      if (translationX.value > 50) {
-        translationX.value = withTiming(0);
-        changeTargetDay("right");
-      } else if (translationX.value < -50) {
-        translationX.value = withTiming(-width);
-        translationX.value = withTiming(0);
-        changeTargetDay("left");
-      } else {
-        translationX.value = withTiming(0);
+      if (zoomScale === 1) {
+        if (translationX.value > 50) {
+          translationX.value = withTiming(0);
+          changeTargetDay("right");
+        } else if (translationX.value < -50) {
+          translationX.value = withTiming(-width);
+          translationX.value = withTiming(0);
+          changeTargetDay("left");
+        } else {
+          translationX.value = withTiming(0);
+        }
       }
     })
     .onFinalize(() => {
@@ -287,7 +288,6 @@ export default function PoliceDemoInfoPage() {
   }
 
   function renderArrows() {
-    // 가로로 좀 긴 타원형 해서 '다음/이전 페이지' 텍스트 넣는 식으로. 터치하면 색깔 바뀌고.
     if (!IMG_URL_Array || IMG_URL_Array.length <= 1) {
       return null;
     } else if (
