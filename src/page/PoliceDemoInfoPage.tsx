@@ -246,14 +246,16 @@ export default function PoliceDemoInfoPage() {
       prevTranslationY.value = translationY.value;
     })
     .onUpdate((event) => {
-      const maxTranslateX = width / 2 - 50;
-      const maxTranslateY = height / 2 - 50;
+      if (zoomScale === 1) {
+        const maxTranslateX = width / 2 - 50;
+        const maxTranslateY = height / 2 - 50;
 
-      translationX.value = clamp(
-        prevTranslationX.value + event.translationX,
-        -maxTranslateX,
-        maxTranslateX
-      );
+        translationX.value = clamp(
+          prevTranslationX.value + event.translationX,
+          -maxTranslateX,
+          maxTranslateX
+        );
+      }
     })
     .onTouchesDown(() => {
       setIsArrowVisible(true);
