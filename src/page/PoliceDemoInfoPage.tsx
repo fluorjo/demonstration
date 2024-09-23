@@ -307,7 +307,8 @@ export default function PoliceDemoInfoPage() {
     } else if (
       IMG_URL_Array &&
       IMG_URL_Array.length > 1 &&
-      IMG_URL_Array.indexOf(IMG_URL_Array[imgIndex]) !== 0
+      IMG_URL_Array.indexOf(IMG_URL_Array[imgIndex]) ===
+        IMG_URL_Array.length - 1
     ) {
       return (
         <TouchableOpacity
@@ -317,6 +318,25 @@ export default function PoliceDemoInfoPage() {
         >
           <Text style={styles.pageButtonText}>이전 페이지</Text>
         </TouchableOpacity>
+      );
+    } else {
+      return (
+        <>
+          <TouchableOpacity
+            style={extra_styles.upArrowContainer}
+            onPress={() => changePage("up")}
+            activeOpacity={1}
+          >
+            <Text style={styles.pageButtonText}>이전 페이지</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={extra_styles.downArrowContainer}
+            onPress={() => changePage("down")}
+            activeOpacity={1}
+          >
+            <Text style={styles.pageButtonText}>다음 페이지</Text>
+          </TouchableOpacity>
+        </>
       );
     }
   }
@@ -494,8 +514,6 @@ const extra_styles = StyleSheet.create({
   },
   upArrowContainer: {
     top: 25,
-    transform: [{ translateY: 10 }],
-
     ...styles.ArrowContainer,
   },
   downArrowContainer: {
