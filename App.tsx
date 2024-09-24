@@ -7,7 +7,7 @@ import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import DemoIcon from "./src/icons/DemoIcon";
 import RestroomIcon from "./src/icons/RestroomIcon";
 // import DemoInfoPage from "./src/page/DemoInfoPage";
-import PoliceDemoInfoPage from "./src/page/PoliceDemoInfoPage";
+import PaperInfoPage from "./src/page/PaperInfo";
 import RestRoomPage from "./src/page/RestRoomPage";
 
 const Tab = createBottomTabNavigator();
@@ -54,7 +54,8 @@ export default function App() {
     return <RestRoomPage />;
   }
   function Demo() {
-    return <PoliceDemoInfoPage />;
+    // return <PoliceDemoInfoPage />;
+    return <PaperInfoPage/>;
   }
 
   return (
