@@ -6,12 +6,16 @@ export default function PaperInfoPage() {
 
   const fetchData = async () => {
     try {
-      const searchQuery =
-        "https://m.search.daum.net/search?nil_profile=btn&w=tot&DA=SBC&q=%5B%EC%98%A4%EB%8A%98%EC%9D%98+%EC%A3%BC%EC%9A%94%EC%9D%BC%EC%A0%95%5D%EC%82%AC%ED%9A%8C";
-      const HTMLresponse = await fetch(searchQuery);
-      const htmlString = await HTMLresponse.text();
-      console.log(htmlString);
-      settesthtml(htmlString);
+      const date = "9월22일";
+      const searchQuery = `[오늘의 주요일정]사회(${date}`;
+      const encodedQuery = encodeURIComponent(searchQuery);
+      const searchUrl = `https://m.search.daum.net/search?nil_profile=btn&w=news&DA=SBC&q=${encodedQuery}`;
+      const HTMLresponse = await fetch(searchUrl);
+      const daumUrl = "http://v.daum.net/v/";
+      const htmlString = (await HTMLresponse.text())
+        .split(daumUrl)[1]
+        .split(`"`)[0];
+      settesthtml(`${daumUrl}${htmlString}`);
     } catch (error) {
       console.error("요청 중 오류 발생:", error);
     }
