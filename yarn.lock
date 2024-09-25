@@ -3732,6 +3732,7 @@ __metadata:
     axios: ^1.7.4
     date-fns: ^3.6.0
     expo: ~51.0.28
+    expo-linking: ~6.3.1
     expo-location: ~17.0.1
     expo-status-bar: ~1.12.1
     react: 18.2.0
@@ -4225,6 +4226,16 @@ __metadata:
   peerDependencies:
     expo: "*"
   checksum: 1300c6663632bc00db71a7d3b8a8dfc30ec0cbdd01777ab30b54ef5269cdfd557ae9419ae9f4007dbab1d252610fa6bfd22ebb0b5c2012ecad929bb4c3f35188
+  languageName: node
+  linkType: hard
+
+"expo-linking@npm:~6.3.1":
+  version: 6.3.1
+  resolution: "expo-linking@npm:6.3.1"
+  dependencies:
+    expo-constants: ~16.0.0
+    invariant: ^2.2.4
+  checksum: 32e2dbcffc802fc6570a5a9cd7839c873f6cfc40730f1cf3cdabeb2782c30b54455d41c98708dbba2649941d5ff8cb591b85689f9c1a3b7a3fcb20011aae0cb5
   languageName: node
   linkType: hard
 
