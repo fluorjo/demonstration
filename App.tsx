@@ -9,6 +9,7 @@ import RestroomIcon from "./src/icons/RestroomIcon";
 // import DemoInfoPage from "./src/page/DemoInfoPage";
 import PaperInfoPage from "./src/page/PaperInfo";
 import RestRoomPage from "./src/page/RestRoomPage";
+import PoliceDemoInfoPage from "./src/page/PoliceDemoInfoPage";
 
 const Tab = createBottomTabNavigator();
 
@@ -54,8 +55,7 @@ export default function App() {
     return <RestRoomPage />;
   }
   function Demo() {
-    // return <PoliceDemoInfoPage />;
-    return <PaperInfoPage/>;
+    return <PoliceDemoInfoPage />;
   }
 
   return (

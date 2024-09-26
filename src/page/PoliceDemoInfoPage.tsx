@@ -1,4 +1,5 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import * as Linking from "expo-linking";
 import React, { useEffect, useRef, useState } from "react";
 import {
   Dimensions,
@@ -24,6 +25,7 @@ import Animated, {
 } from "react-native-reanimated";
 import CalendarComponent from "../components/Calendar";
 import FloatingButton from "../components/FloatingButton";
+import getPaperInfo from "./PaperInfo";
 
 export default function PoliceDemoInfoPage() {
   const [IMG_URL_Array, setIMG_URL_Array] = useState<String[] | null>(null);
@@ -38,6 +40,7 @@ export default function PoliceDemoInfoPage() {
     getTodayDate()
   );
   const [imgIndex, setImgIndex] = useState(0);
+  const [paperLink, setpaperLink] = useState<string | null>(null);
 
   async function searchByDate(html: string, date: string) {
     const splitByDate = html.split(date);
@@ -108,6 +111,7 @@ export default function PoliceDemoInfoPage() {
     setIMG_URL_Array(null);
     setIsModalVisible(false);
     setTargetDay(targetDate);
+    setpaperLink(await getPaperInfo(targetDate));
     let date = changeDateFormat(targetDate);
     const formData = new URLSearchParams();
     let targetPage =
@@ -173,10 +177,10 @@ export default function PoliceDemoInfoPage() {
   useEffect(() => {
     const fetchData = async () => {
       const todayDate = getTodayDate();
-      // await fetchPageData(todayDate);
-      // setNewestDay(await fetchPageData(todayDate));
-      await fetchPageData("2024-09-07");
-      setNewestDay(await fetchPageData("2024-09-07"));
+      await fetchPageData(todayDate);
+      setNewestDay(await fetchPageData(todayDate));
+      // await fetchPageData("2024-09-07");
+      // setNewestDay(await fetchPageData("2024-09-07"));
     };
     fetchData();
   }, []);
@@ -342,7 +346,13 @@ export default function PoliceDemoInfoPage() {
       );
     }
   }
-
+  const openLink = async () => {
+    if (paperLink) {
+      Linking.openURL(paperLink);
+    } else {
+      null;
+    }
+  };
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <>
@@ -426,6 +436,11 @@ export default function PoliceDemoInfoPage() {
           onPress={setCalendarModal}
           ExtraStyle={styles.calendarButton}
         />
+        <FloatingButton
+          IconName={"link"}
+          onPress={openLink}
+          ExtraStyle={styles.linkButton}
+        />
         <>{renderArrows()}</>
       </>
     </GestureHandlerRootView>
@@ -450,10 +465,16 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 20,
     zIndex: 10,
+    left: 20,
   },
   calendarButton: {
     position: "absolute",
     top: 20,
+    zIndex: 10,
+  },
+  linkButton: {
+    position: "absolute",
+    bottom: 20,
     zIndex: 10,
   },
 
