@@ -1,31 +1,22 @@
-import * as Linking from "expo-linking";
-
+// 날짜에 해당되는 페이지 없거나 하면 경고 띄워서 없다고 할까. 아니면 검색 결과 페이지로 이동시키거나.
 export default async function getPaperInfo(targetDate: string) {
-
   try {
-    const date = targetDate;
-    const formattedDate = `${Number(date.split("-")[1])}월${
+    var date = targetDate;
+    var formattedDate = `${Number(date.split("-")[1])}월${
       date.split("-")[2]
     }일`;
-    const searchQuery = `[오늘의 주요일정]사회(${formattedDate}`;
-    const encodedQuery = encodeURIComponent(searchQuery);
-    const searchUrl = `https://m.search.daum.net/search?nil_profile=btn&w=news&DA=SBC&q=${encodedQuery}`;
-    const HTMLresponse = await fetch(searchUrl);
+    var searchQuery = `[오늘의 주요일정]사회(${formattedDate}`;
+    var encodedQuery = encodeURIComponent(searchQuery);
+    var searchUrl = `https://m.search.daum.net/search?nil_profile=btn&w=news&DA=SBC&q=${encodedQuery}`;
+    var HTMLresponse = await fetch(searchUrl);
     const daumUrl = "http://v.daum.net/v/";
-    const htmlString = (await HTMLresponse.text())
+    var htmlString = (await HTMLresponse.text())
       .split(daumUrl)[1]
       .split(`"`)[0];
-    const paperUrl = `${daumUrl}${htmlString}`;
+    var paperUrl = `${daumUrl}${htmlString}`;
     return paperUrl;
   } catch (error) {
-    const date = targetDate;
-    const formattedDate = `${Number(date.split("-")[1])}월${
-      date.split("-")[2]
-    }일`;
-    const searchQuery = `[오늘의 주요일정]사회(${formattedDate}`;
-    const encodedQuery = encodeURIComponent(searchQuery);
-    const searchUrl = `https://m.search.daum.net/search?nil_profile=btn&w=news&DA=SBC&q=${encodedQuery}`;
     console.error("요청 중 오류 발생:", error);
-    return searchUrl;
+    return null;
   }
 }

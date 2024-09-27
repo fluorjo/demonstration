@@ -177,10 +177,10 @@ export default function PoliceDemoInfoPage() {
   useEffect(() => {
     const fetchData = async () => {
       const todayDate = getTodayDate();
-      // await fetchPageData(todayDate);
-      // setNewestDay(await fetchPageData(todayDate));
-      await fetchPageData("2024-09-26");
-      setNewestDay(await fetchPageData("2024-09-26"));
+      await fetchPageData(todayDate);
+      setNewestDay(await fetchPageData(todayDate));
+      // await fetchPageData("2024-09-26");
+      // setNewestDay(await fetchPageData("2024-09-26"));
     };
     fetchData();
   }, []);
