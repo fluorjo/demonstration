@@ -6,8 +6,6 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import DemoIcon from "./src/icons/DemoIcon";
 import RestroomIcon from "./src/icons/RestroomIcon";
-// import DemoInfoPage from "./src/page/DemoInfoPage";
-import PaperInfoPage from "./src/page/PaperInfo";
 import RestRoomPage from "./src/page/RestRoomPage";
 import PoliceDemoInfoPage from "./src/page/PoliceDemoInfoPage";
 
