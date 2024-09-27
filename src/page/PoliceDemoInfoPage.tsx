@@ -177,10 +177,10 @@ export default function PoliceDemoInfoPage() {
   useEffect(() => {
     const fetchData = async () => {
       const todayDate = getTodayDate();
-      await fetchPageData(todayDate);
-      setNewestDay(await fetchPageData(todayDate));
-      // await fetchPageData("2024-09-07");
-      // setNewestDay(await fetchPageData("2024-09-07"));
+      // await fetchPageData(todayDate);
+      // setNewestDay(await fetchPageData(todayDate));
+      await fetchPageData("2024-09-26");
+      setNewestDay(await fetchPageData("2024-09-26"));
     };
     fetchData();
   }, []);
@@ -353,6 +353,7 @@ export default function PoliceDemoInfoPage() {
       null;
     }
   };
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <>
