@@ -175,10 +175,11 @@ export default function PoliceDemoInfoPage() {
   }
 
   useEffect(() => {
+    console.log('police page')
     const fetchData = async () => {
       const todayDate = getTodayDate();
-      await fetchPageData(todayDate);
-      setNewestDay(await fetchPageData(todayDate));
+      const fetchedNewestDay = await fetchPageData(todayDate);
+      setNewestDay(fetchedNewestDay); 
       // await fetchPageData("2024-09-26");
       // setNewestDay(await fetchPageData("2024-09-26"));
     };

@@ -30,6 +30,7 @@ export default function App() {
     );
     if (location[0].city) {
       setCity(location[0].city);
+      console.log('city',typeof(latitude))
       setLatitude(latitude);
       setLongitude(longitude);
     } else {
@@ -38,8 +39,14 @@ export default function App() {
   };
 
   useEffect(() => {
-    ask();
+    if (!currentLatitude && !currentLongitude) {
+      console.log('ask');
+      console.log(currentLatitude);
+      console.log(currentLongitude);
+      ask();
+    }
   }, []);
+  
   function HomeScreen() {
     return (
       <View>

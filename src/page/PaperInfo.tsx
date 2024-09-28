@@ -1,4 +1,5 @@
 // 날짜에 해당되는 페이지 없거나 하면 경고 띄워서 없다고 할까. 아니면 검색 결과 페이지로 이동시키거나.
+
 export default async function getPaperInfo(targetDate: string) {
   try {
     var date = targetDate;
