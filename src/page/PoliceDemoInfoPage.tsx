@@ -25,9 +25,8 @@ import Animated, {
 } from "react-native-reanimated";
 import CalendarComponent from "../components/Calendar";
 import FloatingButton from "../components/FloatingButton";
-import getPaperInfo from "./PaperInfo";
 import LoadingComponent from "../components/Loading";
-
+import getPaperInfo from "./PaperInfo";
 export default function PoliceDemoInfoPage() {
   const [IMG_URL_Array, setIMG_URL_Array] = useState<String[] | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -179,7 +178,7 @@ export default function PoliceDemoInfoPage() {
     const fetchData = async () => {
       const todayDate = getTodayDate();
       const fetchedNewestDay = await fetchPageData(todayDate);
-      setNewestDay(fetchedNewestDay); 
+      setNewestDay(fetchedNewestDay);
       // await fetchPageData("2024-09-26");
       // setNewestDay(await fetchPageData("2024-09-26"));
     };
@@ -375,11 +374,15 @@ export default function PoliceDemoInfoPage() {
               />
             </Animated.View>
           </GestureDetector> */}
-          {errorMessage ? (
-            <Text>{errorMessage}</Text>
+         
+        {errorMessage ? (
+            <View style={styles.loadingOrErrorContainer}>
+              <Text style={styles.errorMessage}>{errorMessage}</Text>
+            </View>
           ) : IMG_URL_Array === null ? (
-            // 로딩 화면 나중에 좀 제대로 만들어서 정보 없을 경우에도 스와이프 가능하게 해야 함.
-            <LoadingComponent/>
+            <View style={styles.loadingOrErrorContainer}>
+              <LoadingComponent />
+            </View>
           ) : (
             <GestureDetector gesture={pan}>
               <Animated.View style={[animatedStyles, styles.ImgContainer]}>
@@ -403,7 +406,7 @@ export default function PoliceDemoInfoPage() {
                 ) : null}
               </Animated.View>
             </GestureDetector>
-          )}
+          )} 
           {/* <GestureDetector gesture={composed}>
             <Animated.View style={[styles.box, animatedStyles]}></Animated.View>
           </GestureDetector> */}
@@ -526,6 +529,16 @@ const styles = StyleSheet.create({
   },
   pageButtonText: {
     color: "white",
+  },
+  loadingOrErrorContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    height: 500,
+    backgroundColor:'red'
+  },
+  errorMessage: {
+    fontSize: 24,
   },
 });
 const extra_styles = StyleSheet.create({

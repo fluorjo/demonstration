@@ -57,8 +57,8 @@ export default function App() {
     return <RestRoomPage />;
   }
   function Demo() {
-    // return <PoliceDemoInfoPage />;
-    return <LoadingComponent />;
+    return <PoliceDemoInfoPage />;
+    // return <LoadingComponent />;
   }
 
   return (
