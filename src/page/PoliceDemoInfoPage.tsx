@@ -374,17 +374,17 @@ export default function PoliceDemoInfoPage() {
               />
             </Animated.View>
           </GestureDetector> */}
-         
-        {errorMessage ? (
-            <View style={styles.loadingOrErrorContainer}>
-              <Text style={styles.errorMessage}>{errorMessage}</Text>
-            </View>
-          ) : IMG_URL_Array === null ? (
-            <View style={styles.loadingOrErrorContainer}>
-              <LoadingComponent />
-            </View>
-          ) : (
-            <GestureDetector gesture={pan}>
+
+          <GestureDetector gesture={pan}>
+            {errorMessage ? (
+              <View style={styles.loadingOrErrorContainer}>
+                <Text style={styles.errorMessage}>{errorMessage}</Text>
+              </View>
+            ) : IMG_URL_Array === null ? (
+              <View style={styles.loadingOrErrorContainer}>
+                <LoadingComponent />
+              </View>
+            ) : (
               <Animated.View style={[animatedStyles, styles.ImgContainer]}>
                 <Image
                   source={{ uri: IMG_URL_Array[imgIndex].toString() }}
@@ -405,8 +405,8 @@ export default function PoliceDemoInfoPage() {
                   </>
                 ) : null}
               </Animated.View>
-            </GestureDetector>
-          )} 
+            )}
+          </GestureDetector>
           {/* <GestureDetector gesture={composed}>
             <Animated.View style={[styles.box, animatedStyles]}></Animated.View>
           </GestureDetector> */}
@@ -535,7 +535,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     height: 500,
-    backgroundColor:'red'
   },
   errorMessage: {
     fontSize: 24,
