@@ -18,7 +18,6 @@ export default function RestRoomPage() {
     const getRestRoomData = async () => {
       try {
         setRestRoomData(RestRoomDataJson);
-        // console.log("dd", RestRoomData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }

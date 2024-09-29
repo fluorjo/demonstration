@@ -55,7 +55,6 @@ export default function CalendarComponent({ onPress, interSelectedDate }) {
       <Calendar
         onDayPress={(day) => {
           setSelectedDate(day.dateString);
-          console.log(day.dateString);
           onPress(day.dateString);
         }}
         markedDates={{

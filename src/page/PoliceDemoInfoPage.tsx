@@ -26,6 +26,7 @@ import Animated, {
 import CalendarComponent from "../components/Calendar";
 import FloatingButton from "../components/FloatingButton";
 import getPaperInfo from "./PaperInfo";
+import LoadingComponent from "../components/Loading";
 
 export default function PoliceDemoInfoPage() {
   const [IMG_URL_Array, setIMG_URL_Array] = useState<String[] | null>(null);
@@ -175,7 +176,6 @@ export default function PoliceDemoInfoPage() {
   }
 
   useEffect(() => {
-    console.log('police page')
     const fetchData = async () => {
       const todayDate = getTodayDate();
       const fetchedNewestDay = await fetchPageData(todayDate);
@@ -379,7 +379,7 @@ export default function PoliceDemoInfoPage() {
             <Text>{errorMessage}</Text>
           ) : IMG_URL_Array === null ? (
             // 로딩 화면 나중에 좀 제대로 만들어서 정보 없을 경우에도 스와이프 가능하게 해야 함.
-            <Text>loading...</Text>
+            <LoadingComponent/>
           ) : (
             <GestureDetector gesture={pan}>
               <Animated.View style={[animatedStyles, styles.ImgContainer]}>

@@ -8,6 +8,7 @@ import DemoIcon from "./src/icons/DemoIcon";
 import RestroomIcon from "./src/icons/RestroomIcon";
 import RestRoomPage from "./src/page/RestRoomPage";
 import PoliceDemoInfoPage from "./src/page/PoliceDemoInfoPage";
+import LoadingComponent from "./src/components/Loading";
 
 const Tab = createBottomTabNavigator();
 
@@ -30,7 +31,6 @@ export default function App() {
     );
     if (location[0].city) {
       setCity(location[0].city);
-      console.log('city',typeof(latitude))
       setLatitude(latitude);
       setLongitude(longitude);
     } else {
@@ -40,13 +40,10 @@ export default function App() {
 
   useEffect(() => {
     if (!currentLatitude && !currentLongitude) {
-      console.log('ask');
-      console.log(currentLatitude);
-      console.log(currentLongitude);
       ask();
     }
   }, []);
-  
+
   function HomeScreen() {
     return (
       <View>
@@ -60,7 +57,8 @@ export default function App() {
     return <RestRoomPage />;
   }
   function Demo() {
-    return <PoliceDemoInfoPage />;
+    // return <PoliceDemoInfoPage />;
+    return <LoadingComponent />;
   }
 
   return (
