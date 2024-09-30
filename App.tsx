@@ -9,6 +9,7 @@ import RestroomIcon from "./src/icons/RestroomIcon";
 import RestRoomPage from "./src/page/RestRoomPage";
 import PoliceDemoInfoPage from "./src/page/PoliceDemoInfoPage";
 import LoadingComponent from "./src/components/Loading";
+import CandlePage from "./src/page/CandlePage";
 
 const Tab = createBottomTabNavigator();
 
@@ -60,11 +61,14 @@ export default function App() {
     return <PoliceDemoInfoPage />;
     // return <LoadingComponent />;
   }
+  function Candle() {
+    return <CandlePage />;
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <NavigationContainer>
-        <Tab.Navigator initialRouteName="Demo">
+        <Tab.Navigator initialRouteName="Candle">
           <Tab.Screen
             name="Home"
             component={HomeScreen}
@@ -85,6 +89,14 @@ export default function App() {
             component={Demo}
             options={{
               title: "집회 정보",
+              tabBarIcon: ({ color, size }) => <DemoIcon />,
+            }}
+          />
+          <Tab.Screen
+            name="Candle"
+            component={Candle}
+            options={{
+              title: "촛불",
               tabBarIcon: ({ color, size }) => <DemoIcon />,
             }}
           />
