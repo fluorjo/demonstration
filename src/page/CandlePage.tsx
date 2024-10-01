@@ -30,17 +30,17 @@ const styles = StyleSheet.create({
     position: "relative",
     width: 100,
     height: 300,
-    zIndex: 1,
+    zIndex: 3,
   },
   afterGBody: {
     position: "absolute",
     width: 4,
     height: 48,
-    left: "50%",
-    top: -22,
+    left: "63%",
+    top: "46%",
     transform: [{ translateX: -2 }, { translateY: -24 }], // translate(-50%, -50%)
     borderRadius: 50,
     opacity: 0.7,
-    zIndex: 3,
+    zIndex: 5,
   },
 });

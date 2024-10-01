@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     borderRadius:25,
     left: "61%",
     top: "48.5%",
-    zIndex:2,
+    zIndex:5,
     transform: [{ scaleX: 6 }],
     overflow: "hidden",
   },
