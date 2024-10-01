@@ -29,7 +29,7 @@ export function RadialGradient() {
             cy="0"
             r="1"
             gradientUnits="userSpaceOnUse"
-            gradientTransform="translate(25 25) rotate(360) scale(50 50)"
+            gradientTransform="translate(8.5 8.5) rotate(360) scale(17 17)"
           >
             <Stop stopColor={"#eebb64"} offset={0.2} />
             <Stop stopColor={"#d1a16d"} offset={0.3} />
@@ -43,32 +43,13 @@ export function RadialGradient() {
 const styles = StyleSheet.create({
   beforeGBody: {
     position: "absolute",
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    left: "56.6%",
-    top: "46%",
-    zIndex: 2,
-    transform: [{ scaleX: 2 }],
+    width: 17,
+    height: 17,
+    borderRadius:25,
+    left: "61%",
+    top: "48.5%",
+    zIndex:2,
+    transform: [{ scaleX: 6 }],
     overflow: "hidden",
-  },
-  gBody: {
-    left: "50%",
-    top: "50%",
-    position: "relative",
-    width: 100,
-    height: 300,
-    zIndex: 1,
-  },
-  afterGBody: {
-    position: "absolute",
-    width: 4,
-    height: 48,
-    left: "50%",
-    top: -22,
-    transform: [{ translateX: -2 }, { translateY: -24 }], // translate(-50%, -50%)
-    borderRadius: 50,
-    opacity: 0.7,
-    zIndex: 3,
   },
 });
