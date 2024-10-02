@@ -10,6 +10,7 @@ import RestRoomPage from "./src/page/RestRoomPage";
 import PoliceDemoInfoPage from "./src/page/PoliceDemoInfoPage";
 import LoadingComponent from "./src/components/Loading";
 import CandlePage from "./src/page/CandlePage";
+import Flame from "./src/page/Flame";
 
 const Tab = createBottomTabNavigator();
 
@@ -62,7 +63,8 @@ export default function App() {
     // return <LoadingComponent />;
   }
   function Candle() {
-    return <CandlePage />;
+    // return <CandlePage />;
+    return <Flame />;
   }
 
   return (
