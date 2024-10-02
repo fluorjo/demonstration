@@ -1,7 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect, useRef } from "react";
 import { Animated, StyleSheet } from "react-native";
-import { Shadow } from "react-native-shadow-2";
 export default function Flame() {
   const flameScale = useRef(new Animated.Value(1)).current;
   const flameOpacity = useRef(new Animated.Value(1)).current;
@@ -67,42 +66,62 @@ export default function Flame() {
   }, [flameScale, flameOpacity, flameMove]);
 
   return (
-    <Animated.View
-      style={[
-        styles.flameContainer,
-        {
-          transform: [
-            // { scale: scale },
-            
-            { scaleY: scaleY },
-            {
-                translateY: scaleY.interpolate({
-                  inputRange: [1, 1.1],
-                  outputRange: [0, -10],
-                }),
-              },
-          ],
-          transformOrigin: "0%",
-          opacity: flameOpacity,
-        },
-        ,
-      ]}
-    >
-      {/* <View style={styles.thread}></View> */}
-      {/* <View style={styles.glow}></View> */}
-      <Shadow
-        offset={[0, -4]}
-        startColor="#f75f00a4"
-        endColor="#f780004b"
-        style={extra_styles.flameShadow}
-        distance={3}
+    <>
+      <Animated.View
+        style={[
+          styles.flameContainer,
+          // {
+          //   transform: [
+          //     // { scale: scale },
+          //     { scaleY: scaleY },
+          //     {
+          //         translateY: scaleY.interpolate({
+          //           inputRange: [1, 1.1],
+          //           outputRange: [0, -10],
+          //         }),
+          //       },
+          //   ],
+          //   transformOrigin: "0%",
+          //   opacity: flameOpacity,
+          // },
+        ]}
       >
+        {/* <View style={styles.thread}></View> */}
+        {/* <View style={styles.glow}></View> */}
+
         <LinearGradient
           style={styles.flame}
-          colors={["#ffffff", "#ffffff3d"]}
+          colors={["#f81919", "#fd17173c"]}
         />
-      </Shadow>
-    </Animated.View>
+      </Animated.View>
+      <Animated.View
+        style={[
+          extra_styles.flameContainer2,
+          // {
+          //   transform: [
+          //     // { scale: scale },
+          //     { scaleY: scaleY },
+          //     {
+          //         translateY: scaleY.interpolate({
+          //           inputRange: [1, 1.1],
+          //           outputRange: [0, -10],
+          //         }),
+          //       },
+          //   ],
+          //   transformOrigin: "0%",
+          //   opacity: flameOpacity,
+          // },
+        ]}
+      >
+        {/* <View style={styles.thread}></View> */}
+        {/* <View style={styles.glow}></View> */}
+
+        <LinearGradient
+          style={extra_styles.flame2}
+          colors={["#f81919", "#fd17173c"]}
+        />
+      </Animated.View>
+    </>
   );
 }
 
@@ -114,20 +133,34 @@ const styles = StyleSheet.create({
   },
   flame: {
     position: "absolute",
-    width: 24,
-    height: 120,
+    width: 36,
+    height: 90,
     zIndex: 3,
-    borderTopEndRadius: 50,
-    borderTopStartRadius: 50,
-    borderBottomRightRadius: 20,
-    borderBottomLeftRadius: 20,
+    borderTopLeftRadius: 600, 
+    borderTopRightRadius: 0,
+    borderBottomRightRadius:0,
+    borderBottomLeftRadius:120, 
+    backgroundColor: "#fff",
+    transform: [{ scaleX: 0.25 }], 
+    borderStyle: "solid",
+
   },
+
   thread: {},
   glow: {},
 });
 
 const extra_styles = StyleSheet.create({
-  flameShadow: {
-    // ...styles.flame,
+  flame2: {
+    ...styles.flame,
+    borderTopLeftRadius: 0, 
+    borderTopRightRadius: 600,
+    borderBottomRightRadius:120,
+    borderBottomLeftRadius:0,
+
+  },
+  flameContainer2: {
+    ...styles.flameContainer,
+    left: 49,
   },
 });
