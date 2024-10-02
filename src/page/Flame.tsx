@@ -1,14 +1,72 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
-import { StyleSheet,View } from "react-native";
+import React, { useEffect, useRef } from "react";
+import { Animated, StyleSheet } from "react-native";
 import { Shadow } from "react-native-shadow-2";
 export default function Flame() {
+  const flameScale = useRef(new Animated.Value(1)).current;
+  const flameOpacity = useRef(new Animated.Value(1)).current;
+  const flameMove = useRef(new Animated.Value(0)).current;
+
+  const getRandom = (min: number, max: number) =>
+    Math.random() * (max - min) + min;
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.parallel([
+        Animated.sequence([
+          Animated.timing(flameScale, {
+            toValue: 1.1,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+          Animated.timing(flameScale, {
+            toValue: 1,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+        ]),
+        Animated.sequence([
+          Animated.timing(flameOpacity, {
+            toValue: 0.9,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+          Animated.timing(flameOpacity, {
+            toValue: 1,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+        ]),
+        Animated.sequence([
+          Animated.timing(flameMove, {
+            toValue: -10, // 위로 10px 이동
+            duration: 600,
+            useNativeDriver: true,
+          }),
+          Animated.timing(flameMove, {
+            toValue: 10, // 아래로 10px 이동
+            duration: 600,
+            useNativeDriver: true,
+          }),
+        ]),
+      ])
+    ).start();
+  }, [flameScale, flameOpacity, flameMove]);
+
   return (
-    <View style={styles.flameContainer}>
+    <Animated.View
+      style={[
+        styles.flameContainer,
+        // {
+        //   transform: [{ scale: flameScale },{translateY:flameMove}],
+        //   opacity: flameOpacity,
+        // },
+      ]}
+    >
       {/* <View style={styles.thread}></View> */}
       {/* <View style={styles.glow}></View> */}
       <Shadow
-        offset={[0, -7]}
+        offset={[0, -4]}
         startColor="#f75f00a4"
         endColor="#f780004b"
         style={extra_styles.flameShadow}
@@ -19,7 +77,7 @@ export default function Flame() {
           colors={["#ffffff", "#ffffff3d"]}
         />
       </Shadow>
-    </View>
+    </Animated.View>
   );
 }
 
@@ -45,7 +103,7 @@ const styles = StyleSheet.create({
 });
 
 const extra_styles = StyleSheet.create({
-    flameShadow: {
+  flameShadow: {
     // ...styles.flame,
   },
 });
