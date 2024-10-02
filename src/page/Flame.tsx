@@ -6,6 +6,7 @@ export default function Flame() {
   const flameScale = useRef(new Animated.Value(1)).current;
   const flameOpacity = useRef(new Animated.Value(1)).current;
   const flameMove = useRef(new Animated.Value(0)).current;
+  const scaleY = useRef(new Animated.Value(1)).current;
 
   const getRandom = (min: number, max: number) =>
     Math.random() * (max - min) + min;
@@ -14,38 +15,50 @@ export default function Flame() {
     Animated.loop(
       Animated.parallel([
         Animated.sequence([
-          Animated.timing(flameScale, {
+          Animated.timing(scaleY, {
             toValue: 1.1,
             duration: 1000,
             useNativeDriver: true,
           }),
-          Animated.timing(flameScale, {
+          Animated.timing(scaleY, {
             toValue: 1,
             duration: 1000,
+            useNativeDriver: true,
+          }),
+        ]),
+        Animated.sequence([
+          Animated.timing(flameScale, {
+            toValue: 1.1,
+            duration: 500,
+            useNativeDriver: true,
+          }),
+          Animated.timing(flameScale, {
+            toValue: 1,
+            duration: 500,
             useNativeDriver: true,
           }),
         ]),
         Animated.sequence([
           Animated.timing(flameOpacity, {
             toValue: 0.9,
-            duration: 1000,
+            duration: 500,
             useNativeDriver: true,
           }),
           Animated.timing(flameOpacity, {
             toValue: 1,
-            duration: 1000,
+            duration: 500,
             useNativeDriver: true,
           }),
         ]),
         Animated.sequence([
           Animated.timing(flameMove, {
-            toValue: -10, // 위로 10px 이동
-            duration: 600,
+            toValue: 1.5,
+            duration: 500,
             useNativeDriver: true,
           }),
           Animated.timing(flameMove, {
-            toValue: 10, // 아래로 10px 이동
-            duration: 600,
+            toValue: 1,
+            duration: 500,
             useNativeDriver: true,
           }),
         ]),
@@ -57,10 +70,22 @@ export default function Flame() {
     <Animated.View
       style={[
         styles.flameContainer,
-        // {
-        //   transform: [{ scale: flameScale },{translateY:flameMove}],
-        //   opacity: flameOpacity,
-        // },
+        {
+          transform: [
+            // { scale: scale },
+            
+            { scaleY: scaleY },
+            {
+                translateY: scaleY.interpolate({
+                  inputRange: [1, 1.1],
+                  outputRange: [0, -10],
+                }),
+              },
+          ],
+          transformOrigin: "0%",
+          opacity: flameOpacity,
+        },
+        ,
       ]}
     >
       {/* <View style={styles.thread}></View> */}
@@ -89,7 +114,6 @@ const styles = StyleSheet.create({
   },
   flame: {
     position: "absolute",
-
     width: 24,
     height: 120,
     zIndex: 3,
