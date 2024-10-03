@@ -6,11 +6,12 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import DemoIcon from "./src/icons/DemoIcon";
 import RestroomIcon from "./src/icons/RestroomIcon";
-import RestRoomPage from "./src/page/RestRoomPage";
 import PoliceDemoInfoPage from "./src/page/PoliceDemoInfoPage";
+import RestRoomPage from "./src/page/RestRoomPage";
 import LoadingComponent from "./src/components/Loading";
 import CandlePage from "./src/page/CandlePage";
 import Flame from "./src/page/Flame";
+import SVG from "./src/page/Svg";
 
 const Tab = createBottomTabNavigator();
 
@@ -64,7 +65,8 @@ export default function App() {
   }
   function Candle() {
     // return <CandlePage />;
-    return <Flame />;
+    // return <Flame />;
+    return <SVG />;
   }
 
   return (

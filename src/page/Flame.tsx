@@ -7,6 +7,7 @@ export default function Flame() {
   const flameMove = useRef(new Animated.Value(0)).current;
   const scaleY = useRef(new Animated.Value(1)).current;
   const spinValue = useRef(new Animated.Value(0)).current;
+  const skewXValue = useRef(new Animated.Value(0)).current;
 
   const getRandom = (min: number, max: number) =>
     Math.random() * (max - min) + min;
@@ -52,12 +53,12 @@ export default function Flame() {
         ]),
         Animated.sequence([
           Animated.timing(flameMove, {
-            toValue: 1.5,
-            duration: 500,
+            toValue: -1,
+            duration: 1500,
             useNativeDriver: true,
           }),
           Animated.timing(flameMove, {
-            toValue: 1,
+            toValue: 3,
             duration: 500,
             useNativeDriver: true,
           }),
@@ -71,7 +72,35 @@ export default function Flame() {
               useNativeDriver: true,
             }),
             Animated.timing(spinValue, {
-              toValue: -0,
+              toValue: -1,
+              duration: 1500,
+              easing: Easing.inOut(Easing.ease),
+              useNativeDriver: true,
+            }),
+            Animated.timing(spinValue, {
+              toValue: 0,
+              duration: 1500,
+              easing: Easing.inOut(Easing.ease),
+              useNativeDriver: true,
+            }),
+          ])
+        ),
+        Animated.loop(
+          Animated.sequence([
+            Animated.timing(skewXValue, {
+              toValue: 1,
+              duration: 1500,
+              easing: Easing.inOut(Easing.ease),
+              useNativeDriver: true,
+            }),
+            Animated.timing(skewXValue, {
+              toValue: -1,
+              duration: 1500,
+              easing: Easing.inOut(Easing.ease),
+              useNativeDriver: true,
+            }),
+            Animated.timing(skewXValue, {
+              toValue: 0,
               duration: 1500,
               easing: Easing.inOut(Easing.ease),
               useNativeDriver: true,
@@ -82,8 +111,12 @@ export default function Flame() {
     ).start();
   }, [flameScale, flameOpacity, flameMove, spinValue]);
   const spin = spinValue.interpolate({
-    inputRange: [-2, 2],
+    inputRange: [-1, 1],
     outputRange: ["-1deg", "1deg"],
+  });
+  const skewX = skewXValue.interpolate({
+    inputRange: [-1, 1],
+    outputRange: ["-5deg", "5deg"],
   });
   return (
     <Animated.View
@@ -98,12 +131,16 @@ export default function Flame() {
             //       outputRange: [0, -10],
             //     }),
             //   },
-            { translateY: 250 },
-            {
-              rotate: spin,
-            },
-            { translateY: -250 },
+            // { translateY:250 },
+            // {
+            //   rotate: spin,
+            // },
+            // { translateY: -250 },
+
+            // { skewX: skewX },
+            // { translateX: flameMove },
           ],
+          transformOrigin: "top",
           // opacity: flameOpacity,
         },
       ]}
