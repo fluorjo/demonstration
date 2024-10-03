@@ -1,11 +1,12 @@
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect, useRef } from "react";
-import { Animated, StyleSheet } from "react-native";
+import { Animated, Easing, StyleSheet } from "react-native";
 export default function Flame() {
   const flameScale = useRef(new Animated.Value(1)).current;
   const flameOpacity = useRef(new Animated.Value(1)).current;
   const flameMove = useRef(new Animated.Value(0)).current;
   const scaleY = useRef(new Animated.Value(1)).current;
+  const spinValue = useRef(new Animated.Value(0)).current;
 
   const getRandom = (min: number, max: number) =>
     Math.random() * (max - min) + min;
@@ -39,7 +40,7 @@ export default function Flame() {
         ]),
         Animated.sequence([
           Animated.timing(flameOpacity, {
-            toValue: 0.9,
+            toValue: 0.7,
             duration: 500,
             useNativeDriver: true,
           }),
@@ -61,29 +62,68 @@ export default function Flame() {
             useNativeDriver: true,
           }),
         ]),
+        Animated.loop(
+          Animated.sequence([
+            Animated.timing(spinValue, {
+              toValue: 1,
+              duration: 1500,
+              easing: Easing.inOut(Easing.ease),
+              useNativeDriver: true,
+            }),
+            Animated.timing(spinValue, {
+              toValue: -0,
+              duration: 1500,
+              easing: Easing.inOut(Easing.ease),
+              useNativeDriver: true,
+            }),
+          ])
+        ),
       ])
     ).start();
-  }, [flameScale, flameOpacity, flameMove]);
-
+  }, [flameScale, flameOpacity, flameMove, spinValue]);
+  const spin = spinValue.interpolate({
+    inputRange: [-2, 2],
+    outputRange: ["-1deg", "1deg"],
+  });
   return (
-    <>
+    <Animated.View
+      style={[
+        {
+          transform: [
+            //   // { scale: scale },
+            //   { scaleY: scaleY },
+            //   {
+            //     translateY: scaleY.interpolate({
+            //       inputRange: [1, 1.1],
+            //       outputRange: [0, -10],
+            //     }),
+            //   },
+            { translateY: 250 },
+            {
+              rotate: spin,
+            },
+            { translateY: -250 },
+          ],
+          // opacity: flameOpacity,
+        },
+      ]}
+    >
       <Animated.View
         style={[
           styles.flameContainer,
-          // {
-          //   transform: [
-          //     // { scale: scale },
-          //     { scaleY: scaleY },
-          //     {
+          //   {
+          //     transform: [
+          //       // { scale: scale },
+          //       { scaleY: scaleY },
+          //       {
           //         translateY: scaleY.interpolate({
           //           inputRange: [1, 1.1],
           //           outputRange: [0, -10],
           //         }),
           //       },
-          //   ],
-          //   transformOrigin: "0%",
-          //   opacity: flameOpacity,
-          // },
+          //     ],
+          //     opacity: flameOpacity,
+          //   },
         ]}
       >
         {/* <View style={styles.thread}></View> */}
@@ -97,20 +137,19 @@ export default function Flame() {
       <Animated.View
         style={[
           extra_styles.flameContainer2,
-          // {
-          //   transform: [
-          //     // { scale: scale },
-          //     { scaleY: scaleY },
-          //     {
+          //   {
+          //     transform: [
+          //       // { scale: scale },
+          //       { scaleY: scaleY },
+          //       {
           //         translateY: scaleY.interpolate({
           //           inputRange: [1, 1.1],
           //           outputRange: [0, -10],
           //         }),
           //       },
-          //   ],
-          //   transformOrigin: "0%",
-          //   opacity: flameOpacity,
-          // },
+          //     ],
+          //     opacity: flameOpacity,
+          //   },
         ]}
       >
         {/* <View style={styles.thread}></View> */}
@@ -121,7 +160,7 @@ export default function Flame() {
           colors={["#f81919", "#fd17173c"]}
         />
       </Animated.View>
-    </>
+    </Animated.View>
   );
 }
 
@@ -136,14 +175,13 @@ const styles = StyleSheet.create({
     width: 36,
     height: 90,
     zIndex: 3,
-    borderTopLeftRadius: 600, 
+    borderTopLeftRadius: 600,
     borderTopRightRadius: 0,
-    borderBottomRightRadius:0,
-    borderBottomLeftRadius:120, 
+    borderBottomRightRadius: 0,
+    borderBottomLeftRadius: 120,
     backgroundColor: "#fff",
-    transform: [{ scaleX: 0.25 }], 
+    transform: [{ scaleX: 0.25 }],
     borderStyle: "solid",
-
   },
 
   thread: {},
@@ -153,11 +191,10 @@ const styles = StyleSheet.create({
 const extra_styles = StyleSheet.create({
   flame2: {
     ...styles.flame,
-    borderTopLeftRadius: 0, 
+    borderTopLeftRadius: 0,
     borderTopRightRadius: 600,
-    borderBottomRightRadius:120,
-    borderBottomLeftRadius:0,
-
+    borderBottomRightRadius: 120,
+    borderBottomLeftRadius: 0,
   },
   flameContainer2: {
     ...styles.flameContainer,
