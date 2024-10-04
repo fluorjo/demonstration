@@ -5,11 +5,17 @@ import Svg, { Path } from "react-native-svg";
 const SIZE = 300;
 
 export default function SVG() {
+  // 0.5
   const [startPointX, setStartPointX] = useState(0.5);
+  // 0.0
   const [startPointY, setStartPointY] = useState(0.0);
-  const [controlPointX1, setControlPointX1] = useState(0.5);
+  // 0.5
+  const [controlPointX1, setControlPointX1] = useState(0.6);
+  // 0.0
   const [controlPointY1, setControlPointY1] = useState(0.0);
-  const [controlPointX2, setControlPointX2] = useState(0.9);
+  // 0.9
+  const [controlPointX2, setControlPointX2] = useState(0.75);
+  // 1
   const [controlPointY2, setControlPointY2] = useState(1);
 
   const animatedValue0 = new Animated.Value(0);
@@ -63,7 +69,7 @@ export default function SVG() {
         ]),
       ])
     ).start();
-    
+
     // animatedValue0.addListener(({ value }) => {
     //   const newStartPointX = 0.5 - value * 0.1;
     //   setStartPointX(newStartPointX);
@@ -101,11 +107,16 @@ export default function SVG() {
       1 - controlPointX2
     } ${controlPointY2}, 0.5 1`,
   ].join(" ");
+  const bottom = [`M 0.5 1`, `h -0.13 v -0.2 h 0.26 v 0.2`].join(" ");
 
   return (
-    <Svg style={{ width: SIZE, height: SIZE }} viewBox="0 0 1 1">
-      <Path d={flame_right} fill="#ff0000" />
-      <Path d={flame_left} fill="#ff0000" />
-    </Svg>
+    <>
+      <Svg style={{ width: SIZE, height: SIZE }} viewBox="0 0 1 1">
+        <Path d={flame_right} fill="#ff0000" />
+        <Path d={flame_left} fill="#ff0000" />
+        <Path d={bottom} fill="#002fffcd" />
+      </Svg>
+
+    </>
   );
 }
