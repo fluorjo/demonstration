@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Animated, Easing } from "react-native";
-import Svg, { Path } from "react-native-svg";
+import Svg, { Ellipse, Path } from "react-native-svg";
 
 const SIZE = 300;
 
@@ -107,16 +107,19 @@ export default function SVG() {
       1 - controlPointX2
     } ${controlPointY2}, 0.5 1`,
   ].join(" ");
-  const bottom = [`M 0.5 1`, `h -0.13 v -0.2 h 0.26 v 0.2`].join(" ");
-
+  const bottom_left = [`M 0.5 1`, `Q 0.8 1 0.5 0.7`].join(" ");
+  //#f75f00be
   return (
-    <>
-      <Svg style={{ width: SIZE, height: SIZE }} viewBox="0 0 1 1">
-        <Path d={flame_right} fill="#ff0000" />
-        <Path d={flame_left} fill="#ff0000" />
-        <Path d={bottom} fill="#002fffcd" />
-      </Svg>
-
-    </>
+    <Svg
+      style={{ width: SIZE, height: SIZE, backgroundColor: "#000000" }}
+      viewBox="0 0 1 1"
+    >
+      <Path d={flame_right} fill="#ffe0e0" />
+      <Path d={flame_left} fill="#ffe0e0" />
+      {/* <Path d={bottom_left} fill="#002fffcd" />
+       */}
+      <Ellipse cx="0.5" cy="0.8" rx="0.12" ry="0.2" fill="#0084ff8e" />
+      <Ellipse cx="0.5" cy="0.85" rx="0.08" ry="0.15" fill="#0048ff96" />
+    </Svg>
   );
 }
