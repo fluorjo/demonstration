@@ -12,6 +12,7 @@ import LoadingComponent from "./src/components/Loading";
 import CandlePage from "./src/page/CandlePage";
 import Flame from "./src/page/Flame";
 import SVG from "./src/page/Svg";
+import SkiaSVG from "./src/page/Skia";
 
 const Tab = createBottomTabNavigator();
 
@@ -66,7 +67,8 @@ export default function App() {
   function Candle() {
     // return <CandlePage />;
     // return <Flame />;
-    return <SVG />;
+    // return <SVG />;
+    return <SkiaSVG />;
   }
 
   return (

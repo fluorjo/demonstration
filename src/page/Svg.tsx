@@ -114,8 +114,18 @@ export default function SVG() {
       style={{ width: SIZE, height: SIZE, backgroundColor: "#000000" }}
       viewBox="0 0 1 1"
     >
-      <Path d={flame_right} fill="#ffe0e0" />
-      <Path d={flame_left} fill="#ffe0e0" />
+      <Path
+        d={flame_right}
+        fill="rgba(255, 123, 0, 0.477)" // 반투명 검은색
+        transform="translate(0.02, 0.02)" // 살짝 이동하여 그림자 효과
+      />
+      <Path
+        d={flame_left}
+        fill="rgba(255, 123, 0, 0.477)" // 반투명 검은색
+        transform="translate(-0.02, 0.02)" // 살짝 이동하여 그림자 효과
+      />
+      <Path d={flame_right} fill="#ffffff" />
+      <Path d={flame_left} fill="#ffffff" />
       {/* <Path d={bottom_left} fill="#002fffcd" />
        */}
       <Ellipse cx="0.5" cy="0.8" rx="0.12" ry="0.2" fill="#0084ff8e" />
