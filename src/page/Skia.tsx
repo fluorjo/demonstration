@@ -1,22 +1,66 @@
-import { Canvas, Path, Shadow, Skia } from "@shopify/react-native-skia";
+import { Canvas, Circle, Path, Shadow } from "@shopify/react-native-skia";
+import React from "react";
+import { Text, View } from "react-native";
 
 export default function SkiaSVG() {
-  const r = 128;
-  const svg = Skia.SVG.MakeFromString(
-    `<svg viewBox='0 0 300 500' xmlns='http://www.w3.org/2000/svg'>
-      <circle cx='31' cy='325' r='120px' fill='#c02aaa'/>
-    </svg>`
-  )!;
+  const pathString = `M 50 0 
+  Q 75 20 80 140
+  V 350
+  H 20
+  V 140
+  Q 25 20 50 0
+  Z`;
+
+  const points = [
+    { x: 50, y: 0, label: "M" },
+    { x: 75, y: 20, label: "     Q1 Control" },
+    { x: 80, y: 140, label: "    Q1 end" },
+    { x: 80, y: 350, label: "    V1 end" },
+    { x: 20, y: 350, label: "    H end" },
+    { x: 20, y: 140, label: "Q2 start " },
+    { x: 25, y: 20, label: "Q2 control" },
+    { x: 50, y: 0, label: "Z" },
+  ];
+
   return (
-    <Canvas style={{ flex: 1, backgroundColor:'black' }}>
-  <Path
-    path="M 50 0 
-          C 100 180 90 150 50 300 
-          C 10 150 0 180 50 0 Z" 
-    color="white"  
-  />
-      <Shadow dx={0} dy={-15} blur={4} color="#ff5900cc"  shadowOnly={false}/>
-      <Shadow dx={1} dy={20} blur={40} color="#ff5900"  />
-    </Canvas>
+    <View style={{ flex: 1 }}>
+      <Canvas
+        style={{
+          flex: 1,
+          backgroundColor: "black",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Path
+          path={pathString}
+          color="white"
+          transform={[{ translateX: 100 }, { translateY: 150 }]}
+        />
+        <Shadow dx={0} dy={-15} blur={4} color="#ff5900cc" shadowOnly={false} />
+        <Shadow dx={1} dy={20} blur={40} color="#ff5900" />
+        {points.map((point, index) => (
+          <Circle
+            key={index}
+            cx={point.x + 100}
+            cy={point.y + 150}
+            r={3}
+            color="red"
+          />
+        ))}
+      </Canvas>
+      {points.map((point, index) => (
+        <View
+          key={index}
+          style={{
+            position: "absolute",
+            left: point.x + 100 - 10,
+            top: point.y + 150 - 10,
+          }}
+        >
+          <Text style={{ color: "green", fontSize: 10 }}>{point.label}</Text>
+        </View>
+      ))}
+    </View>
   );
 }
