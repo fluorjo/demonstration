@@ -8,11 +8,15 @@ export default function SkiaSVG() {
     </svg>`
   )!;
   return (
-    <Canvas style={{ flex: 1 }}>
-      <Path path="M 50 0 C 100 180 90 150 50 300" color="lightblue" />
-      <Shadow dx={12} dy={12} blur={25} color="#ff5900" />
-      <Path path="M 50 0 C 0 180 10 150 50 300" color="red" />
-      <Shadow dx={-12} dy={-12} blur={25} color="#9500ff" />
+    <Canvas style={{ flex: 1, backgroundColor:'black' }}>
+  <Path
+    path="M 50 0 
+          C 100 180 90 150 50 300 
+          C 10 150 0 180 50 0 Z" 
+    color="white"  
+  />
+      <Shadow dx={0} dy={-15} blur={4} color="#ff5900cc"  shadowOnly={false}/>
+      <Shadow dx={1} dy={20} blur={40} color="#ff5900"  />
     </Canvas>
   );
 }
