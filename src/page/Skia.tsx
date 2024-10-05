@@ -2,6 +2,7 @@ import {
   Canvas,
   Circle,
   LinearGradient,
+  Oval,
   Path,
   Shadow,
 } from "@shopify/react-native-skia";
@@ -10,6 +11,13 @@ import { Text, View } from "react-native";
 
 export default function SkiaSVG() {
   const pathString = `M 50 0 
+  Q 75 20 80 140
+  V 350
+  H 20
+  V 140
+  Q 25 20 50 0
+  Z`;
+  const bottomPathString = `M 50 200 
   Q 75 20 80 140
   V 350
   H 20
@@ -38,6 +46,7 @@ export default function SkiaSVG() {
           alignItems: "center",
         }}
       >
+
         <Path
           path={pathString}
           color="white"
@@ -48,9 +57,29 @@ export default function SkiaSVG() {
             end={{ x: 50, y: 350 }}
             colors={["#ffffff", "#3724c56f"]}
           />
+          <Shadow
+            dx={0}
+            dy={-15}
+            blur={4}
+            color="#ff5900cc"
+            shadowOnly={false}
+          />
+          <Shadow dx={1} dy={20} blur={40} color="#ff5900" />
         </Path>
-        <Shadow dx={0} dy={-15} blur={4} color="#ff5900cc" shadowOnly={false} />
-        <Shadow dx={1} dy={20} blur={40} color="#ff5900" />
+        <Oval x={120} y={380} width={60} height={90} color="#1100ff25">
+          <LinearGradient
+            start={{ x: 112, y: 300 }}
+            end={{ x: 0, y: 380 }}
+            colors={["#65657879", "#000000"]}
+          />
+        </Oval>
+        <Oval x={112} y={360} width={75} height={110} color="#2b24ff33">
+          <LinearGradient
+            start={{ x: 112, y: 300 }}
+            end={{ x: 0, y: 360 }}
+            colors={["#0000ff55", "#ffffff59"]}
+          />
+        </Oval>
         {points.map((point, index) => (
           <Circle
             key={index}
