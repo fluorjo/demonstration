@@ -3,10 +3,11 @@ import {
   Circle,
   DiscretePathEffect,
   LinearGradient,
-  Oval,
   Path,
+  RadialGradient,
   RoundedRect,
   Shadow,
+  vec,
 } from "@shopify/react-native-skia";
 import React from "react";
 import { Text, View } from "react-native";
@@ -69,30 +70,22 @@ export default function SkiaSVG() {
           <Shadow dx={1} dy={30} blur={20} color="#ff8c00" />
           <Shadow dx={0} dy={60} blur={40} color="#111dff8c" />
         </Path>
-
-        <Oval
-          x={118}
-          y={390}
-          width={65}
-          height={110}
-          color="#ffc40065"
-          style="fill"
+        <RoundedRect
+          x={120}
+          y={420}
+          width={60}
+          height={80}
+          r={30}
+          color="#0099ff4e"
         >
-          <LinearGradient
-            start={{ x: 112, y: 390 }}
-            end={{ x: 112, y: 520 }}
-            colors={["#ffffff79", "#0014f4"]}
+          <RadialGradient
+            c={vec(150, 458)}
+            r={40}
+            colors={["#0b0060f9", "#6d84e870"]}
           />
-          <Shadow dx={0} dy={0} blur={3} color="#0000009a" shadowOnly={true} />
-        </Oval>
-        <Oval x={120} y={410} width={60} height={90} color="#2b00ff4f">
-          <LinearGradient
-            start={{ x: 120, y: 300 }}
-            end={{ x: 120, y: 410 }}
-            colors={["#00000022", "#00000048"]}
-          />
-          <Shadow dx={0} dy={0} blur={3} color="#0099ff" shadowOnly={true} />
-        </Oval>
+          <Shadow dx={0} dy={-10} blur={30} color="#ffd900" />
+          <Shadow dx={0} dy={0} blur={20} color="#0000ff" />
+        </RoundedRect>
         <RoundedRect
           x={144}
           y={420}
@@ -102,7 +95,6 @@ export default function SkiaSVG() {
           color="black"
         >
           <DiscretePathEffect length={4} deviation={1.5} />
-
           <LinearGradient
             start={{ x: 144, y: 410 }}
             end={{ x: 144, y: 580 }}
