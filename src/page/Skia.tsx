@@ -59,6 +59,11 @@ export default function SkiaSVG() {
             end={{ x: 50, y: 360 }}
             colors={["#ffffff", "#2924c595"]}
           />
+          <RadialGradient
+            c={vec(50, 340)}
+            r={60}
+            colors={["#ffdd00c4", "#ffffff"]}
+          />
           <Shadow
             dx={0}
             dy={-15}
@@ -76,7 +81,7 @@ export default function SkiaSVG() {
           width={60}
           height={80}
           r={30}
-          color="#0099ff4e"
+          color="#0015ff88"
         >
           <RadialGradient
             c={vec(150, 458)}
