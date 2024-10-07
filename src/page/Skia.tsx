@@ -77,11 +77,22 @@ export default function SkiaSVG() {
         </Path>
         <RoundedRect
           x={120}
-          y={420}
+          y={400}
           width={60}
+          height={60}
+          r={10}
+          color="#ffea00e3"
+        >
+
+          <Shadow dx={0} dy={0} blur={4} color="#ffda06" shadowOnly={true}/>
+        </RoundedRect>
+        <RoundedRect
+          x={118}
+          y={420}
+          width={65}
           height={80}
-          r={30}
-          color="#0015ff88"
+          r={10}
+          color="#0015ffe3"
         >
           <RadialGradient
             c={vec(150, 458)}
@@ -89,7 +100,7 @@ export default function SkiaSVG() {
             colors={["#0b0060f9", "#6d84e870"]}
           />
           <Shadow dx={0} dy={-10} blur={30} color="#ffd900" />
-          <Shadow dx={0} dy={0} blur={20} color="#0000ff" />
+          <Shadow dx={0} dy={0} blur={20} color="#0000ff" shadowOnly={true} / >
         </RoundedRect>
         <RoundedRect
           x={144}
