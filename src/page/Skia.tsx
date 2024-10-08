@@ -9,34 +9,50 @@ import {
   Shadow,
   vec,
 } from "@shopify/react-native-skia";
-import React from "react";
+import React, { useState } from "react";
 import { Text, View } from "react-native";
 
 export default function SkiaSVG() {
-  const pathString = `M 50 0 
-  Q 75 20 80 140
-  V 350
-  H 20
-  V 140
-  Q 25 20 50 0
-  Z`;
-  const bottomPathString = `M 50 200 
-  Q 75 20 80 140
-  V 350
-  H 20
-  V 140
-  Q 25 20 50 0
+  // 50
+  const [startPointX, setStartPointX] = useState(50.0);
+  // 0.0
+  const [startPointY, setStartPointY] = useState(0.0);
+  // 75
+  const [Q1ControlX, setQ1ControlX] = useState(75.0);
+  // 20
+  const [Q1ControlY, setQ1ControlY] = useState(20.0);
+  // 80
+  const [Q1EndX, setQ1EndX] = useState(80.0);
+  // 140
+  const [Q1EndY, setQ1EndY] = useState(140.0);
+  // 350
+  const [V1, setV1] = useState(350);
+  // 20
+  const [H1, setH1] = useState(20);
+  // 140
+  const [V2, setV2] = useState(140);
+  // 25
+  const [Q2ControlX, setQ2ControlX] = useState(25);
+  // 20
+  const [Q2ControlY, setQ2ControlY] = useState(20);
+
+  const pathString = `M ${startPointX} ${startPointY} 
+  Q ${Q1ControlX} ${Q1ControlY} ${Q1EndX} ${Q1EndY}
+  V ${V1}
+  H ${H1}
+  V ${V2}
+  Q ${Q2ControlX} ${Q2ControlY} ${startPointX} ${startPointY}
   Z`;
 
   const points = [
-    { x: 50, y: 0, label: "M" },
-    { x: 75, y: 20, label: "     Q1 Control" },
-    { x: 80, y: 140, label: "    Q1 end" },
-    { x: 80, y: 350, label: "    V1 end" },
-    { x: 20, y: 350, label: "    H end" },
-    { x: 20, y: 140, label: "Q2 start " },
-    { x: 25, y: 20, label: "Q2 control" },
-    { x: 50, y: 0, label: "Z" },
+    { x: startPointX, y: startPointY, label: "M" },
+    { x: Q1ControlX, y: Q1ControlY, label: "     Q1 Control" },
+    { x: Q1EndX, y: Q1EndY, label: "    Q1 end" },
+    { x: Q1EndX, y: V1, label: "    V1 end" },
+    { x: H1, y: V1, label: "    H end" },
+    { x: H1, y: V2, label: "Q2 start " },
+    { x: Q2ControlX, y: Q2ControlY, label: "Q2 control" },
+    { x: startPointX, y: startPointY, label: "Z" },
   ];
 
   return (
