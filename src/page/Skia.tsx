@@ -13,67 +13,73 @@ import React, { useEffect, useState } from "react";
 import { Animated, Easing, Text, View } from "react-native";
 
 export default function SkiaSVG() {
-  // 50
-  const [startPointX, setStartPointX] = useState(50.0);
-  // 0.0
-  const [startPointY, setStartPointY] = useState(0.0);
-  // 75
-  const [Q1ControlX, setQ1ControlX] = useState(75.0);
-  // 20
-  const [Q1ControlY, setQ1ControlY] = useState(20.0);
-  // 80
-  const [Q1EndX, setQ1EndX] = useState(80.0);
-  // 140
-  const [Q1EndY, setQ1EndY] = useState(140.0);
-  // 350
-  const [V1, setV1] = useState(350);
-  // 20
-  const [H1, setH1] = useState(20);
-  // 140
-  const [V2, setV2] = useState(140);
-  // 25
-  const [Q2ControlX, setQ2ControlX] = useState(25);
-  // 20
-  const [Q2ControlY, setQ2ControlY] = useState(20);
-  const animatedValue0 = new Animated.Value(0);
-  const animatedValue1 = new Animated.Value(0);
+  const [startPointX, setStartPointX] = useState(50.0); // 50
+  const [startPointY, setStartPointY] = useState(0.0); // 0.0
+  const [Q1ControlX, setQ1ControlX] = useState(75.0); // 75
+  const [Q1ControlY, setQ1ControlY] = useState(20.0); // 20
+  const [Q2ControlX, setQ2ControlX] = useState(25); // 25
+  const [Q2ControlY, setQ2ControlY] = useState(20); // 20 
+  const [Q1EndX, setQ1EndX] = useState(80.0); // 80
+  const [Q1EndY, setQ1EndY] = useState(140.0); // 140
+  const [V1, setV1] = useState(350); // 350
+  const [H1, setH1] = useState(20); // 20
+  const [V2, setV2] = useState(140); // 140
+
+  const animatedStartPointX = new Animated.Value(50);
+  const animatedQ1ControlX = new Animated.Value(75);
   const animatedValue2 = new Animated.Value(0);
+
+  //toValue는 적당히 가까운 값 집어넣고, addListener로 변화시킬 때 랜덤값 넣어서 변화가 랜덤하게 이뤄지게 할까.
 
   useEffect(() => {
     Animated.loop(
       Animated.parallel([
         Animated.sequence([
-          Animated.timing(animatedValue0, {
+          Animated.timing(animatedStartPointX, {
             toValue: 1,
             duration: 2000,
             easing: Easing.inOut(Easing.ease),
             useNativeDriver: false,
           }),
-          Animated.timing(animatedValue0, {
+          Animated.timing(animatedStartPointX, {
             toValue: 0,
             duration: 2000,
             easing: Easing.inOut(Easing.ease),
             useNativeDriver: false,
           }),
-          // Animated.timing(animatedValue0, {
-          //   toValue: 1,
-          //   duration: 2000,
-          //   easing: Easing.inOut(Easing.ease),
-          //   useNativeDriver: false,
-          // }),
+        ]),
+        Animated.sequence([
+          Animated.timing(animatedQ1ControlX, {
+            toValue: 85,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ1ControlX, {
+            toValue: 65,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ1ControlX, {
+            toValue: 75,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
         ]),
       ])
     ).start();
 
-    animatedValue0.addListener(({ value }) => {
-      const newStartPointX = 0 - value * 10;
-      setStartPointX(newStartPointX);
-      const newStartPointY = 0 + value * 10;
-      setStartPointY(newStartPointY);
+    animatedQ1ControlX.addListener(({ value }) => {
+      const newQ1ControlX = value ;
+      setQ1ControlX(newQ1ControlX);
+      // const newQ1ControlY = xx + value * random?;
+      // setQ1ControlY(newQ1ControlY);
     });
 
     return () => {
-      animatedValue0.removeAllListeners();
+      animatedStartPointX.removeAllListeners();
     };
   }, []);
 
