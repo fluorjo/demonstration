@@ -80,11 +80,10 @@ export default function SkiaSVG() {
           y={400}
           width={60}
           height={60}
-          r={10}
+          r={24}
           color="#ffea00e3"
         >
-
-          <Shadow dx={0} dy={0} blur={4} color="#ffda06" shadowOnly={true}/>
+          <Shadow dx={0} dy={0} blur={4} color="#ffa406" shadowOnly={true} />
         </RoundedRect>
         <RoundedRect
           x={118}
@@ -99,12 +98,12 @@ export default function SkiaSVG() {
             r={40}
             colors={["#0b0060f9", "#6d84e870"]}
           />
-          <Shadow dx={0} dy={-10} blur={30} color="#ffd900" />
-          <Shadow dx={0} dy={0} blur={20} color="#0000ff" shadowOnly={true} / >
+          <Shadow dx={0} dy={5} blur={0} color="#000000" shadowOnly={true} />
+          <Shadow dx={0} dy={0} blur={10} color="#000fb7" shadowOnly={true} />
         </RoundedRect>
         <RoundedRect
           x={144}
-          y={420}
+          y={440}
           width={11}
           height={80}
           r={25}
@@ -112,12 +111,12 @@ export default function SkiaSVG() {
         >
           <DiscretePathEffect length={4} deviation={1.5} />
           <LinearGradient
-            start={{ x: 144, y: 410 }}
+            start={{ x: 144, y: 450 }}
             end={{ x: 144, y: 580 }}
-            colors={["#000000", "#a963375b"]}
+            colors={["#000000", "#ff5900ee"]}
           />
-          <Shadow dx={0} dy={-10} blur={15} color="#000000" />
-          <Shadow dx={0} dy={0} blur={20} color="#0000ff" />
+          <Shadow dx={0} dy={-10} blur={15} color="#ff8400" />
+          <Shadow dx={0} dy={0} blur={25} color="#0227acf5" />
         </RoundedRect>
         {points.map((point, index) => (
           <Circle
