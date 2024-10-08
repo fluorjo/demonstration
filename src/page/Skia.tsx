@@ -9,8 +9,8 @@ import {
   Shadow,
   vec,
 } from "@shopify/react-native-skia";
-import React, { useState } from "react";
-import { Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Animated, Easing, Text, View } from "react-native";
 
 export default function SkiaSVG() {
   // 50
@@ -35,6 +35,47 @@ export default function SkiaSVG() {
   const [Q2ControlX, setQ2ControlX] = useState(25);
   // 20
   const [Q2ControlY, setQ2ControlY] = useState(20);
+  const animatedValue0 = new Animated.Value(0);
+  const animatedValue1 = new Animated.Value(0);
+  const animatedValue2 = new Animated.Value(0);
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.parallel([
+        Animated.sequence([
+          Animated.timing(animatedValue0, {
+            toValue: 1,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedValue0, {
+            toValue: 0,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          // Animated.timing(animatedValue0, {
+          //   toValue: 1,
+          //   duration: 2000,
+          //   easing: Easing.inOut(Easing.ease),
+          //   useNativeDriver: false,
+          // }),
+        ]),
+      ])
+    ).start();
+
+    animatedValue0.addListener(({ value }) => {
+      const newStartPointX = 0 - value * 10;
+      setStartPointX(newStartPointX);
+      const newStartPointY = 0 + value * 10;
+      setStartPointY(newStartPointY);
+    });
+
+    return () => {
+      animatedValue0.removeAllListeners();
+    };
+  }, []);
 
   const pathString = `M ${startPointX} ${startPointY} 
   Q ${Q1ControlX} ${Q1ControlY} ${Q1EndX} ${Q1EndY}

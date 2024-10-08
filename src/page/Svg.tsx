@@ -116,13 +116,13 @@ export default function SVG() {
     >
       <Path
         d={flame_right}
-        fill="rgba(255, 123, 0, 0.477)" // 반투명 검은색
-        transform="translate(0.02, 0.02)" // 살짝 이동하여 그림자 효과
+        fill="rgba(255, 123, 0, 0.477)" 
+        transform="translate(0.02, 0.02)" 
       />
       <Path
         d={flame_left}
-        fill="rgba(255, 123, 0, 0.477)" // 반투명 검은색
-        transform="translate(-0.02, 0.02)" // 살짝 이동하여 그림자 효과
+        fill="rgba(255, 123, 0, 0.477)" 
+        transform="translate(-0.02, 0.02)" 
       />
       <Path d={flame_right} fill="#ffffff" />
       <Path d={flame_left} fill="#ffffff" />
