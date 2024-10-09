@@ -18,7 +18,7 @@ export default function SkiaSVG() {
   const [Q1ControlX, setQ1ControlX] = useState(75.0); // 75
   const [Q1ControlY, setQ1ControlY] = useState(20.0); // 20
   const [Q2ControlX, setQ2ControlX] = useState(25); // 25
-  const [Q2ControlY, setQ2ControlY] = useState(20); // 20 
+  const [Q2ControlY, setQ2ControlY] = useState(20); // 20
   const [Q1EndX, setQ1EndX] = useState(80.0); // 80
   const [Q1EndY, setQ1EndY] = useState(140.0); // 140
   const [V1, setV1] = useState(350); // 350
@@ -26,7 +26,9 @@ export default function SkiaSVG() {
   const [V2, setV2] = useState(140); // 140
 
   const animatedStartPointX = new Animated.Value(50);
+  const animatedStartPointY = new Animated.Value(0);
   const animatedQ1ControlX = new Animated.Value(75);
+  const animatedQ1ControlY = new Animated.Value(20);
   const animatedValue2 = new Animated.Value(0);
 
   //toValue는 적당히 가까운 값 집어넣고, addListener로 변화시킬 때 랜덤값 넣어서 변화가 랜덤하게 이뤄지게 할까.
@@ -36,13 +38,39 @@ export default function SkiaSVG() {
       Animated.parallel([
         Animated.sequence([
           Animated.timing(animatedStartPointX, {
-            toValue: 1,
+            toValue: 50,
             duration: 2000,
             easing: Easing.inOut(Easing.ease),
             useNativeDriver: false,
           }),
           Animated.timing(animatedStartPointX, {
+            toValue: 48,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedStartPointX, {
+            toValue: 52,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+        ]),
+        Animated.sequence([
+          Animated.timing(animatedStartPointY, {
             toValue: 0,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedStartPointY, {
+            toValue: -5,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedStartPointY, {
+            toValue: 5,
             duration: 2000,
             easing: Easing.inOut(Easing.ease),
             useNativeDriver: false,
@@ -62,7 +90,39 @@ export default function SkiaSVG() {
             useNativeDriver: false,
           }),
           Animated.timing(animatedQ1ControlX, {
+            toValue: 85,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ1ControlX, {
             toValue: 75,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+        ]),
+        Animated.sequence([
+          Animated.timing(animatedQ1ControlY, {
+            toValue: 30,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ1ControlY, {
+            toValue: 10,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ1ControlY, {
+            toValue: 30,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ1ControlY, {
+            toValue: 20,
             duration: 2000,
             easing: Easing.inOut(Easing.ease),
             useNativeDriver: false,
@@ -71,15 +131,37 @@ export default function SkiaSVG() {
       ])
     ).start();
 
+    animatedStartPointX.addListener(({ value }) => {
+      const newStartPointX = value;
+      setStartPointX(newStartPointX);
+      // const newQ1ControlY = xx + value * random?;
+      // setQ1ControlY(newQ1ControlY);
+    });
+    animatedStartPointY.addListener(({ value }) => {
+      const newStartPointY = value;
+      setStartPointY(newStartPointY);
+      // const newQ1ControlY = xx + value * random?;
+      // setQ1ControlY(newQ1ControlY);
+    });
+
     animatedQ1ControlX.addListener(({ value }) => {
-      const newQ1ControlX = value ;
+      const newQ1ControlX = value;
       setQ1ControlX(newQ1ControlX);
+      // const newQ1ControlY = xx + value * random?;
+      // setQ1ControlY(newQ1ControlY);
+    });
+    animatedQ1ControlY.addListener(({ value }) => {
+      const newQ1ControlY = value;
+      setQ1ControlY(newQ1ControlY);
       // const newQ1ControlY = xx + value * random?;
       // setQ1ControlY(newQ1ControlY);
     });
 
     return () => {
       animatedStartPointX.removeAllListeners();
+      animatedStartPointY.removeAllListeners();
+      animatedQ1ControlX.removeAllListeners();
+      animatedQ1ControlY.removeAllListeners();
     };
   }, []);
 
