@@ -31,6 +31,8 @@ export default function SkiaSVG() {
   const animatedQ1ControlY = new Animated.Value(20);
   const animatedQ2ControlX = new Animated.Value(25);
   const animatedQ2ControlY = new Animated.Value(20);
+  const animatedQ1EndX = new Animated.Value(80);
+  const animatedQ1EndY = new Animated.Value(140);
 
   //toValue는 적당히 가까운 값 집어넣고, addListener로 변화시킬 때 랜덤값 넣어서 변화가 랜덤하게 이뤄지게 할까.
 
@@ -234,6 +236,33 @@ export default function SkiaSVG() {
             useNativeDriver: false,
           }),
         ]),
+        // Q1 End X
+        Animated.sequence([
+          Animated.timing(animatedQ1EndX, {
+            toValue: 90,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ1EndX, {
+            toValue: 70,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ1EndX, {
+            toValue: 90,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ1EndX, {
+            toValue: 80,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+        ]),
       ])
     ).start();
 
@@ -270,6 +299,12 @@ export default function SkiaSVG() {
     animatedQ2ControlY.addListener(({ value }) => {
       const newQ2ControlY = value;
       setQ2ControlY(newQ2ControlY);
+      // const newQ2ControlY = xx + value * random?;
+      // setQ2ControlY(newQ2ControlY);
+    });
+    animatedQ1EndX.addListener(({ value }) => {
+      const newQ1EndX = value;
+      setQ1EndX(newQ1EndX);
       // const newQ2ControlY = xx + value * random?;
       // setQ2ControlY(newQ2ControlY);
     });
