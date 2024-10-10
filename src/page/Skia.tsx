@@ -20,10 +20,11 @@ export default function SkiaSVG() {
   const [Q2ControlX, setQ2ControlX] = useState(25); // 25
   const [Q2ControlY, setQ2ControlY] = useState(20); // 20
   const [Q1EndX, setQ1EndX] = useState(80.0); // 80
-  const [Q1EndY, setQ1EndY] = useState(140.0); // 140
+  const [Q1EndY, setQ1EndY] = useState(240.0); // 240
   const [V1, setV1] = useState(350); // 350
   const [H1, setH1] = useState(20); // 20
-  const [V2, setV2] = useState(140); // 140
+  const [V2, setV2] = useState(240); // 240
+  const [Q1V1Control, setQ1V1Control] = useState((Q1EndY+V1)/2); 
 
   const animatedStartPointX = new Animated.Value(50);
   const animatedStartPointY = new Animated.Value(0);
@@ -131,7 +132,7 @@ export default function SkiaSVG() {
             useNativeDriver: false,
           }),
         ]),
-                Animated.sequence([
+        Animated.sequence([
           Animated.timing(animatedQ1ControlX, {
             toValue: 85,
             duration: 2000,
@@ -239,19 +240,19 @@ export default function SkiaSVG() {
         // Q1 End X
         Animated.sequence([
           Animated.timing(animatedQ1EndX, {
-            toValue: 90,
+            toValue: 82,
             duration: 2000,
             easing: Easing.inOut(Easing.ease),
             useNativeDriver: false,
           }),
           Animated.timing(animatedQ1EndX, {
-            toValue: 70,
+            toValue: 78,
             duration: 2000,
             easing: Easing.inOut(Easing.ease),
             useNativeDriver: false,
           }),
           Animated.timing(animatedQ1EndX, {
-            toValue: 90,
+            toValue: 82,
             duration: 2000,
             easing: Easing.inOut(Easing.ease),
             useNativeDriver: false,
@@ -266,48 +267,48 @@ export default function SkiaSVG() {
       ])
     ).start();
 
-    animatedStartPointX.addListener(({ value }) => {
-      const newStartPointX = value;
-      setStartPointX(newStartPointX);
-      // const newQ1ControlY = xx + value * random?;
-      // setQ1ControlY(newQ1ControlY);
-    });
-    animatedStartPointY.addListener(({ value }) => {
-      const newStartPointY = value;
-      setStartPointY(newStartPointY);
-      // const newQ1ControlY = xx + value * random?;
-      // setQ1ControlY(newQ1ControlY);
-    });
-    animatedQ1ControlX.addListener(({ value }) => {
-      const newQ1ControlX = value;
-      setQ1ControlX(newQ1ControlX);
-      // const newQ1ControlY = xx + value * random?;
-      // setQ1ControlY(newQ1ControlY);
-    });
-    animatedQ1ControlY.addListener(({ value }) => {
-      const newQ1ControlY = value;
-      setQ1ControlY(newQ1ControlY);
-      // const newQ1ControlY = xx + value * random?;
-      // setQ1ControlY(newQ1ControlY);
-    });
-    animatedQ2ControlX.addListener(({ value }) => {
-      const newQ2ControlX = value;
-      setQ2ControlX(newQ2ControlX);
-      // const newQ2ControlY = xx + value * random?;
-      // setQ2ControlY(newQ2ControlY);
-    });
-    animatedQ2ControlY.addListener(({ value }) => {
-      const newQ2ControlY = value;
-      setQ2ControlY(newQ2ControlY);
-      // const newQ2ControlY = xx + value * random?;
-      // setQ2ControlY(newQ2ControlY);
-    });
-    animatedQ1EndX.addListener(({ value }) => {
-      const newQ1EndX = value;
-      setQ1EndX(newQ1EndX);
-      // const newQ2ControlY = xx + value * random?;
-      // setQ2ControlY(newQ2ControlY);
-    });
+    // animatedStartPointX.addListener(({ value }) => {
+    //   const newStartPointX = value;
+    //   setStartPointX(newStartPointX);
+    //   // const newQ1ControlY = xx + value * random?;
+    //   // setQ1ControlY(newQ1ControlY);
+    // });
+    // animatedStartPointY.addListener(({ value }) => {
+    //   const newStartPointY = value;
+    //   setStartPointY(newStartPointY);
+    //   // const newQ1ControlY = xx + value * random?;
+    //   // setQ1ControlY(newQ1ControlY);
+    // });
+    // animatedQ1ControlX.addListener(({ value }) => {
+    //   const newQ1ControlX = value;
+    //   setQ1ControlX(newQ1ControlX);
+    //   // const newQ1ControlY = xx + value * random?;
+    //   // setQ1ControlY(newQ1ControlY);
+    // });
+    // animatedQ1ControlY.addListener(({ value }) => {
+    //   const newQ1ControlY = value;
+    //   setQ1ControlY(newQ1ControlY);
+    //   // const newQ1ControlY = xx + value * random?;
+    //   // setQ1ControlY(newQ1ControlY);
+    // });
+    // animatedQ2ControlX.addListener(({ value }) => {
+    //   const newQ2ControlX = value;
+    //   setQ2ControlX(newQ2ControlX);
+    //   // const newQ2ControlY = xx + value * random?;
+    //   // setQ2ControlY(newQ2ControlY);
+    // });
+    // animatedQ2ControlY.addListener(({ value }) => {
+    //   const newQ2ControlY = value;
+    //   setQ2ControlY(newQ2ControlY);
+    //   // const newQ2ControlY = xx + value * random?;
+    //   // setQ2ControlY(newQ2ControlY);
+    // });
+    // animatedQ1EndX.addListener(({ value }) => {
+    //   const newQ1EndX = value;
+    //   setQ1EndX(newQ1EndX);
+    //   // const newQ2ControlY = xx + value * random?;
+    //   // setQ2ControlY(newQ2ControlY);
+    // });
 
     return () => {
       animatedStartPointX.removeAllListeners();
@@ -320,8 +321,8 @@ export default function SkiaSVG() {
   }, []);
 
   const pathString = `M ${startPointX} ${startPointY} 
-  Q ${Q1ControlX} ${Q1ControlY} ${Q1EndX} ${Q1EndY}
-  V ${V1}
+  Q ${Q1ControlX} ${Q1ControlY} ${Q1EndX} ${Q1EndY}  
+  Q ${Q1EndX} ${Q1V1Control} ${Q1EndX-3} ${V1}
   H ${H1}
   V ${V2}
   Q ${Q2ControlX} ${Q2ControlY} ${startPointX} ${startPointY}
@@ -330,6 +331,7 @@ export default function SkiaSVG() {
   const points = [
     { x: startPointX, y: startPointY, label: "M" },
     { x: Q1ControlX, y: Q1ControlY, label: "     Q1 Control" },
+    { x: Q1EndX, y: Q1EndY, label: "    Q1 end" },
     { x: Q1EndX, y: Q1EndY, label: "    Q1 end" },
     { x: Q1EndX, y: V1, label: "    V1 end" },
     { x: H1, y: V1, label: "    H end" },
@@ -380,7 +382,7 @@ export default function SkiaSVG() {
           width={60}
           height={60}
           r={24}
-          color="#ffea00e3"
+          color="#ffb300f9"
         >
           <Shadow dx={0} dy={0} blur={4} color="#ffa406" shadowOnly={true} />
         </RoundedRect>
@@ -410,9 +412,9 @@ export default function SkiaSVG() {
         >
           <DiscretePathEffect length={4} deviation={1.5} />
           <LinearGradient
-            start={{ x: 144, y: 450 }}
+            start={{ x: 144, y: 410 }}
             end={{ x: 144, y: 580 }}
-            colors={["#000000", "#ff5900ee"]}
+            colors={["#632402bd", "#000000"]}
           />
           <Shadow dx={0} dy={-10} blur={15} color="#ff8400" />
           <Shadow dx={0} dy={0} blur={25} color="#0227acf5" />
