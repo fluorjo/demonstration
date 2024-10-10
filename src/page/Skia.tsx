@@ -21,11 +21,12 @@ export default function SkiaSVG() {
   const [Q2ControlY, setQ2ControlY] = useState(20); // 20
   const [Q1EndX, setQ1EndX] = useState(80.0); // 80
   const [Q1EndY, setQ1EndY] = useState(240.0); // 240
-  const [V1, setV1] = useState(350); // 350
+  const [Q2End, setQ2End] = useState(350); // 350
   const [H1, setH1] = useState(20); // 20
   const [V2, setV2] = useState(240); // 240
-  const [Q1V1Control, setQ1V1Control] = useState((Q1EndY+V1)/2); 
-
+  const [Q2Control, setQ2Control] = useState((Q1EndY + Q2End) / 2);
+  const [Q3ControlX, setQ3ControlX] = useState(15); // 25
+  const [Q3ControlY, setQ3ControlY] = useState(20); // 20
   const animatedStartPointX = new Animated.Value(50);
   const animatedStartPointY = new Animated.Value(0);
   const animatedQ1ControlX = new Animated.Value(75);
@@ -322,9 +323,9 @@ export default function SkiaSVG() {
 
   const pathString = `M ${startPointX} ${startPointY} 
   Q ${Q1ControlX} ${Q1ControlY} ${Q1EndX} ${Q1EndY}  
-  Q ${Q1EndX} ${Q1V1Control} ${Q1EndX-3} ${V1}
-  H ${H1}
-  V ${V2}
+  Q ${Q1EndX} ${Q2Control} ${Q1EndX - 3} ${Q2End}
+  L ${Q1EndX - 60} ${Q2End}
+  Q ${Q3ControlX} ${Q2Control} ${Q1EndX - 63} ${Q1EndY}
   Q ${Q2ControlX} ${Q2ControlY} ${startPointX} ${startPointY}
   Z`;
 
@@ -332,11 +333,12 @@ export default function SkiaSVG() {
     { x: startPointX, y: startPointY, label: "M" },
     { x: Q1ControlX, y: Q1ControlY, label: "     Q1 Control" },
     { x: Q1EndX, y: Q1EndY, label: "    Q1 end" },
-    { x: Q1EndX, y: Q1EndY, label: "    Q1 end" },
-    { x: Q1EndX, y: V1, label: "    V1 end" },
-    { x: H1, y: V1, label: "    H end" },
-    { x: H1, y: V2, label: "Q2 start " },
-    { x: Q2ControlX, y: Q2ControlY, label: "Q2 control" },
+    { x: Q1EndX, y: Q2Control, label: "    Q2Control" },
+    { x: Q1EndX, y: Q2End, label: "    Q2End" },
+    { x: H1, y: Q2End, label: "    Q3 Start" },
+    { x: Q3ControlX, y: Q2Control, label: "    Q3 Control" },
+    { x: H1, y: V2, label: "Q4 start " },
+    { x: Q2ControlX, y: Q2ControlY, label: "Q4 control" },
     { x: startPointX, y: startPointY, label: "Z" },
   ];
 
