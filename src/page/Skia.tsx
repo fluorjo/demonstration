@@ -19,12 +19,12 @@ export default function SkiaSVG() {
   const [Q1EndY, setQ1EndY] = useState(240.0); // 240
   const [Q1ControlX, setQ1ControlX] = useState(75.0); // 75
   const [Q1ControlY, setQ1ControlY] = useState(20.0); // 20
-  const [Q2EndX, setQ2EndX] = useState(Q1EndX-3); 
+  const [Q2EndX, setQ2EndX] = useState(Q1EndX - 3);
   const [Q2EndY, setQ2EndY] = useState(355); // 350
-  const [Q3StartX, setQ3StartX] = useState(Q2EndX-60); 
-  const [Q3StartY, setQ3StartY] = useState(Q2EndY); 
-  const [Q3EndX, setQ3EndX] = useState(Q1EndX - 63); 
-  const [Q3EndY, setQ3EndY] = useState(Q1EndY); 
+  const [Q3StartX, setQ3StartX] = useState(Q2EndX - 60);
+  const [Q3StartY, setQ3StartY] = useState(Q2EndY);
+  const [Q3EndX, setQ3EndX] = useState(Q1EndX - 63);
+  const [Q3EndY, setQ3EndY] = useState(Q1EndY);
   const [Q2ControlX, setQ2ControlX] = useState(Q1EndX); // 80
   const [Q2ControlY, setQ2ControlY] = useState((Q1EndY + Q2EndY) / 2);
   const [Q3ControlX, setQ3ControlX] = useState(15); // 25
@@ -42,7 +42,7 @@ export default function SkiaSVG() {
   const animatedQ1EndY = new Animated.Value(140);
 
   //toValue는 적당히 가까운 값 집어넣고, addListener로 변화시킬 때 랜덤값 넣어서 변화가 랜덤하게 이뤄지게 할까.
-  const transformValue=[{ translateX: 100 }, { translateY: 100 }]
+  const transformValue = [{ translateX: 100 }, { translateY: 100 }];
   useEffect(() => {
     Animated.loop(
       Animated.parallel([
@@ -334,6 +334,9 @@ export default function SkiaSVG() {
   Q ${Q3ControlX} ${Q3ControlY} ${Q3EndX} ${Q3EndY}
   Q ${Q4ControlX} ${Q4ControlY} ${startPointX} ${startPointY}
   Z`;
+  const pathString2 = `M ${Q2ControlX} ${Q2ControlY - 20}
+  Q ${Q2EndX + 12} ${Q2EndY} ${Q2EndX - 10} ${Q2EndY + 60}
+  Z`;
 
   const points = [
     { x: startPointX, y: startPointY, label: "M" },
@@ -358,13 +361,9 @@ export default function SkiaSVG() {
           alignItems: "center",
         }}
       >
-        <Path
-          path={pathString}
-          color="white"
-          transform={transformValue}
-        >
+        <Path path={pathString} color="white" transform={transformValue}>
           <RadialGradient
-            c={vec(startPointX, Q3StartY-20)}
+            c={vec(startPointX, Q3StartY - 20)}
             r={80}
             colors={["#ffdd00c4", "#ffffff"]}
           />
@@ -381,9 +380,9 @@ export default function SkiaSVG() {
         </Path>
         <RoundedRect
           x={Q3StartX}
-          y={Q3ControlY+20}
-          width={Q2EndX-Q3StartX}
-          height={Q2EndX-Q3StartX}
+          y={Q3ControlY + 20}
+          width={Q2EndX - Q3StartX}
+          height={Q2EndX - Q3StartX}
           r={24}
           color="#ffb300f9"
           transform={transformValue}
@@ -392,15 +391,15 @@ export default function SkiaSVG() {
         </RoundedRect>
         <RoundedRect
           x={Q3StartX}
-          y={Q3ControlY+40}
-          width={Q2EndX-Q3StartX+3}
-          height={Q2EndX-Q3StartX+18}
+          y={Q3ControlY + 40}
+          width={Q2EndX - Q3StartX + 3}
+          height={Q2EndX - Q3StartX + 18}
           r={13}
           color="#0015ffe3"
           transform={transformValue}
         >
           <RadialGradient
-            c={vec(Q3StartX-70, Q3ControlY-25)}
+            c={vec(Q3StartX - 70, Q3ControlY - 25)}
             r={40}
             colors={["#000000f8", "#ff00006e"]}
             transform={transformValue}
@@ -409,16 +408,16 @@ export default function SkiaSVG() {
           <Shadow dx={0} dy={-2} blur={6} color="#1226ff" shadowOnly={true} />
         </RoundedRect>
         <RoundedRect
-          x={Q3StartX+12}
-          y={Q3ControlY+55}
-          width={Q2EndX-Q3StartX-20}
-          height={Q2EndX-Q3StartX-4}
+          x={Q3StartX + 12}
+          y={Q3ControlY + 55}
+          width={Q2EndX - Q3StartX - 20}
+          height={Q2EndX - Q3StartX - 4}
           r={13}
           color="#000000"
           transform={transformValue}
         >
           <RadialGradient
-            c={vec(Q3StartX-70, Q3ControlY-25)}
+            c={vec(Q3StartX - 70, Q3ControlY - 25)}
             r={40}
             colors={["#000000f8", "#ff00006e"]}
             transform={transformValue}
@@ -443,6 +442,23 @@ export default function SkiaSVG() {
           <Shadow dx={0} dy={-10} blur={15} color="#ff8400" />
           <Shadow dx={0} dy={0} blur={25} color="#0227acf5" />
         </RoundedRect>
+        <Path path={pathString2} color="#0227ac81" transform={transformValue}>
+          <RadialGradient
+            c={vec(startPointX, Q3StartY - 20)}
+            r={80}
+            colors={["#1601ff8e", "#0565ff82"]}
+          />
+          <Shadow
+            dx={0}
+            dy={-15}
+            blur={4}
+            color="#ff5900cc"
+            shadowOnly={false}
+          />
+          {/* <Shadow dx={1} dy={10} blur={40} color="#ff5900" />
+          <Shadow dx={1} dy={30} blur={20} color="#ff8c00" /> */}
+          <Shadow dx={0} dy={60} blur={40} color="#111dff8c" />
+        </Path>
         {points.map((point, index) => (
           <Circle
             key={index}
