@@ -380,12 +380,13 @@ export default function SkiaSVG() {
           <Shadow dx={0} dy={60} blur={40} color="#111dff8c" />
         </Path>
         <RoundedRect
-          x={120}
-          y={400}
-          width={60}
-          height={60}
+          x={Q3StartX}
+          y={Q3ControlY+10}
+          width={Q2EndX-Q3StartX}
+          height={Q2EndX-Q3StartX}
           r={24}
           color="#ffb300f9"
+          transform={[{ translateX: 100 }, { translateY: 100 }]}
         >
           <Shadow dx={0} dy={0} blur={4} color="#ffa406" shadowOnly={true} />
         </RoundedRect>
@@ -427,6 +428,8 @@ export default function SkiaSVG() {
             key={index}
             cx={point.x + 100}
             cy={point.y + 100}
+            // cx={point.x }
+            // cy={point.y }
             r={3}
             color="red"
           />
@@ -439,6 +442,8 @@ export default function SkiaSVG() {
             position: "absolute",
             left: point.x + 100 - 10,
             top: point.y + 100 - 10,
+            // left: point.x ,
+            // top: point.y ,
           }}
         >
           <Text style={{ color: "green", fontSize: 10 }}>{point.label}</Text>
