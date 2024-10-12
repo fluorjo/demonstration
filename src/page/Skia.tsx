@@ -20,7 +20,7 @@ export default function SkiaSVG() {
   const [Q1ControlX, setQ1ControlX] = useState(75.0); // 75
   const [Q1ControlY, setQ1ControlY] = useState(20.0); // 20
   const [Q2EndX, setQ2EndX] = useState(Q1EndX-3); 
-  const [Q2EndY, setQ2EndY] = useState(350); // 350
+  const [Q2EndY, setQ2EndY] = useState(355); // 350
   const [Q3StartX, setQ3StartX] = useState(Q2EndX-60); 
   const [Q3StartY, setQ3StartY] = useState(Q2EndY); 
   const [Q3EndX, setQ3EndX] = useState(Q1EndX - 63); 
@@ -381,14 +381,14 @@ export default function SkiaSVG() {
         </Path>
         <RoundedRect
           x={Q3StartX}
-          y={Q3ControlY+10}
+          y={Q3ControlY+20}
           width={Q2EndX-Q3StartX}
           height={Q2EndX-Q3StartX}
           r={24}
           color="#ffb300f9"
           transform={transformValue}
         >
-          <Shadow dx={0} dy={0} blur={4} color="#ffa406" shadowOnly={true} />
+          <Shadow dx={0} dy={0} blur={3} color="#ffa406" shadowOnly={true} />
         </RoundedRect>
         <RoundedRect
           x={Q3StartX}
@@ -407,6 +407,23 @@ export default function SkiaSVG() {
           />
           <Shadow dx={0} dy={5} blur={0} color="#000000" shadowOnly={true} />
           <Shadow dx={0} dy={-2} blur={6} color="#1226ff" shadowOnly={true} />
+        </RoundedRect>
+        <RoundedRect
+          x={Q3StartX+12}
+          y={Q3ControlY+55}
+          width={Q2EndX-Q3StartX-20}
+          height={Q2EndX-Q3StartX-4}
+          r={13}
+          color="#000000"
+          transform={transformValue}
+        >
+          <RadialGradient
+            c={vec(Q3StartX-70, Q3ControlY-25)}
+            r={40}
+            colors={["#000000f8", "#ff00006e"]}
+            transform={transformValue}
+          />
+          <Shadow dx={0} dy={0} blur={5} color="#000000be" shadowOnly={true} />
         </RoundedRect>
         {/* 심지 */}
         <RoundedRect
