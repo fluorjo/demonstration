@@ -42,7 +42,7 @@ export default function SkiaSVG() {
   const animatedQ1EndY = new Animated.Value(140);
 
   //toValue는 적당히 가까운 값 집어넣고, addListener로 변화시킬 때 랜덤값 넣어서 변화가 랜덤하게 이뤄지게 할까.
-
+  const transformValue=[{ translateX: 100 }, { translateY: 100 }]
   useEffect(() => {
     Animated.loop(
       Animated.parallel([
@@ -361,7 +361,7 @@ export default function SkiaSVG() {
         <Path
           path={pathString}
           color="white"
-          transform={[{ translateX: 100 }, { translateY: 100 }]}
+          transform={transformValue}
         >
           <RadialGradient
             c={vec(startPointX, Q3StartY-20)}
@@ -386,26 +386,29 @@ export default function SkiaSVG() {
           height={Q2EndX-Q3StartX}
           r={24}
           color="#ffb300f9"
-          transform={[{ translateX: 100 }, { translateY: 100 }]}
+          transform={transformValue}
         >
           <Shadow dx={0} dy={0} blur={4} color="#ffa406" shadowOnly={true} />
         </RoundedRect>
         <RoundedRect
-          x={118}
-          y={420}
-          width={65}
-          height={80}
-          r={10}
+          x={Q3StartX}
+          y={Q3ControlY+40}
+          width={Q2EndX-Q3StartX+3}
+          height={Q2EndX-Q3StartX+18}
+          r={13}
           color="#0015ffe3"
+          transform={transformValue}
         >
           <RadialGradient
-            c={vec(150, 458)}
+            c={vec(Q3StartX-70, Q3ControlY-25)}
             r={40}
-            colors={["#0b0060f9", "#6d84e870"]}
+            colors={["#000000f8", "#ff00006e"]}
+            transform={transformValue}
           />
           <Shadow dx={0} dy={5} blur={0} color="#000000" shadowOnly={true} />
-          <Shadow dx={0} dy={0} blur={10} color="#000fb7" shadowOnly={true} />
+          <Shadow dx={0} dy={-2} blur={6} color="#1226ff" shadowOnly={true} />
         </RoundedRect>
+        {/* 심지 */}
         <RoundedRect
           x={144}
           y={440}
