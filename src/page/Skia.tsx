@@ -337,6 +337,9 @@ export default function SkiaSVG() {
   const pathString2 = `M ${Q2ControlX} ${Q2ControlY - 20}
   Q ${Q2EndX + 12} ${Q2EndY} ${Q2EndX - 10} ${Q2EndY + 60}
   Z`;
+  const pathString3 = `M ${Q3ControlX} ${Q3ControlY - 20}
+  Q ${Q3StartX - 12} ${Q3StartY} ${Q3StartX + 10} ${Q3StartY + 60}
+  Z`;
 
   const points = [
     { x: startPointX, y: startPointY, label: "M" },
@@ -443,6 +446,23 @@ export default function SkiaSVG() {
           <Shadow dx={0} dy={0} blur={25} color="#0227acf5" />
         </RoundedRect>
         <Path path={pathString2} color="#0227ac81" transform={transformValue}>
+          <RadialGradient
+            c={vec(startPointX, Q3StartY - 20)}
+            r={80}
+            colors={["#1601ff8e", "#0565ff82"]}
+          />
+          <Shadow
+            dx={0}
+            dy={-15}
+            blur={4}
+            color="#ff5900cc"
+            shadowOnly={false}
+          />
+          {/* <Shadow dx={1} dy={10} blur={40} color="#ff5900" />
+          <Shadow dx={1} dy={30} blur={20} color="#ff8c00" /> */}
+          <Shadow dx={0} dy={60} blur={40} color="#111dff8c" />
+        </Path>
+        <Path path={pathString3} color="#0227ac81" transform={transformValue}>
           <RadialGradient
             c={vec(startPointX, Q3StartY - 20)}
             r={80}
