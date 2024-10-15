@@ -1,16 +1,19 @@
 import {
   Canvas,
+  Circle,
   DiscretePathEffect,
+  Line2DPathEffect,
   LinearGradient,
   Path,
   Path1DPathEffect,
+  processTransform2d,
   RadialGradient,
   RoundedRect,
   Shadow,
   vec,
 } from "@shopify/react-native-skia";
 import React, { useEffect, useState } from "react";
-import { Animated, Easing, View } from "react-native";
+import { Animated, Easing, Text, View } from "react-native";
 
 export default function SkiaSVG() {
   const [startPointX, setStartPointX] = useState(50.0); // 50
@@ -385,6 +388,15 @@ export default function SkiaSVG() {
           <Shadow dx={1} dy={30} blur={10} color="#ff8c00" />
           <Shadow dx={0} dy={60} blur={40} color="#111dff8c" />
         </Path>
+        <Circle
+          cx={(Q3StartX + Q2EndX) / 2}
+          cy={Q3StartY}
+          r={(Q2EndX - Q3StartX) / 2}
+          color="#ffdd00c4"
+          transform={transformValue}
+        >
+          <Shadow dx={0} dy={0} blur={3} color="#ffdd00c4" shadowOnly={true} />
+        </Circle>
         <Path
           path={pathString}
           color="white"
@@ -394,7 +406,7 @@ export default function SkiaSVG() {
         >
           <Shadow
             dx={-5}
-            dy={40}
+            dy={45}
             blur={4}
             color={blueFlame}
             shadowOnly={true}
@@ -411,7 +423,7 @@ export default function SkiaSVG() {
         </Path>
         <RoundedRect
           x={Q3StartX}
-          y={Q3ControlY + 20}
+          y={Q3ControlY + 26}
           width={Q2EndX - Q3StartX}
           height={Q2EndX - Q3StartX}
           r={24}
@@ -422,7 +434,7 @@ export default function SkiaSVG() {
         </RoundedRect>
         <RoundedRect
           x={Q3StartX}
-          y={Q3ControlY + 40}
+          y={Q3ControlY + 49}
           width={Q2EndX - Q3StartX + 3}
           height={Q2EndX - Q3StartX + 18}
           r={13}
@@ -466,14 +478,29 @@ export default function SkiaSVG() {
           color="black"
         >
           <DiscretePathEffect length={4} deviation={1.5} />
+        </RoundedRect>
+        <RoundedRect
+          x={144}
+          y={440}
+          width={11}
+          height={80}
+          r={25}
+          color="black"
+        >
+          <DiscretePathEffect length={4} deviation={1.5} />
           <LinearGradient
             start={{ x: 144, y: 410 }}
             end={{ x: 144, y: 580 }}
             colors={["#632402bd", "#000000"]}
           />
+          <Line2DPathEffect
+            width={0.8}
+            matrix={processTransform2d([{ scale: 1.1 }])}
+          />
           <Shadow dx={0} dy={-10} blur={15} color="#ff8400" />
           <Shadow dx={0} dy={0} blur={25} color="#0227acf5" />
         </RoundedRect>
+        {/* 심지 윗부분 */}
         <RoundedRect
           x={144}
           y={440}
@@ -482,9 +509,8 @@ export default function SkiaSVG() {
           r={25}
           color="#ff4000e2"
         >
-          <Shadow dx={0} dy={0} blur={1} color="#FF5800" shadowOnly={true}/>
-          <Shadow dx={0} dy={-4} blur={6} color="#ff5900"  shadowOnly={false} />
-
+          <Shadow dx={0} dy={0} blur={1} color="#FF5800" shadowOnly={true} />
+          <Shadow dx={0} dy={-4} blur={6} color="#ff5900" shadowOnly={false} />
           <Path1DPathEffect
             path="M 0 0 L 1 1, 4 5, 1 12 Z"
             advance={5}
@@ -492,7 +518,7 @@ export default function SkiaSVG() {
             style="rotate"
           />
         </RoundedRect>
-        {/* {points.map((point, index) => (
+        {points.map((point, index) => (
           <Circle
             key={index}
             cx={point.x + 100}
@@ -502,9 +528,9 @@ export default function SkiaSVG() {
             r={3}
             color="red"
           />
-        ))} */}
+        ))}
       </Canvas>
-      {/* {points.map((point, index) => (
+      {points.map((point, index) => (
         <View
           key={index}
           style={{
@@ -517,7 +543,7 @@ export default function SkiaSVG() {
         >
           <Text style={{ color: "green", fontSize: 10 }}>{point.label}</Text>
         </View>
-      ))} */}
+      ))}
     </View>
   );
 }
