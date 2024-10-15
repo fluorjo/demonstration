@@ -340,6 +340,9 @@ export default function SkiaSVG() {
   const pathString3 = `M ${Q3ControlX} ${Q3ControlY - 20}
   Q ${Q3StartX - 12} ${Q3StartY} ${Q3StartX + 10} ${Q3StartY + 60}
   Z`;
+  const pathString4 = `M ${Q3ControlX} ${Q3ControlY - 20}
+  Q ${Q3StartX - 12} ${Q3StartY} ${Q3StartX + 10} ${Q3StartY + 60}
+  Z`;
 
   const points = [
     { x: startPointX, y: startPointY, label: "M" },
@@ -354,6 +357,7 @@ export default function SkiaSVG() {
     { x: startPointX, y: startPointY, label: "Z" },
   ];
 
+  const blueFlame='#1226ff'
   return (
     <View style={{ flex: 1 }}>
       <Canvas
@@ -378,8 +382,23 @@ export default function SkiaSVG() {
             shadowOnly={false}
           />
           <Shadow dx={1} dy={10} blur={40} color="#ff5900" />
-          <Shadow dx={1} dy={30} blur={20} color="#ff8c00" />
+          <Shadow dx={1} dy={30} blur={10} color="#ff8c00" />
           <Shadow dx={0} dy={60} blur={40} color="#111dff8c" />
+        </Path>
+        <Path
+          path={pathString}
+          color="white"
+          transform={transformValue}
+          start={0.53}
+          end={0.75}
+        >
+          <Shadow
+            dx={-5}
+            dy={40}
+            blur={4}
+            color={blueFlame}
+            shadowOnly={true}
+          />
         </Path>
         <RoundedRect
           x={Q3StartX}
@@ -398,7 +417,7 @@ export default function SkiaSVG() {
           width={Q2EndX - Q3StartX + 3}
           height={Q2EndX - Q3StartX + 18}
           r={13}
-          color="#0015ffe3"
+          color={blueFlame}
           transform={transformValue}
         >
           <RadialGradient
@@ -408,8 +427,9 @@ export default function SkiaSVG() {
             transform={transformValue}
           />
           <Shadow dx={0} dy={5} blur={0} color="#000000" shadowOnly={true} />
-          <Shadow dx={0} dy={-2} blur={6} color="#1226ff" shadowOnly={true} />
+          <Shadow dx={0} dy={-2} blur={4} color={blueFlame} shadowOnly={true} />
         </RoundedRect>
+
         <RoundedRect
           x={Q3StartX + 12}
           y={Q3ControlY + 55}
@@ -445,40 +465,6 @@ export default function SkiaSVG() {
           <Shadow dx={0} dy={-10} blur={15} color="#ff8400" />
           <Shadow dx={0} dy={0} blur={25} color="#0227acf5" />
         </RoundedRect>
-        <Path path={pathString2} color="#0227ac81" transform={transformValue}>
-          <RadialGradient
-            c={vec(startPointX, Q3StartY - 20)}
-            r={80}
-            colors={["#1601ff8e", "#0565ff82"]}
-          />
-          <Shadow
-            dx={0}
-            dy={-15}
-            blur={4}
-            color="#ff5900cc"
-            shadowOnly={false}
-          />
-          {/* <Shadow dx={1} dy={10} blur={40} color="#ff5900" />
-          <Shadow dx={1} dy={30} blur={20} color="#ff8c00" /> */}
-          <Shadow dx={0} dy={60} blur={40} color="#111dff8c" />
-        </Path>
-        <Path path={pathString3} color="#0227ac81" transform={transformValue}>
-          <RadialGradient
-            c={vec(startPointX, Q3StartY - 20)}
-            r={80}
-            colors={["#1601ff8e", "#0565ff82"]}
-          />
-          <Shadow
-            dx={0}
-            dy={-15}
-            blur={4}
-            color="#ff5900cc"
-            shadowOnly={false}
-          />
-          {/* <Shadow dx={1} dy={10} blur={40} color="#ff5900" />
-          <Shadow dx={1} dy={30} blur={20} color="#ff8c00" /> */}
-          <Shadow dx={0} dy={60} blur={40} color="#111dff8c" />
-        </Path>
         {points.map((point, index) => (
           <Circle
             key={index}
