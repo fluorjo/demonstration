@@ -400,6 +400,21 @@ export default function SkiaSVG() {
             shadowOnly={true}
           />
         </Path>
+        <Path
+          path={pathString}
+          color="white"
+          transform={transformValue}
+          start={0.25}
+          end={0.47}
+        >
+          <Shadow
+            dx={5}
+            dy={40}
+            blur={4}
+            color={blueFlame}
+            shadowOnly={true}
+          />
+        </Path>
         <RoundedRect
           x={Q3StartX}
           y={Q3ControlY + 20}
