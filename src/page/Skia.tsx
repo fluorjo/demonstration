@@ -1,16 +1,16 @@
 import {
   Canvas,
-  Circle,
   DiscretePathEffect,
   LinearGradient,
   Path,
+  Path1DPathEffect,
   RadialGradient,
   RoundedRect,
   Shadow,
   vec,
 } from "@shopify/react-native-skia";
 import React, { useEffect, useState } from "react";
-import { Animated, Easing, Text, View } from "react-native";
+import { Animated, Easing, View } from "react-native";
 
 export default function SkiaSVG() {
   const [startPointX, setStartPointX] = useState(50.0); // 50
@@ -357,7 +357,7 @@ export default function SkiaSVG() {
     { x: startPointX, y: startPointY, label: "Z" },
   ];
 
-  const blueFlame='#1226ff'
+  const blueFlame = "#1226ff";
   return (
     <View style={{ flex: 1 }}>
       <Canvas
@@ -407,13 +407,7 @@ export default function SkiaSVG() {
           start={0.25}
           end={0.47}
         >
-          <Shadow
-            dx={5}
-            dy={40}
-            blur={4}
-            color={blueFlame}
-            shadowOnly={true}
-          />
+          <Shadow dx={5} dy={40} blur={4} color={blueFlame} shadowOnly={true} />
         </Path>
         <RoundedRect
           x={Q3StartX}
@@ -480,7 +474,25 @@ export default function SkiaSVG() {
           <Shadow dx={0} dy={-10} blur={15} color="#ff8400" />
           <Shadow dx={0} dy={0} blur={25} color="#0227acf5" />
         </RoundedRect>
-        {points.map((point, index) => (
+        <RoundedRect
+          x={144}
+          y={440}
+          width={11}
+          height={20}
+          r={25}
+          color="#ff4000e2"
+        >
+          <Shadow dx={0} dy={0} blur={1} color="#FF5800" shadowOnly={true}/>
+          <Shadow dx={0} dy={-4} blur={6} color="#ff5900"  shadowOnly={false} />
+
+          <Path1DPathEffect
+            path="M 0 0 L 1 1, 4 5, 1 12 Z"
+            advance={5}
+            phase={6}
+            style="rotate"
+          />
+        </RoundedRect>
+        {/* {points.map((point, index) => (
           <Circle
             key={index}
             cx={point.x + 100}
@@ -490,9 +502,9 @@ export default function SkiaSVG() {
             r={3}
             color="red"
           />
-        ))}
+        ))} */}
       </Canvas>
-      {points.map((point, index) => (
+      {/* {points.map((point, index) => (
         <View
           key={index}
           style={{
@@ -505,7 +517,7 @@ export default function SkiaSVG() {
         >
           <Text style={{ color: "green", fontSize: 10 }}>{point.label}</Text>
         </View>
-      ))}
+      ))} */}
     </View>
   );
 }
