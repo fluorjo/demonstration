@@ -375,7 +375,7 @@ export default function SkiaSVG() {
           <RadialGradient
             c={vec(startPointX, Q3StartY - 20)}
             r={80}
-            colors={["#ffdd00c4", "#ffffff"]}
+            colors={["#ffc800d9", "#ffffff"]}
           />
           <Shadow
             dx={0}
@@ -385,7 +385,7 @@ export default function SkiaSVG() {
             shadowOnly={false}
           />
           <Shadow dx={1} dy={10} blur={40} color="#ff5900" />
-          <Shadow dx={1} dy={30} blur={10} color="#ff8c00" />
+          <Shadow dx={1} dy={30} blur={10} color="#ff8c00d2" />
           <Shadow dx={0} dy={60} blur={40} color="#111dff8c" />
         </Path>
         <Circle
@@ -427,10 +427,10 @@ export default function SkiaSVG() {
           width={Q2EndX - Q3StartX}
           height={Q2EndX - Q3StartX}
           r={24}
-          color="#ffb300f9"
+          color="#ffb300"
           transform={transformValue}
         >
-          <Shadow dx={0} dy={0} blur={3} color="#ffa406" shadowOnly={true} />
+          <Shadow dx={0} dy={0} blur={3} color="#ffbd06" shadowOnly={true} />
         </RoundedRect>
         <RoundedRect
           x={Q3StartX}
@@ -518,6 +518,15 @@ export default function SkiaSVG() {
             style="rotate"
           />
         </RoundedRect>
+        <Circle
+          cx={startPointX}
+          cy={(startPointX+Q3StartY)/2}
+          r={(Q3StartY) / 2+20}
+          color="#ffdd00c4"
+          transform={transformValue}
+        >
+          <Shadow dx={0} dy={-100} blur={40} color="#ff600043" shadowOnly={true} />
+        </Circle>
         {points.map((point, index) => (
           <Circle
             key={index}
