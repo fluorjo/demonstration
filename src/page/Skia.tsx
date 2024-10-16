@@ -360,7 +360,7 @@ export default function SkiaSVG() {
     { x: startPointX, y: startPointY, label: "Z" },
   ];
 
-  const blueFlame = "#1226ff";
+  const blueFlame = "#1241ff";
   return (
     <View style={{ flex: 1 }}>
       <Canvas
@@ -434,7 +434,7 @@ export default function SkiaSVG() {
         </RoundedRect>
         <RoundedRect
           x={Q3StartX}
-          y={Q3ControlY + 49}
+          y={Q3ControlY + 38}
           width={Q2EndX - Q3StartX + 3}
           height={Q2EndX - Q3StartX + 18}
           r={13}
@@ -444,17 +444,17 @@ export default function SkiaSVG() {
           <RadialGradient
             c={vec(Q3StartX - 70, Q3ControlY - 25)}
             r={40}
-            colors={["#000000f8", "#ff00006e"]}
+            colors={["#000000", "#0000006d"]}
             transform={transformValue}
           />
-          <Shadow dx={0} dy={5} blur={0} color="#000000" shadowOnly={true} />
+          <Shadow dx={0} dy={5} blur={0} color="#000000c2" shadowOnly={true} />
           <Shadow dx={0} dy={-2} blur={4} color={blueFlame} shadowOnly={true} />
         </RoundedRect>
-
+{/*가운데 검은 그림자 */}
         <RoundedRect
-          x={Q3StartX + 12}
-          y={Q3ControlY + 55}
-          width={Q2EndX - Q3StartX - 20}
+          x={Q3StartX + 7}
+          y={Q3ControlY + 70}
+          width={Q2EndX - Q3StartX - 10}
           height={Q2EndX - Q3StartX - 4}
           r={13}
           color="#000000"
@@ -466,7 +466,7 @@ export default function SkiaSVG() {
             colors={["#000000f8", "#ff00006e"]}
             transform={transformValue}
           />
-          <Shadow dx={0} dy={0} blur={5} color="#000000be" shadowOnly={true} />
+          <Shadow dx={0} dy={0} blur={4} color="#0000006b" shadowOnly={true} />
         </RoundedRect>
         {/* 심지 */}
         <RoundedRect
