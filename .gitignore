@@ -38,3 +38,4 @@ app.json
 .env
 .yarn/
 *.md
+ios/
