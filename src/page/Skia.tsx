@@ -447,7 +447,7 @@ export default function SkiaSVG() {
             colors={["#000000", "#0000006d"]}
             transform={transformValue}
           />
-          <Shadow dx={0} dy={5} blur={0} color="#000000c2" shadowOnly={true} />
+          <Shadow dx={0} dy={5} blur={0} color="#000000ca" shadowOnly={true} />
           <Shadow dx={0} dy={-2} blur={4} color={blueFlame} shadowOnly={true} />
         </RoundedRect>
 {/*가운데 검은 그림자 */}
@@ -463,10 +463,10 @@ export default function SkiaSVG() {
           <RadialGradient
             c={vec(Q3StartX - 70, Q3ControlY - 25)}
             r={40}
-            colors={["#000000f8", "#ff00006e"]}
+            colors={["#000000ef", "#ff00006e"]}
             transform={transformValue}
           />
-          <Shadow dx={0} dy={0} blur={4} color="#0000006b" shadowOnly={true} />
+          <Shadow dx={0} dy={0} blur={4} color="#000000a8" shadowOnly={true} />
         </RoundedRect>
         {/* 심지 */}
         <RoundedRect
@@ -518,6 +518,7 @@ export default function SkiaSVG() {
             style="rotate"
           />
         </RoundedRect>
+        {/* 빛*/}
         <Circle
           cx={startPointX}
           cy={(startPointX+Q3StartY)/2}

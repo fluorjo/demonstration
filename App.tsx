@@ -1,17 +1,16 @@
-import { Ionicons } from "@expo/vector-icons";
+import Entypo from "@expo/vector-icons/Entypo";
+
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import * as Location from "expo-location";
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, StyleSheet } from "react-native";
+import CandleIcon from "./src/icons/CandleIcon";
 import DemoIcon from "./src/icons/DemoIcon";
 import RestroomIcon from "./src/icons/RestroomIcon";
+import ETCPage from "./src/page/ETCPage";
 import PoliceDemoInfoPage from "./src/page/PoliceDemoInfoPage";
 import RestRoomPage from "./src/page/RestRoomPage";
-import LoadingComponent from "./src/components/Loading";
-import CandlePage from "./src/page/CandlePage";
-import Flame from "./src/page/Flame";
-import SVG from "./src/page/Svg";
 import SkiaSVG from "./src/page/Skia";
 
 const Tab = createBottomTabNavigator();
@@ -48,13 +47,8 @@ export default function App() {
     }
   }, []);
 
-  function HomeScreen() {
-    return (
-      <View>
-        <Text>{currentLatitude}</Text>
-        <Text>{currentLongitude}</Text>
-      </View>
-    );
+  function ETC() {
+    return <ETCPage />;
   }
 
   function RestRoom() {
@@ -76,13 +70,6 @@ export default function App() {
       <NavigationContainer>
         <Tab.Navigator initialRouteName="Candle">
           <Tab.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{
-              tabBarIcon: () => <Ionicons name="home" size={35} />,
-            }}
-          />
-          <Tab.Screen
             name="RestRoom"
             component={RestRoom}
             options={{
@@ -103,7 +90,16 @@ export default function App() {
             component={Candle}
             options={{
               title: "촛불",
-              tabBarIcon: ({ color, size }) => <DemoIcon />,
+              tabBarIcon: ({ color, size }) => <CandleIcon />,
+            }}
+          />
+          <Tab.Screen
+            name=" "
+            component={ETC}
+            options={{
+              tabBarIcon: () => (
+                <Entypo name="dots-three-horizontal" size={32} color="black" />
+              ),
             }}
           />
         </Tab.Navigator>
