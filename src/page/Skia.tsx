@@ -361,6 +361,7 @@ export default function SkiaSVG() {
   ];
 
   const blueFlame = "#1241ff";
+  const yellow = "#c98701d9";
   return (
     <View style={{ flex: 1 }}>
       <Canvas
@@ -375,7 +376,7 @@ export default function SkiaSVG() {
           <RadialGradient
             c={vec(startPointX, Q3StartY - 20)}
             r={80}
-            colors={["#ffc800d9", "#ffffff"]}
+            colors={[yellow, "#ffffff"]}
           />
           <Shadow
             dx={0}
@@ -392,10 +393,10 @@ export default function SkiaSVG() {
           cx={(Q3StartX + Q2EndX) / 2}
           cy={Q3StartY}
           r={(Q2EndX - Q3StartX) / 2}
-          color="#ffdd00c4"
+          color={yellow}
           transform={transformValue}
         >
-          <Shadow dx={0} dy={0} blur={3} color="#ffdd00c4" shadowOnly={true} />
+          <Shadow dx={0} dy={0} blur={3} color={yellow} shadowOnly={true} />
         </Circle>
         <Path
           path={pathString}
@@ -427,10 +428,10 @@ export default function SkiaSVG() {
           width={Q2EndX - Q3StartX}
           height={Q2EndX - Q3StartX}
           r={24}
-          color="#ffb300"
+          color={yellow}
           transform={transformValue}
         >
-          <Shadow dx={0} dy={0} blur={3} color="#ffbd06" shadowOnly={true} />
+          <Shadow dx={0} dy={0} blur={3} color={yellow}shadowOnly={true} />
         </RoundedRect>
         <RoundedRect
           x={Q3StartX}
@@ -466,7 +467,7 @@ export default function SkiaSVG() {
             colors={["#000000ef", "#ff00006e"]}
             transform={transformValue}
           />
-          <Shadow dx={0} dy={0} blur={4} color="#000000a8" shadowOnly={true} />
+          <Shadow dx={0} dy={0} blur={4} color="#0801874b" shadowOnly={true} />
         </RoundedRect>
         {/* 심지 */}
         <RoundedRect
@@ -497,8 +498,8 @@ export default function SkiaSVG() {
             width={0.8}
             matrix={processTransform2d([{ scale: 1.1 }])}
           />
-          <Shadow dx={0} dy={-10} blur={15} color="#ff8400" />
-          <Shadow dx={0} dy={0} blur={25} color="#0227acf5" />
+          <Shadow dx={0} dy={-10} blur={15} color="#ff000022" />
+          <Shadow dx={0} dy={0} blur={0} color="#0000006c" />
         </RoundedRect>
         {/* 심지 윗부분 */}
         <RoundedRect
@@ -523,10 +524,10 @@ export default function SkiaSVG() {
           cx={startPointX}
           cy={(startPointX+Q3StartY)/2}
           r={(Q3StartY) / 2+20}
-          color="#ffdd00c4"
+          color="#ffffffc4"
           transform={transformValue}
         >
-          <Shadow dx={0} dy={-100} blur={40} color="#ff600043" shadowOnly={true} />
+          <Shadow dx={0} dy={-100} blur={40} color="#ff620050" shadowOnly={true} />
         </Circle>
         {points.map((point, index) => (
           <Circle

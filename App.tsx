@@ -94,11 +94,11 @@ export default function App() {
             }}
           />
           <Tab.Screen
-            name=" "
+            name="ETC"
             component={ETC}
             options={{
               tabBarIcon: () => (
-                <Entypo name="dots-three-horizontal" size={32} color="black" />
+                <Entypo name="dots-three-horizontal" size={30} color="black" />
               ),
             }}
           />
