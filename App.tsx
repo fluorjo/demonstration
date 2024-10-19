@@ -50,7 +50,6 @@ export default function App() {
   function ETC() {
     return <ETCPage />;
   }
-
   function RestRoom() {
     return <RestRoomPage />;
   }

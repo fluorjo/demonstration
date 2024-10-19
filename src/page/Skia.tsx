@@ -389,15 +389,39 @@ export default function SkiaSVG() {
           <Shadow dx={1} dy={30} blur={10} color="#ff8c00d2" />
           <Shadow dx={0} dy={60} blur={40} color="#111dff8c" />
         </Path>
-        <Circle
+        <RoundedRect
+          x={Q3StartX}
+          y={Q3ControlY + 26}
+          width={Q2EndX - Q3StartX}
+          height={Q2EndX - Q3StartX}
+          r={24}
+          color={yellow}
+          transform={transformValue}
+        >
+          <Shadow dx={0} dy={0} blur={10} color={yellow} shadowOnly={true} />
+        </RoundedRect>
+        <RoundedRect
+          x={Q3StartX}
+          y={Q3ControlY + 26}
+          width={Q2EndX - Q3StartX}
+          height={Q2EndX - Q3StartX}
+          r={24}
+          color={yellow}
+          transform={transformValue}
+        >
+          <Shadow dx={0} dy={0} blur={10} color={yellow} shadowOnly={true} />
+        </RoundedRect>
+        {/* <Circle
           cx={(Q3StartX + Q2EndX) / 2}
           cy={Q3StartY}
           r={(Q2EndX - Q3StartX) / 2}
           color={yellow}
           transform={transformValue}
         >
-          <Shadow dx={0} dy={0} blur={3} color={yellow} shadowOnly={true} />
-        </Circle>
+          <Shadow dx={0} dy={0} blur={5} color={yellow} shadowOnly={true} />
+        </Circle> */}
+
+        {/*양옆 올라오는 파란 불*/}
         <Path
           path={pathString}
           color="white"
@@ -422,17 +446,7 @@ export default function SkiaSVG() {
         >
           <Shadow dx={5} dy={40} blur={4} color={blueFlame} shadowOnly={true} />
         </Path>
-        <RoundedRect
-          x={Q3StartX}
-          y={Q3ControlY + 26}
-          width={Q2EndX - Q3StartX}
-          height={Q2EndX - Q3StartX}
-          r={24}
-          color={yellow}
-          transform={transformValue}
-        >
-          <Shadow dx={0} dy={0} blur={3} color={yellow}shadowOnly={true} />
-        </RoundedRect>
+
         <RoundedRect
           x={Q3StartX}
           y={Q3ControlY + 38}
@@ -449,9 +463,9 @@ export default function SkiaSVG() {
             transform={transformValue}
           />
           <Shadow dx={0} dy={5} blur={0} color="#000000ca" shadowOnly={true} />
-          <Shadow dx={0} dy={-2} blur={4} color={blueFlame} shadowOnly={true} />
+          <Shadow dx={0} dy={-2} blur={6} color={blueFlame} shadowOnly={true} />
         </RoundedRect>
-{/*가운데 검은 그림자 */}
+        {/*가운데 검은 그림자 */}
         <RoundedRect
           x={Q3StartX + 7}
           y={Q3ControlY + 70}
@@ -467,7 +481,7 @@ export default function SkiaSVG() {
             colors={["#000000ef", "#ff00006e"]}
             transform={transformValue}
           />
-          <Shadow dx={0} dy={0} blur={4} color="#0801874b" shadowOnly={true} />
+          <Shadow dx={0} dy={0} blur={40} color="#0000004f" shadowOnly={true} />
         </RoundedRect>
         {/* 심지 */}
         <RoundedRect
@@ -522,12 +536,18 @@ export default function SkiaSVG() {
         {/* 빛*/}
         <Circle
           cx={startPointX}
-          cy={(startPointX+Q3StartY)/2}
-          r={(Q3StartY) / 2+20}
+          cy={(startPointX + Q3StartY) / 2}
+          r={Q3StartY / 2 + 20}
           color="#ffffffc4"
           transform={transformValue}
         >
-          <Shadow dx={0} dy={-100} blur={40} color="#ff620050" shadowOnly={true} />
+          <Shadow
+            dx={0}
+            dy={-100}
+            blur={40}
+            color="#ff620050"
+            shadowOnly={true}
+          />
         </Circle>
         {points.map((point, index) => (
           <Circle
