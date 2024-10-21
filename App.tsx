@@ -67,7 +67,7 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <NavigationContainer>
-        <Tab.Navigator initialRouteName="ETC">
+        <Tab.Navigator initialRouteName="Demo">
           <Tab.Screen
             name="RestRoom"
             component={RestRoom}
