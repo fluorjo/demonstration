@@ -1,7 +1,6 @@
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { ReactNativeZoomableView } from "@openspacelabs/react-native-zoomable-view";
 import * as Linking from "expo-linking";
-import React, { useEffect, useRef, useState } from "react";
+import React, { createRef, useEffect, useRef, useState } from "react";
 
 import {
   Dimensions,
@@ -20,14 +19,13 @@ import {
   GestureDetector,
   GestureHandlerRootView,
 } from "react-native-gesture-handler";
-import Animated, {
+import {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
 import CalendarComponent from "../components/Calendar";
 import FloatingButton from "../components/FloatingButton";
-import LoadingComponent from "../components/Loading";
 import getPaperInfo from "./PaperInfo";
 export default function PoliceDemoInfoPage() {
   const [IMG_URL_Array, setIMG_URL_Array] = useState<String[] | null>(null);
@@ -200,16 +198,12 @@ export default function PoliceDemoInfoPage() {
   function zoom() {
     console.log(zoomScale);
     if (zoomScale !== 1) {
-      scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: false });
+      zoomableViewRef.current!.zoomTo(1);
       setZoomScale(1);
     } else {
-      setZoomScale(2.5);
+      zoomableViewRef.current!.zoomTo(3.5);
+      setZoomScale(3.5);
     }
-
-    isButtonZoom.current = true;
-    setTimeout(() => {
-      isButtonZoom.current = false;
-    }, 300);
   }
 
   const setCalendarModal = () => {
@@ -268,6 +262,8 @@ export default function PoliceDemoInfoPage() {
       setIsArrowVisible(true);
     })
     .onEnd(() => {
+      console.log(translationX.value);
+
       if (zoomScale === 1) {
         if (translationX.value > 50) {
           translationX.value = withTiming(0);
@@ -356,29 +352,33 @@ export default function PoliceDemoInfoPage() {
       null;
     }
   };
-
+  const zoomableViewRef = createRef<ReactNativeZoomableView>();
+  const setNewZoomLevel = (event, gestureState, zoomableViewEventObject) => {
+    setZoomScale(zoomableViewEventObject.zoomLevel);
+    console.log(zoomScale);
+  };
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <>
         <ReactNativeZoomableView
-          maxZoom={2.5}
+          maxZoom={3.5}
           minZoom={1}
           zoomStep={0.5}
           initialZoom={zoomScale}
           bindToBorders={true}
-          onZoomAfter={this.logOutZoomState}
+          onZoomAfter={setNewZoomLevel}
           style={styles.container}
+          ref={zoomableViewRef}
+          disablePanOnInitialZoom={false}
         >
-          {/* <GestureDetector gesture={pan}>
-            <Animated.View style={[animatedStyles]}>
-              <Image
-                source={require("../../assets/image.png")}
-                style={styles.TodayDemoInfoImg}
-              />
-            </Animated.View>
-          </GestureDetector> */}
-
           <GestureDetector gesture={pan}>
+            <Image
+              source={require("../../assets/image.png")}
+              style={styles.TodayDemoInfoImg}
+            />
+          </GestureDetector>
+
+          {/* <GestureDetector gesture={pan}>
             {errorMessage ? (
               <View style={styles.loadingOrErrorContainer}>
                 <Text style={styles.errorMessage}>{errorMessage}</Text>
@@ -409,7 +409,7 @@ export default function PoliceDemoInfoPage() {
                 ) : null}
               </>
             )}
-          </GestureDetector>
+          </GestureDetector> */}
           {/* <GestureDetector gesture={composed}>
             <Animated.View style={[styles.box, animatedStyles]}></Animated.View>
           </GestureDetector> */}
@@ -439,6 +439,7 @@ export default function PoliceDemoInfoPage() {
           onPress={zoom}
           ExtraStyle={styles.zoomButton}
         />
+
         <FloatingButton
           IconName={"calendar-month"}
           onPress={setCalendarModal}
