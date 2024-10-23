@@ -1,14 +1,13 @@
+import Entypo from "@expo/vector-icons/Entypo";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { ReactNativeZoomableView } from "@openspacelabs/react-native-zoomable-view";
 import * as Linking from "expo-linking";
-import React, { createRef, useEffect, useRef, useState } from "react";
+import React, { createRef, useEffect, useState } from "react";
 
 import {
   Dimensions,
   Image,
   Modal,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -25,14 +24,13 @@ import {
   withTiming,
 } from "react-native-reanimated";
 import CalendarComponent from "../components/Calendar";
+import FloatingActionBtnContainer from "../components/FABtnContainer";
 import FloatingButton from "../components/FloatingButton";
 import getPaperInfo from "./PaperInfo";
 export default function PoliceDemoInfoPage() {
   const [IMG_URL_Array, setIMG_URL_Array] = useState<String[] | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const scrollViewRef = useRef<ScrollView>(null);
   const [zoomScale, setZoomScale] = useState<number>(1);
-  const isButtonZoom = useRef<boolean>(false);
   const [NewestDay, setNewestDay] = useState<string | undefined>();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isArrowVisible, setIsArrowVisible] = useState<boolean>(false);
@@ -179,8 +177,6 @@ export default function PoliceDemoInfoPage() {
       const todayDate = getTodayDate();
       const fetchedNewestDay = await fetchPageData(todayDate);
       setNewestDay(fetchedNewestDay);
-      // await fetchPageData("2024-09-26");
-      // setNewestDay(await fetchPageData("2024-09-26"));
     };
     fetchData();
   }, []);
@@ -189,14 +185,13 @@ export default function PoliceDemoInfoPage() {
     setTargetDay(targetDay);
   }, [targetDay]);
 
-  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    if (!isButtonZoom.current) {
-      const zoom = event.nativeEvent.zoomScale || 1;
-      setZoomScale(zoom);
-    }
-  };
+  // const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+  //   if (!isButtonZoom.current) {
+  //     const zoom = event.nativeEvent.zoomScale || 1;
+  //     setZoomScale(zoom);
+  //   }
+  // };
   function zoom() {
-    console.log(zoomScale);
     if (zoomScale !== 1) {
       zoomableViewRef.current!.zoomTo(1);
       setZoomScale(1);
@@ -357,6 +352,25 @@ export default function PoliceDemoInfoPage() {
     setZoomScale(zoomableViewEventObject.zoomLevel);
     console.log(zoomScale);
   };
+
+  const zoomIconName=zoomScale === 1 ? "zoom-in" : "zoom-out";
+  const buttons = [
+    {
+      IconName: "link",
+      onPress: openLink,
+      ExtraStyle: styles.linkButton,
+    },
+    {
+      IconName: "calendar-month",
+      onPress: setCalendarModal,
+      ExtraStyle: styles.calendarButton,
+    },
+    {
+      IconName: zoomIconName,
+      onPress: zoom,
+      ExtraStyle: styles.zoomButton,
+    },
+  ];
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <>
@@ -372,44 +386,41 @@ export default function PoliceDemoInfoPage() {
           disablePanOnInitialZoom={false}
         >
           <GestureDetector gesture={pan}>
-            <Image
-              source={require("../../assets/image.png")}
-              style={styles.TodayDemoInfoImg}
-            />
-          </GestureDetector>
-
-          {/* <GestureDetector gesture={pan}>
             {errorMessage ? (
               <View style={styles.loadingOrErrorContainer}>
                 <Text style={styles.errorMessage}>{errorMessage}</Text>
               </View>
             ) : IMG_URL_Array === null ? (
-              <View style={styles.loadingOrErrorContainer}>
-                <LoadingComponent />
-              </View>
+              <View></View>
             ) : (
+              // <View style={styles.loadingOrErrorContainer}>
+              //   <LoadingComponent />
+              // </View>
               <>
-                <Image
+                {/* <Image
                   source={{ uri: IMG_URL_Array[imgIndex].toString() }}
                   style={styles.TodayDemoInfoImg}
+                  /> */}
+                <Image
+                  source={require("../../assets/image.png")}
+                  style={styles.TodayDemoInfoImg}
                 />
-                {isArrowVisible ? (
-                  <>
-                    <MaterialIcons
-                      name={"chevron-left"}
-                      color="black"
-                      style={extra_styles.arrow_left}
-                    />
-                    <MaterialIcons
-                      name={"chevron-right"}
-                      color="black"
-                      style={extra_styles.arrow_right}
-                    />
-                  </>
-                ) : null}
               </>
             )}
-          </GestureDetector> */}
+          </GestureDetector>
+          <>
+            <Entypo
+              name="arrow-with-circle-right"
+              size={24}
+              color="black"
+              style={extra_styles.arrow_right}
+            />
+            <MaterialIcons
+              name={"chevron-left"}
+              color="black"
+              style={extra_styles.arrow_left}
+            />
+          </>
           {/* <GestureDetector gesture={composed}>
             <Animated.View style={[styles.box, animatedStyles]}></Animated.View>
           </GestureDetector> */}
@@ -434,13 +445,12 @@ export default function PoliceDemoInfoPage() {
             </Modal>
           </View>
         </ReactNativeZoomableView>
-        <FloatingButton
+        {/* <FloatingButton
           IconName={zoomScale === 1 ? "zoom-in" : "zoom-out"}
           onPress={zoom}
           ExtraStyle={styles.zoomButton}
         />
-
-        <FloatingButton
+         <FloatingButton
           IconName={"calendar-month"}
           onPress={setCalendarModal}
           ExtraStyle={styles.calendarButton}
@@ -449,8 +459,11 @@ export default function PoliceDemoInfoPage() {
           IconName={"link"}
           onPress={openLink}
           ExtraStyle={styles.linkButton}
-        />
+        />  */}
         <>{renderArrows()}</>
+        <FloatingActionBtnContainer
+          buttons={buttons}
+        ></FloatingActionBtnContainer>
       </>
     </GestureHandlerRootView>
   );

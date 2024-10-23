@@ -151,6 +151,7 @@ const Map = ({ currentLocation, locations }: MapProps) => {
         onPress={moveToCurrentLocation}
         IconName={"my-location"}
       />
+      {/* 이거 각 버튼이 뭘 의미하는지 옆에 텍스트 붙여야겠다.  */}
       <FloatingActionBtn
         toggleFilter={(type) => {
           const newFilteredType = filteredType.includes(type)
