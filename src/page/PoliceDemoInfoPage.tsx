@@ -25,7 +25,6 @@ import {
 } from "react-native-reanimated";
 import CalendarComponent from "../components/Calendar";
 import FloatingActionBtnContainer from "../components/FABtnContainer";
-import FloatingButton from "../components/FloatingButton";
 import getPaperInfo from "./PaperInfo";
 export default function PoliceDemoInfoPage() {
   const [IMG_URL_Array, setIMG_URL_Array] = useState<String[] | null>(null);
@@ -353,7 +352,7 @@ export default function PoliceDemoInfoPage() {
     console.log(zoomScale);
   };
 
-  const zoomIconName=zoomScale === 1 ? "zoom-in" : "zoom-out";
+  const zoomIconName = zoomScale === 1 ? "zoom-in" : "zoom-out";
   const buttons = [
     {
       IconName: "link",
@@ -372,7 +371,7 @@ export default function PoliceDemoInfoPage() {
     },
   ];
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={styles.rootContainer}>
       <>
         <ReactNativeZoomableView
           maxZoom={3.5}
@@ -408,7 +407,7 @@ export default function PoliceDemoInfoPage() {
               </>
             )}
           </GestureDetector>
-          <>
+          {/* <>
             <Entypo
               name="arrow-with-circle-right"
               size={24}
@@ -420,7 +419,7 @@ export default function PoliceDemoInfoPage() {
               color="black"
               style={extra_styles.arrow_left}
             />
-          </>
+          </> */}
           {/* <GestureDetector gesture={composed}>
             <Animated.View style={[styles.box, animatedStyles]}></Animated.View>
           </GestureDetector> */}
@@ -460,16 +459,20 @@ export default function PoliceDemoInfoPage() {
           onPress={openLink}
           ExtraStyle={styles.linkButton}
         />  */}
-        <>{renderArrows()}</>
-        <FloatingActionBtnContainer
-          buttons={buttons}
-        ></FloatingActionBtnContainer>
+        {/* <>{renderArrows()}</> */}
       </>
+      <FloatingActionBtnContainer buttons={buttons} />
     </GestureHandlerRootView>
   );
 }
 
 const styles = StyleSheet.create({
+  rootContainer:{
+    flex:1,
+    display:'flex',
+    alignContent:'center',
+    // alignItems:'center',
+  },
   container: {
     flex: 1,
   },

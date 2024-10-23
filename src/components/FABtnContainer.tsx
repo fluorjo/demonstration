@@ -1,16 +1,17 @@
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import React from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 import Animated, { useSharedValue } from "react-native-reanimated";
 import FloatingButton from "./FloatingButton";
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+const { width, height } = Dimensions.get("window");
 
 export default function FloatingActionBtnContainer({ buttons }) {
   const isExpanded = useSharedValue(false);
 
   const handlePress = () => {
+    console.log( isExpanded.value );
     isExpanded.value = !isExpanded.value;
   };
 
@@ -20,16 +21,19 @@ export default function FloatingActionBtnContainer({ buttons }) {
         onPress={handlePress}
         style={[styles.shadow, mainButtonStyles.button]}
       >
-       <FontAwesome name="plus" size={24} color="black" />
+        <FontAwesome name="plus" size={24} color="black" />
       </AnimatedPressable>
-
-      {buttons.map((button, index) => (
-        <FloatingButton
-          IconName={button.IconName}
-          onPress={button.onPress}
-          ExtraStyle={button.ExtraStyle}
-        />
-      ))}
+      {isExpanded ? (
+        <>
+          {buttons.map((button, index) => (
+            <FloatingButton
+              IconName={button.IconName}
+              onPress={button.onPress}
+              ExtraStyle={button.ExtraStyle}
+            />
+          ))}
+        </>
+      ) : null}
     </View>
   );
 }
@@ -44,6 +48,9 @@ const mainButtonStyles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    transform: [
+      { translateX: width * 0.5 - 20 }, // 화면 너비의 50%로 이동, 뷰 너비의 절반을 빼서 중앙 정렬
+    ],
   },
 });
 
@@ -51,12 +58,13 @@ const styles = StyleSheet.create({
   buttonContainer: {
     position: "absolute",
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
     alignItems: "center",
-    top: 20,
-    right: 20,
+    width: "100%",
+    height: 80,
+    bottom: 20,
     zIndex: 1,
-    backgroundColor:'blue'
+    backgroundColor: "blue",
   },
   shadow: {
     shadowColor: "#171717",
