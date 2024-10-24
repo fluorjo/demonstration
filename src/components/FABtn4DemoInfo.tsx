@@ -73,22 +73,6 @@ export const FABtn4Demo: React.FC<FloatingButtonProps> = ({
   );
 };
 
-const mainButtonStyles = StyleSheet.create({
-  button: {
-    zIndex: 2,
-    height: 40,
-    width: 40,
-    borderRadius: 100,
-    backgroundColor: "#ffffff",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  content: {
-    fontSize: 24,
-    color: "#f8f9ff",
-  },
-});
 
 const styles = StyleSheet.create({
   mainContainer: {
