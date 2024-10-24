@@ -1,46 +1,50 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import React from "react";
+import React, { useState } from "react";
 import { Dimensions, Pressable, StyleSheet, View } from "react-native";
-import Animated, { useSharedValue } from "react-native-reanimated";
+import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
 import { FABtn4Demo } from "./FABtn4DemoInfo";
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
-const SPRING_CONFIG = {
-  duration: 1200,
-  overshootClamping: true,
-  dampingRatio: 0.8,
-};
-
-const OFFSET = 60;
 
 export default function FloatingActionBtnContainer({ buttons }) {
+
   const isExpanded = useSharedValue(false);
-
+  const rotation = useSharedValue(0);
   const handlePress = () => {
-    console.log(isExpanded.value);
     isExpanded.value = !isExpanded.value;
+    rotation.value = isExpanded.value ? 0 : 45; 
   };
-
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { translateX: width * 0.5 - 20 },
+        { rotateZ: withTiming(`${rotation.value}deg`) }, 
+      ],
+    };
+  });
   return (
     <View style={styles.buttonContainer}>
-      <AnimatedPressable
-        onPress={handlePress}
-        style={[styles.shadow, mainButtonStyles.button]}
-      >
-        <FontAwesome name="plus" size={24} color="black" />
-      </AnimatedPressable>
-          {buttons.map((button, index) => (
-            <FABtn4Demo
-            isExpanded={isExpanded}
-              IconName={button.IconName}
-              onPress={button.onPress}
-              ExtraStyle={button.ExtraStyle}
-              key={index}
-              index={index + 1}
-            />
-          ))}
+        <AnimatedPressable
+          onPress={handlePress}
+          style={[styles.shadow, mainButtonStyles.button, animatedStyle]}
+
+        >
+          <FontAwesome name="plus" size={24} color="black" />
+        </AnimatedPressable>
+      
+
+      {buttons.map((button, index) => (
+        <FABtn4Demo
+          isExpanded={isExpanded}
+          IconName={button.IconName}
+          onPress={button.onPress}
+          ExtraStyle={button.ExtraStyle}
+          key={index}
+          index={index + 1}
+        />
+      ))}
     </View>
   );
 }
@@ -55,8 +59,8 @@ const mainButtonStyles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    transform: [
-      { translateX: width * 0.5 - 20 }, 
+    transform: [{ translateX: width * 0.5 - 20 }
+      // ,{rotateZ:'45deg'}
     ],
   },
 });

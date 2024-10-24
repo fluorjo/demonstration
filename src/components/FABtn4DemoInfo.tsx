@@ -1,6 +1,6 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import React from "react";
-import { Pressable, StyleSheet, ViewStyle } from "react-native";
+import { Dimensions, Pressable, StyleSheet, ViewStyle } from "react-native";
 import Animated, {
   useAnimatedStyle,
   withDelay,
@@ -9,6 +9,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+const { width } = Dimensions.get("window");
 
 const SPRING_CONFIG = {
   duration: 1200,
@@ -16,7 +17,7 @@ const SPRING_CONFIG = {
   dampingRatio: 0.8,
 };
 
-const OFFSET = 60;
+const OFFSET = 50;
 
 interface FloatingButtonProps {
   IconName: keyof typeof MaterialIcons.glyphMap;
@@ -35,13 +36,22 @@ export const FABtn4Demo: React.FC<FloatingButtonProps> = ({
 }) => {
   const animatedStyles = useAnimatedStyle(() => {
     const moveValue = isExpanded.value ? OFFSET * index : 0;
-    const scaleValue = isExpanded.value ? 1 : 0;
-    const translateValue = withSpring(moveValue, SPRING_CONFIG);
+    const halfScreenWidth = width / 2;
+
+    const scaleValue = isExpanded.value ? 0.8 : 0;
+    const translateValue =
+      index < 2
+        ? withSpring(halfScreenWidth - OFFSET * (2 - index) - 20, SPRING_CONFIG) // 왼쪽으로 이동
+        : withSpring(
+            halfScreenWidth + OFFSET * (index - 2) + 30,
+            SPRING_CONFIG
+          ); // 오른쪽으로 이동
+
     const delay = index * 10;
 
     return {
       transform: [
-        { translateY: translateValue },
+        { translateX: translateValue },
         {
           scale: withDelay(delay, withTiming(scaleValue)),
         },
@@ -92,7 +102,7 @@ const styles = StyleSheet.create({
   button: {
     width: 40,
     height: 40,
-    backgroundColor: "#7d7d7d",
+    backgroundColor: "#ffffff",
     position: "absolute",
     borderRadius: 100,
     display: "flex",
@@ -100,6 +110,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     zIndex: -2,
     flexDirection: "row",
+    // left:165
   },
   buttonContainer: {
     position: "absolute",
