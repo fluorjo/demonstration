@@ -1,5 +1,3 @@
-import Entypo from "@expo/vector-icons/Entypo";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { ReactNativeZoomableView } from "@openspacelabs/react-native-zoomable-view";
 import * as Linking from "expo-linking";
 import React, { createRef, useEffect, useState } from "react";
@@ -353,18 +351,26 @@ export default function PoliceDemoInfoPage() {
   };
 
   const zoomIconName = zoomScale === 1 ? "zoom-in" : "zoom-out";
+  const isExpanded = useSharedValue(false);
+
   const buttons = [
     {
+      isExpanded: isExpanded,
+      index: 0,
       IconName: "link",
       onPress: openLink,
       ExtraStyle: styles.linkButton,
     },
     {
+      isExpanded: isExpanded,
+      index: 1,
       IconName: "calendar-month",
       onPress: setCalendarModal,
       ExtraStyle: styles.calendarButton,
     },
     {
+      isExpanded:isExpanded,
+      index:2,
       IconName: zoomIconName,
       onPress: zoom,
       ExtraStyle: styles.zoomButton,
@@ -467,10 +473,10 @@ export default function PoliceDemoInfoPage() {
 }
 
 const styles = StyleSheet.create({
-  rootContainer:{
-    flex:1,
-    display:'flex',
-    alignContent:'center',
+  rootContainer: {
+    flex: 1,
+    display: "flex",
+    alignContent: "center",
     // alignItems:'center',
   },
   container: {

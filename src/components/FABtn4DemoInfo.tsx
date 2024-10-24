@@ -1,9 +1,8 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import React from "react";
-import { Image, Pressable, StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, ViewStyle } from "react-native";
 import Animated, {
   useAnimatedStyle,
-  useSharedValue,
   withDelay,
   withSpring,
   withTiming,
@@ -19,12 +18,20 @@ const SPRING_CONFIG = {
 
 const OFFSET = 60;
 
-const FloatingActionButton = ({
-  isExpanded,
+interface FloatingButtonProps {
+  IconName: keyof typeof MaterialIcons.glyphMap;
+  onPress: () => void;
+  ExtraStyle?: ViewStyle;
+  isExpanded: any;
+  index: number;
+}
+
+export const FABtn4Demo: React.FC<FloatingButtonProps> = ({
   index,
-  icon,
   onPress,
-  backgroundColor,
+  IconName,
+  ExtraStyle,
+  isExpanded,
 }) => {
   const animatedStyles = useAnimatedStyle(() => {
     const moveValue = isExpanded.value ? OFFSET * index : 0;
@@ -44,68 +51,17 @@ const FloatingActionButton = ({
 
   return (
     <AnimatedPressable
-      style={[
-        animatedStyles,
-        styles.shadow,
-        styles.button,
-        { backgroundColor: backgroundColor },
-      ]}
+      style={[animatedStyles, styles.shadow, styles.button]}
       onPress={onPress}
     >
-      <Image source={icon} style={{ width: 30, height: 30 }} />
+      <MaterialIcons
+        name={IconName}
+        color="black"
+        style={styles.floatingbtnIcon}
+      />
     </AnimatedPressable>
   );
 };
-
-export default function FloatingActionBtn({ toggleFilter, filteredType }) {
-  const isExpanded = useSharedValue(false);
-
-  const handlePress = () => {
-    isExpanded.value = !isExpanded.value;
-  };
-  const getBackgroundColor = (type) => {
-    return filteredType.includes(type) ? "#ffffff" : "#7d7d7d";
-  };
-
-  return (
-    <View style={styles.buttonContainer}>
-      <AnimatedPressable
-        onPress={handlePress}
-        style={[styles.shadow, mainButtonStyles.button]}
-      >
-        <MaterialIcons name="filter-alt" size={24} color="black" />
-      </AnimatedPressable>
-      <FloatingActionButton
-        isExpanded={isExpanded}
-        index={1}
-        icon={require("../../assets/Building.png")}
-        onPress={() => toggleFilter("민간개방화장실")}
-        backgroundColor={getBackgroundColor("민간개방화장실")}
-      />
-      <FloatingActionButton
-        isExpanded={isExpanded}
-        index={2}
-        icon={require("../../assets/Government.png")}
-        onPress={() => toggleFilter("공공청사")}
-        backgroundColor={getBackgroundColor("공공청사")}
-      />
-      <FloatingActionButton
-        isExpanded={isExpanded}
-        index={3}
-        icon={require("../../assets/Subway.png")}
-        onPress={() => toggleFilter("지하철")}
-        backgroundColor={getBackgroundColor("지하철")}
-      />
-      <FloatingActionButton
-        isExpanded={isExpanded}
-        index={4}
-        icon={require("../../assets/PublicToilet.png")}
-        onPress={() => toggleFilter("공중")}
-        backgroundColor={getBackgroundColor("공중")}
-      />
-    </View>
-  );
-}
 
 const mainButtonStyles = StyleSheet.create({
   button: {
@@ -163,5 +119,22 @@ const styles = StyleSheet.create({
   content: {
     color: "#f8f9ff",
     fontWeight: 500,
+  },
+  floatingbtn: {
+    borderWidth: 1,
+    borderColor: "rgba(0,0,0,0.2)",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    width: 40,
+    height: 40,
+    backgroundColor: "white",
+    borderRadius: 100,
+    zIndex: 1,
+  },
+  floatingbtnIcon: {
+    fontSize: 30,
   },
 });

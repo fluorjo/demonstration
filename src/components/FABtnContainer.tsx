@@ -2,16 +2,24 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import React from "react";
 import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 import Animated, { useSharedValue } from "react-native-reanimated";
-import FloatingButton from "./FloatingButton";
+import { FABtn4Demo } from "./FABtn4DemoInfo";
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 const { width, height } = Dimensions.get("window");
+
+const SPRING_CONFIG = {
+  duration: 1200,
+  overshootClamping: true,
+  dampingRatio: 0.8,
+};
+
+const OFFSET = 60;
 
 export default function FloatingActionBtnContainer({ buttons }) {
   const isExpanded = useSharedValue(false);
 
   const handlePress = () => {
-    console.log( isExpanded.value );
+    console.log(isExpanded.value);
     isExpanded.value = !isExpanded.value;
   };
 
@@ -23,17 +31,16 @@ export default function FloatingActionBtnContainer({ buttons }) {
       >
         <FontAwesome name="plus" size={24} color="black" />
       </AnimatedPressable>
-      {isExpanded ? (
-        <>
           {buttons.map((button, index) => (
-            <FloatingButton
+            <FABtn4Demo
+            isExpanded={isExpanded}
               IconName={button.IconName}
               onPress={button.onPress}
               ExtraStyle={button.ExtraStyle}
+              key={index}
+              index={index + 1}
             />
           ))}
-        </>
-      ) : null}
     </View>
   );
 }
@@ -49,7 +56,7 @@ const mainButtonStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     transform: [
-      { translateX: width * 0.5 - 20 }, // 화면 너비의 50%로 이동, 뷰 너비의 절반을 빼서 중앙 정렬
+      { translateX: width * 0.5 - 20 }, 
     ],
   },
 });
