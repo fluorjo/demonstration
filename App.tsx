@@ -14,7 +14,7 @@ import RestRoomPage from "./src/page/RestRoomPage";
 import SkiaSVG from "./src/page/Skia";
 
 const Tab = createBottomTabNavigator();
-
+// 탭바 디자인 좀 하자.
 export default function App() {
   const [city, setCity] = useState<string>();
   const [currentLatitude, setLatitude] = useState<number>();

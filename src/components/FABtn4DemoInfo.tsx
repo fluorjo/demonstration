@@ -37,13 +37,13 @@ export const FABtn4Demo: React.FC<FloatingButtonProps> = ({
   const animatedStyles = useAnimatedStyle(() => {
     const moveValue = isExpanded.value ? OFFSET * index : 0;
     const halfScreenWidth = width / 2;
-
+const standard_index = 4;
     const scaleValue = isExpanded.value ? 0.8 : 0;
     const translateValue =
-      index < 2
-        ? withSpring(halfScreenWidth - OFFSET * (2 - index) - 20, SPRING_CONFIG)
+      index < standard_index
+        ? withSpring(halfScreenWidth - OFFSET * (standard_index - index) - 20, SPRING_CONFIG)
         : withSpring(
-            halfScreenWidth + OFFSET * (index - 2) + 30,
+            halfScreenWidth + OFFSET * (index - standard_index) + 30,
             SPRING_CONFIG
           ); 
 

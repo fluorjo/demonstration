@@ -74,7 +74,7 @@ export default function CalendarComponent({ onPress, interSelectedDate }) {
           todayBackgroundColor: "#e80808",
           dayTextColor: "#616d82",
           textDisabledColor: "#d9e1e8",
-          arrowColor: "orange",
+          arrowColor: "blue",
           textDayFontFamily: "monospace",
           textMonthFontFamily: "monospace",
           textDayHeaderFontFamily: "monospace",

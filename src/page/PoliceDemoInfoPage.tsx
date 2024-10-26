@@ -256,18 +256,18 @@ export default function PoliceDemoInfoPage() {
     .onEnd(() => {
       console.log(translationX.value);
 
-      if (zoomScale === 1) {
-        if (translationX.value > 50) {
-          translationX.value = withTiming(0);
-          changeTargetDay("right");
-        } else if (translationX.value < -50) {
-          translationX.value = withTiming(-width);
-          translationX.value = withTiming(0);
-          changeTargetDay("left");
-        } else {
-          translationX.value = withTiming(0);
-        }
-      }
+      // if (zoomScale === 1) {
+      //   if (translationX.value > 50) {
+      //     translationX.value = withTiming(0);
+      //     changeTargetDay("right");
+      //   } else if (translationX.value < -50) {
+      //     translationX.value = withTiming(-width);
+      //     translationX.value = withTiming(0);
+      //     changeTargetDay("left");
+      //   } else {
+      //     translationX.value = withTiming(0);
+      //   }
+      // }
     })
     .onFinalize(() => {
       setIsArrowVisible(false);
@@ -341,6 +341,7 @@ export default function PoliceDemoInfoPage() {
     if (paperLink) {
       Linking.openURL(paperLink);
     } else {
+      // 해당되는 페이지 없거나 에러나는 등의 경우 알람 띄우는 게 좋으려나.
       null;
     }
   };
@@ -357,23 +358,39 @@ export default function PoliceDemoInfoPage() {
     {
       isExpanded: isExpanded,
       index: 0,
-      IconName: "link",
-      onPress: openLink,
-      ExtraStyle: styles.linkButton,
+      IconName: "calendar-month",
+      onPress: setCalendarModal,
+      // ExtraStyle: styles.calendarButton,
     },
     {
       isExpanded: isExpanded,
       index: 1,
-      IconName: "calendar-month",
-      onPress: setCalendarModal,
-      ExtraStyle: styles.calendarButton,
+      IconName: "link",
+      onPress: openLink,
+      // ExtraStyle: styles.linkButton,
+    },
+  
+    {
+      isExpanded: isExpanded,
+      index: 2,
+      IconName: 'skip-previous',
+      onPress: ()=>changeTargetDay("left"),
+      // ExtraStyle: styles.calendarButton,
+    },
+  
+    {
+      isExpanded: isExpanded,
+      index: 3,
+      IconName: 'skip-next',
+      onPress: ()=>changeTargetDay("right"),
+      // ExtraStyle: styles.calendarButton,
     },
     {
-      isExpanded:isExpanded,
-      index:2,
+      isExpanded: isExpanded,
+      index: 4,
       IconName: zoomIconName,
       onPress: zoom,
-      ExtraStyle: styles.zoomButton,
+      // ExtraStyle: styles.zoomButton,
     },
   ];
   return (
@@ -465,7 +482,7 @@ export default function PoliceDemoInfoPage() {
           onPress={openLink}
           ExtraStyle={styles.linkButton}
         />  */}
-        {/* <>{renderArrows()}</> */}
+        <>{renderArrows()}</>
       </>
       <FloatingActionBtnContainer buttons={buttons} />
     </GestureHandlerRootView>
