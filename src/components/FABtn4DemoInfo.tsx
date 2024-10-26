@@ -41,11 +41,11 @@ export const FABtn4Demo: React.FC<FloatingButtonProps> = ({
     const scaleValue = isExpanded.value ? 0.8 : 0;
     const translateValue =
       index < 2
-        ? withSpring(halfScreenWidth - OFFSET * (2 - index) - 20, SPRING_CONFIG) // 왼쪽으로 이동
+        ? withSpring(halfScreenWidth - OFFSET * (2 - index) - 20, SPRING_CONFIG)
         : withSpring(
             halfScreenWidth + OFFSET * (index - 2) + 30,
             SPRING_CONFIG
-          ); // 오른쪽으로 이동
+          ); 
 
     const delay = index * 10;
 
@@ -66,7 +66,7 @@ export const FABtn4Demo: React.FC<FloatingButtonProps> = ({
     >
       <MaterialIcons
         name={IconName}
-        color="black"
+        color="white"
         style={styles.floatingbtnIcon}
       />
     </AnimatedPressable>
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   button: {
     width: 40,
     height: 40,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#2a2a2a",
     position: "absolute",
     borderRadius: 100,
     display: "flex",

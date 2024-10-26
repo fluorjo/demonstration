@@ -12,7 +12,8 @@ import { FABtn4Demo } from "./FABtn4DemoInfo";
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 const { width } = Dimensions.get("window");
-const animatedContainerWidth=300;
+const animatedContainerWidth = 300;
+const plusButtonSize = 40;
 
 export default function FloatingActionBtnContainer({ buttons }) {
   const isExpanded = useSharedValue(false);
@@ -28,29 +29,29 @@ export default function FloatingActionBtnContainer({ buttons }) {
   const animatedStyle = useAnimatedStyle(() => {
     return {
       transform: [
-        { translateX: 0 },
+        { translateX: width/2-plusButtonSize/2 },
         { rotateZ: withTiming(`${rotation.value}deg`) },
       ],
     };
   });
   return (
     <View style={styles.buttonContainer}>
-      <Animated.View style={styles.wrapper}>
+      {/* <Animated.View style={styles.wrapper}> */}
         <AnimatedPressable
           onPress={handlePress}
           style={[styles.shadow, mainButtonStyles.button, animatedStyle]}
         >
-          <FontAwesome name="plus" size={24} color="black" />
+          <FontAwesome name="plus" size={24} color="white" />
         </AnimatedPressable>
-      </Animated.View>
+      {/* </Animated.View> */}
 
-      {show && (
+      {/* {show && (
         <Animated.View
           style={[styles.animatedContainer]}
           entering={StretchInY}
           exiting={StretchOutY}
         ></Animated.View>
-      )}
+      )} */}
 
       {buttons.map((button, index) => (
         <FABtn4Demo
@@ -68,14 +69,17 @@ export default function FloatingActionBtnContainer({ buttons }) {
 
 const mainButtonStyles = StyleSheet.create({
   button: {
-    zIndex: 2,
-    height: 40,
-    width: 40,
+    zIndex: 5,
+    height: plusButtonSize,
+    width: plusButtonSize,
     borderRadius: 100,
-    backgroundColor: "#ffffff9b",
+    backgroundColor: "#2a2a2a",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    borderColor:'#bebebe',
+    borderWidth:0.3,
+
   },
 });
 
@@ -85,30 +89,35 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    width: "100%",
-    height: 50,
+    width: 0,
+    height: 30,
     bottom: 20,
     zIndex: 1,
+    // backgroundColor:'red'
   },
-  wrapper: {
-    position: "relative",
-    transform: [{ translateX: width * 0.5 - 20 }],
-  },
+  // wrapper: {
+  //   position: "relative",
+  //   transform: [{ translateX: width * 0.5 - 20 }],
+  // },
   shadow: {
     shadowColor: "#171717",
     shadowOffset: { width: -0.5, height: 3.5 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
   },
-  animatedContainer: {
-    backgroundColor: "#421b1b82",
-    height: 50,
-    width: animatedContainerWidth,
-    left: width * 0.5 - animatedContainerWidth/2, 
-    position: "absolute",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    zIndex: -1,
-  },
+  // animatedContainer: {
+  //   backgroundColor: '#00000000',
+  //   height: plusButtonSize-5,
+  //   width: animatedContainerWidth,
+  //   left: width * 0.5 - animatedContainerWidth / 2,
+  //   position: "absolute",
+  //   display: "flex",
+  //   flexDirection: "row",
+  //   alignItems: "center",
+  //   zIndex: -4,
+  //   borderRadius: 15,
+  //   borderWidth:0.3,
+  //   borderColor:'#bebebe'
+
+  // },
 });
