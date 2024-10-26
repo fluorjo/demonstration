@@ -1,6 +1,6 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import React from "react";
-import { Dimensions, Pressable, StyleSheet, ViewStyle } from "react-native";
+import { Dimensions, Pressable, StyleSheet } from "react-native";
 import Animated, {
   useAnimatedStyle,
   withDelay,
@@ -22,34 +22,39 @@ const OFFSET = 50;
 interface FloatingButtonProps {
   IconName: keyof typeof MaterialIcons.glyphMap;
   onPress: () => void;
-  ExtraStyle?: ViewStyle;
+  // ExtraStyle?: ViewStyle;
   isExpanded: any;
   index: number;
+  disabled: boolean;
 }
 
 export const FABtn4Demo: React.FC<FloatingButtonProps> = ({
   index,
   onPress,
   IconName,
-  ExtraStyle,
+  disabled = false,
   isExpanded,
 }) => {
   const animatedStyles = useAnimatedStyle(() => {
     const moveValue = isExpanded.value ? OFFSET * index : 0;
     const halfScreenWidth = width / 2;
-const standard_index = 4;
+    const standard_index = 4;
     const scaleValue = isExpanded.value ? 0.8 : 0;
     const translateValue =
       index < standard_index
-        ? withSpring(halfScreenWidth - OFFSET * (standard_index - index) - 20, SPRING_CONFIG)
+        ? withSpring(
+            halfScreenWidth - OFFSET * (standard_index - index) - 20,
+            SPRING_CONFIG
+          )
         : withSpring(
             halfScreenWidth + OFFSET * (index - standard_index) + 30,
             SPRING_CONFIG
-          ); 
+          );
 
     const delay = index * 10;
 
     return {
+      backgroundColor: disabled ? "#7d7d7d" : "#2a2a2a", 
       transform: [
         { translateX: translateValue },
         {
@@ -63,6 +68,7 @@ const standard_index = 4;
     <AnimatedPressable
       style={[animatedStyles, styles.shadow, styles.button]}
       onPress={onPress}
+      disabled={disabled}
     >
       <MaterialIcons
         name={IconName}
@@ -72,7 +78,6 @@ const standard_index = 4;
     </AnimatedPressable>
   );
 };
-
 
 const styles = StyleSheet.create({
   mainContainer: {

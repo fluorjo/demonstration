@@ -348,7 +348,7 @@ export default function PoliceDemoInfoPage() {
   const zoomableViewRef = createRef<ReactNativeZoomableView>();
   const setNewZoomLevel = (event, gestureState, zoomableViewEventObject) => {
     setZoomScale(zoomableViewEventObject.zoomLevel);
-    console.log(zoomScale);
+    // console.log(zoomScale);
   };
 
   const zoomIconName = zoomScale === 1 ? "zoom-in" : "zoom-out";
@@ -391,6 +391,14 @@ export default function PoliceDemoInfoPage() {
       IconName: zoomIconName,
       onPress: zoom,
       // ExtraStyle: styles.zoomButton,
+    },
+    {
+      isExpanded: isExpanded,
+      index: 5,
+      IconName: 'keyboard-double-arrow-down',
+      onPress: zoom,
+      // ExtraStyle: styles.changePageButton,
+      disabled:'true',
     },
   ];
   return (
@@ -582,6 +590,9 @@ const styles = StyleSheet.create({
   errorMessage: {
     fontSize: 24,
   },
+  changePageButton:{
+    backgroundColor:'#b6b6b6'
+  }
 });
 const extra_styles = StyleSheet.create({
   arrow_left: {
@@ -600,4 +611,5 @@ const extra_styles = StyleSheet.create({
     bottom: 0,
     ...styles.ArrowContainer,
   },
+
 });

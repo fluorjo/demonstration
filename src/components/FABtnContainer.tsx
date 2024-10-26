@@ -58,9 +58,10 @@ export default function FloatingActionBtnContainer({ buttons }) {
           isExpanded={isExpanded}
           IconName={button.IconName}
           onPress={button.onPress}
-          ExtraStyle={button.ExtraStyle}
+          // ExtraStyle={button.ExtraStyle}
           key={index}
           index={index + 1}
+          disabled={button.disabled}
         />
       ))}
     </View>
