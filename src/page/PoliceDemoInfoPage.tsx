@@ -1,7 +1,7 @@
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { ReactNativeZoomableView } from "@openspacelabs/react-native-zoomable-view";
 import * as Linking from "expo-linking";
 import React, { createRef, useEffect, useState } from "react";
-
 import {
   Dimensions,
   Image,
@@ -16,14 +16,12 @@ import {
   GestureDetector,
   GestureHandlerRootView,
 } from "react-native-gesture-handler";
-import {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
+import { useAnimatedStyle, useSharedValue } from "react-native-reanimated";
 import CalendarComponent from "../components/Calendar";
 import FloatingActionBtnContainer from "../components/FABtnContainer";
+import LoadingComponent from "../components/Loading";
 import getPaperInfo from "./PaperInfo";
+
 export default function PoliceDemoInfoPage() {
   const [IMG_URL_Array, setIMG_URL_Array] = useState<String[] | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -283,8 +281,8 @@ export default function PoliceDemoInfoPage() {
           )
         : setImgIndex((prevIndex) => Math.max(prevIndex - 1, 0));
   }
-
-  function renderArrows() {
+  //2개 있는 날 - 0928
+  function changePageText() {
     if (!IMG_URL_Array || IMG_URL_Array.length <= 1) {
       return null;
     } else if (
@@ -294,11 +292,11 @@ export default function PoliceDemoInfoPage() {
     ) {
       return (
         <TouchableOpacity
-          style={extra_styles.downArrowContainer}
+          style={styles.ArrowContainer}
           onPress={() => changePage("down")}
           activeOpacity={1}
         >
-          <Text style={styles.pageButtonText}>다음 페이지</Text>
+          <Text style={styles.pageButtonText}>뒷장이 있습니다</Text>
         </TouchableOpacity>
       );
     } else if (
@@ -309,25 +307,25 @@ export default function PoliceDemoInfoPage() {
     ) {
       return (
         <TouchableOpacity
-          style={extra_styles.upArrowContainer}
+          style={styles.ArrowContainer}
           onPress={() => changePage("up")}
           activeOpacity={1}
         >
-          <Text style={styles.pageButtonText}>이전 페이지</Text>
+          <Text style={styles.pageButtonText}>앞장이 있습니다</Text>
         </TouchableOpacity>
       );
     } else {
       return (
         <>
           <TouchableOpacity
-            style={extra_styles.upArrowContainer}
+            style={styles.ArrowContainer}
             onPress={() => changePage("up")}
             activeOpacity={1}
           >
             <Text style={styles.pageButtonText}>이전 페이지</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={extra_styles.downArrowContainer}
+            style={styles.ArrowContainer}
             onPress={() => changePage("down")}
             activeOpacity={1}
           >
@@ -353,6 +351,23 @@ export default function PoliceDemoInfoPage() {
 
   const zoomIconName = zoomScale === 1 ? "zoom-in" : "zoom-out";
   const isExpanded = useSharedValue(false);
+  let pageCondition = 0;
+
+  if (!IMG_URL_Array || IMG_URL_Array.length <= 1) {
+    pageCondition = 0;
+  } else if (
+    IMG_URL_Array &&
+    IMG_URL_Array.length > 1 &&
+    IMG_URL_Array.indexOf(IMG_URL_Array[imgIndex]) === 0
+  ) {
+    pageCondition = 1;
+  } else if (
+    IMG_URL_Array &&
+    IMG_URL_Array.length > 1 &&
+    IMG_URL_Array.indexOf(IMG_URL_Array[imgIndex]) === IMG_URL_Array.length - 1
+  ) {
+    pageCondition = 2;
+  }
 
   const buttons = [
     {
@@ -369,20 +384,20 @@ export default function PoliceDemoInfoPage() {
       onPress: openLink,
       // ExtraStyle: styles.linkButton,
     },
-  
+
     {
       isExpanded: isExpanded,
       index: 2,
-      IconName: 'skip-previous',
-      onPress: ()=>changeTargetDay("left"),
+      IconName: "skip-previous",
+      onPress: () => changeTargetDay("left"),
       // ExtraStyle: styles.calendarButton,
     },
-  
+
     {
       isExpanded: isExpanded,
       index: 3,
-      IconName: 'skip-next',
-      onPress: ()=>changeTargetDay("right"),
+      IconName: "skip-next",
+      onPress: () => changeTargetDay("right"),
       // ExtraStyle: styles.calendarButton,
     },
     {
@@ -392,13 +407,22 @@ export default function PoliceDemoInfoPage() {
       onPress: zoom,
       // ExtraStyle: styles.zoomButton,
     },
+
     {
       isExpanded: isExpanded,
       index: 5,
-      IconName: 'keyboard-double-arrow-down',
-      onPress: zoom,
-      // ExtraStyle: styles.changePageButton,
-      disabled:'true',
+      IconName:
+        pageCondition === 2
+          ? "keyboard-double-arrow-up"
+          : "keyboard-double-arrow-down",
+      onPress:
+        pageCondition === 1
+          ? () => changePage("down")
+          : pageCondition === 2
+          ? () => changePage("up")
+          : null,
+      disabled:
+        pageCondition === 0 ? true : pageCondition === 1 || 2 ? false : true,
     },
   ];
   return (
@@ -421,39 +445,22 @@ export default function PoliceDemoInfoPage() {
                 <Text style={styles.errorMessage}>{errorMessage}</Text>
               </View>
             ) : IMG_URL_Array === null ? (
-              <View></View>
+              <View style={styles.loadingOrErrorContainer}>
+                <LoadingComponent />
+              </View>
             ) : (
-              // <View style={styles.loadingOrErrorContainer}>
-              //   <LoadingComponent />
-              // </View>
               <>
-                {/* <Image
+                <Image
                   source={{ uri: IMG_URL_Array[imgIndex].toString() }}
                   style={styles.TodayDemoInfoImg}
-                  /> */}
-                <Image
+                />
+                {/* <Image
                   source={require("../../assets/image.png")}
                   style={styles.TodayDemoInfoImg}
-                />
+                /> */}
               </>
             )}
           </GestureDetector>
-          {/* <>
-            <Entypo
-              name="arrow-with-circle-right"
-              size={24}
-              color="black"
-              style={extra_styles.arrow_right}
-            />
-            <MaterialIcons
-              name={"chevron-left"}
-              color="black"
-              style={extra_styles.arrow_left}
-            />
-          </> */}
-          {/* <GestureDetector gesture={composed}>
-            <Animated.View style={[styles.box, animatedStyles]}></Animated.View>
-          </GestureDetector> */}
           <View style={{ marginTop: 0 }}>
             <Modal
               animationType="none"
@@ -465,32 +472,18 @@ export default function PoliceDemoInfoPage() {
                   onPress={fetchPageData}
                   interSelectedDate={targetDay}
                 />
+
                 <TouchableOpacity
                   onPress={onPressModalClose}
                   style={styles.modalClose}
                 >
-                  <Text>X</Text>
+                  <Ionicons name="close-circle" size={36} color="black" />
                 </TouchableOpacity>
               </View>
             </Modal>
           </View>
         </ReactNativeZoomableView>
-        {/* <FloatingButton
-          IconName={zoomScale === 1 ? "zoom-in" : "zoom-out"}
-          onPress={zoom}
-          ExtraStyle={styles.zoomButton}
-        />
-         <FloatingButton
-          IconName={"calendar-month"}
-          onPress={setCalendarModal}
-          ExtraStyle={styles.calendarButton}
-        />
-        <FloatingButton
-          IconName={"link"}
-          onPress={openLink}
-          ExtraStyle={styles.linkButton}
-        />  */}
-        <>{renderArrows()}</>
+        <>{changePageText()}</>
       </>
       <FloatingActionBtnContainer buttons={buttons} />
     </GestureHandlerRootView>
@@ -552,14 +545,14 @@ const styles = StyleSheet.create({
   },
   modalClose: {
     position: "absolute",
-    top: 30,
-    right: 30,
+    top: 20,
+    right: 20,
   },
+
   box: {
     width: 100,
     height: 100,
     borderRadius: 20,
-    backgroundColor: "#b58df1",
   },
   arrow: {
     fontSize: 32,
@@ -567,16 +560,17 @@ const styles = StyleSheet.create({
     opacity: 0.4,
   },
   ArrowContainer: {
-    backgroundColor: "#35353546",
+    backgroundColor: "#2a2a2a",
     position: "absolute",
-    height: 25,
+    height: 30,
     zIndex: 1,
     width: 120,
     alignItems: "center",
     justifyContent: "center",
-    left: "50%",
+    left: "80%",
     transform: [{ translateX: -50 }, { translateY: -10 }],
     borderRadius: 15,
+    top: 15,
   },
   pageButtonText: {
     color: "white",
@@ -590,26 +584,7 @@ const styles = StyleSheet.create({
   errorMessage: {
     fontSize: 24,
   },
-  changePageButton:{
-    backgroundColor:'#b6b6b6'
-  }
-});
-const extra_styles = StyleSheet.create({
-  arrow_left: {
-    ...styles.arrow,
-    left: 15,
+  changePageButton: {
+    backgroundColor: "#b6b6b6",
   },
-  arrow_right: {
-    ...styles.arrow,
-    right: 15,
-  },
-  upArrowContainer: {
-    top: 25,
-    ...styles.ArrowContainer,
-  },
-  downArrowContainer: {
-    bottom: 0,
-    ...styles.ArrowContainer,
-  },
-
 });
