@@ -24,6 +24,7 @@ const FloatingButton: React.FC<FloatingButtonProps> = ({
 export default FloatingButton;
 const styles = StyleSheet.create({
   floatingbtn: {
+    backgroundColor:'black',
     borderWidth: 1,
     borderColor: "rgba(0,0,0,0.2)",
     alignItems: "center",
@@ -33,11 +34,12 @@ const styles = StyleSheet.create({
     right: 20,
     width: 40,
     height: 40,
-    backgroundColor: "white",
+
     borderRadius: 100,
     zIndex: 1,
   },
   floatingbtnIcon: {
     fontSize: 30,
+    color:'white'
   },
 });

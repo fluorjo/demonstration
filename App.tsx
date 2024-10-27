@@ -12,6 +12,7 @@ import ETCPage from "./src/page/ETCPage";
 import PoliceDemoInfoPage from "./src/page/PoliceDemoInfoPage";
 import RestRoomPage from "./src/page/RestRoomPage";
 import SkiaSVG from "./src/page/Skia";
+import ETCStackNavigator from "./src/page/ETCStackNavigator";
 
 const Tab = createBottomTabNavigator();
 // 탭바 디자인 좀 하자.
@@ -94,13 +95,13 @@ export default function App() {
           />
           <Tab.Screen
             name="ETC"
-            component={ETC}
+            component={ETCStackNavigator}
             options={{
               tabBarIcon: () => (
                 <Entypo name="dots-three-horizontal" size={30} color="black" />
               ),
             }}
-          />
+          ></Tab.Screen>
         </Tab.Navigator>
       </NavigationContainer>
     </SafeAreaView>

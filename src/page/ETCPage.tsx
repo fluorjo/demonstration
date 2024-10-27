@@ -1,4 +1,7 @@
 import Entypo from "@expo/vector-icons/Entypo";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { useNavigation } from "@react-navigation/native";
 import {
   Platform,
   StyleSheet,
@@ -6,14 +9,22 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import AppInfoPage from "./AppInfoPage";
 import AppStoreReivew from "./AppStoreReview";
 import { sendEmail } from "./Email";
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-
 
 export default function ETCPage() {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.feedbackButton}
+        onPress={() => navigation.navigate(AppInfoPage)}
+      >
+        <Ionicons name="information-circle-sharp" size={24} color="black" />
+        <Text style={styles.feedbackText}>앱 설명 보기</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.feedbackButton} onPress={AppStoreReivew}>
         {Platform.OS === "android" ? (
           <Entypo name="google-play" size={24} color="black" />
