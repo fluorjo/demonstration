@@ -110,8 +110,8 @@ export default function FloatingActionBtn({ toggleFilter, filteredType }) {
 const mainButtonStyles = StyleSheet.create({
   button: {
     zIndex: 2,
-    height: 40,
-    width: 40,
+    height: 56,
+    width: 56,
     borderRadius: 100,
     backgroundColor: "#000000",
     display: "flex",
@@ -134,8 +134,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   button: {
-    width: 40,
-    height: 40,
+    width: 56,
+    height: 56,
     backgroundColor: "#7d7d7d",
     position: "absolute",
     borderRadius: 100,

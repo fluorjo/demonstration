@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 20,
     right: 20,
-    width: 40,
-    height: 40,
+    width: 56,
+    height: 56,
 
     borderRadius: 100,
     zIndex: 1,

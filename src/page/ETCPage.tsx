@@ -106,9 +106,9 @@ const styles = StyleSheet.create({
   },
   feedbackButton: {
     backgroundColor: "#ffffff",
-    width: 240,
-    height: 40,
-    margin: 10,
+    width: 300,
+    height: 60,
+    margin: 15,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
   icon: {
     position: "absolute",
     // backgroundColor: "blue",
-    fontSize: 22,
+    fontSize: 32,
     // transform: [{ translateX:5 },{translateY:5}],
   },
 
@@ -133,8 +133,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 7,
     borderRadius: 20,
-    width: 28,
-    height: 28,
+    width: 42,
+    height: 42,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -146,6 +146,6 @@ const extra_styles = StyleSheet.create({
   },
   infoIcon: {
     ...styles.icon,
-    fontSize: 30,
+    fontSize: 42,
   },
 });

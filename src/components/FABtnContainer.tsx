@@ -13,7 +13,7 @@ import { FABtn4Demo } from "./FABtn4DemoInfo";
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 const { width } = Dimensions.get("window");
 const animatedContainerWidth = 300;
-const plusButtonSize = 40;
+const plusButtonSize = 56;
 
 export default function FloatingActionBtnContainer({ buttons }) {
   const isExpanded = useSharedValue(false);
