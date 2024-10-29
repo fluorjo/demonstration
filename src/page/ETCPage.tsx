@@ -4,6 +4,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import {
+  Linking,
   Platform,
   StyleSheet,
   Text,
@@ -18,6 +19,7 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList, "ETCPage">;
 
 export default function ETCPage() {
   const navigation = useNavigation<NavigationProp>();
+  const kakaoPayAddress = process.env.kakaoPayAddress;
 
   return (
     <View style={styles.container}>
@@ -30,7 +32,7 @@ export default function ETCPage() {
             name="information-variant"
             size={24}
             color="white"
-            style={styles.icon}
+            style={extra_styles.infoIcon}
           />
         </View>
         <Text style={styles.feedbackText}>앱 안내</Text>
@@ -77,9 +79,17 @@ export default function ETCPage() {
         </View>
         <Text style={styles.feedbackText}>개발자에게 메일 전송</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.feedbackButton} onPress={sendEmail}>
+      <TouchableOpacity
+        style={styles.feedbackButton}
+        onPress={() => Linking.openURL(`https://qr.kakaopay.com/${kakaoPayAddress}`)}
+      >
         <View style={styles.IconContainer}>
-          <FontAwesome name="won" size={12} color="white" style={styles.WonIcon} />
+          <FontAwesome
+            name="won"
+            size={12}
+            color="white"
+            style={extra_styles.wonIcon}
+          />
         </View>
         <Text style={styles.feedbackText}>개발자 후원</Text>
       </TouchableOpacity>
@@ -117,12 +127,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     // transform: [{ translateX:5 },{translateY:5}],
   },
-  WonIcon: {
-    position: "absolute",
-    // backgroundColor: "blue",
-    fontSize: 22,
-    transform: [{ translateX:1 },{translateY:2}],
-  },
+
   IconContainer: {
     backgroundColor: "black",
     position: "absolute",
@@ -132,5 +137,15 @@ const styles = StyleSheet.create({
     height: 28,
     alignItems: "center",
     justifyContent: "center",
+  },
+});
+const extra_styles = StyleSheet.create({
+  wonIcon: {
+    ...styles.icon,
+    transform: [{ translateX: 1 }, { translateY: 2 }],
+  },
+  infoIcon: {
+    ...styles.icon,
+    fontSize: 30,
   },
 });
