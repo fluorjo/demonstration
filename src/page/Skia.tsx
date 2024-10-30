@@ -362,6 +362,23 @@ export default function SkiaSVG() {
 
   const blueFlame = "#1241ff";
   const yellow = "#c98701d9";
+  const yellowCore = "#c98601cb";
+
+  const FlameCore = () => {
+    return (
+      <RoundedRect
+        x={Q3StartX}
+        y={Q3ControlY + 26}
+        width={Q2EndX - Q3StartX}
+        height={Q2EndX - Q3StartX}
+        r={24}
+        color={yellowCore}
+        transform={transformValue}
+      >
+        <Shadow dx={0} dy={0} blur={3} color={yellow} shadowOnly={true} />
+      </RoundedRect>
+    );
+  };
   return (
     <View style={{ flex: 1 }}>
       <Canvas
@@ -389,28 +406,11 @@ export default function SkiaSVG() {
           <Shadow dx={1} dy={30} blur={10} color="#ff8c00d2" />
           <Shadow dx={0} dy={60} blur={40} color="#111dff8c" />
         </Path>
-        <RoundedRect
-          x={Q3StartX}
-          y={Q3ControlY + 26}
-          width={Q2EndX - Q3StartX}
-          height={Q2EndX - Q3StartX}
-          r={24}
-          color={yellow}
-          transform={transformValue}
-        >
-          <Shadow dx={0} dy={0} blur={10} color={yellow} shadowOnly={true} />
-        </RoundedRect>
-        <RoundedRect
-          x={Q3StartX}
-          y={Q3ControlY + 26}
-          width={Q2EndX - Q3StartX}
-          height={Q2EndX - Q3StartX}
-          r={24}
-          color={yellow}
-          transform={transformValue}
-        >
-          <Shadow dx={0} dy={0} blur={10} color={yellow} shadowOnly={true} />
-        </RoundedRect>
+        {FlameCore()}
+        {FlameCore()}
+        {FlameCore()}
+        {FlameCore()}
+
         {/* <Circle
           cx={(Q3StartX + Q2EndX) / 2}
           cy={Q3StartY}

@@ -191,8 +191,8 @@ export default function PoliceDemoInfoPage() {
       zoomableViewRef.current!.zoomTo(1);
       setZoomScale(1);
     } else {
-      zoomableViewRef.current!.zoomTo(3.5);
-      setZoomScale(3.5);
+      zoomableViewRef.current!.zoomTo(5.5);
+      setZoomScale(5.5);
     }
   }
 
@@ -380,7 +380,7 @@ export default function PoliceDemoInfoPage() {
     {
       isExpanded: isExpanded,
       index: 1,
-      IconName: "link",
+      IconName: "newspaper",
       onPress: openLink,
       // ExtraStyle: styles.linkButton,
     },
@@ -429,7 +429,7 @@ export default function PoliceDemoInfoPage() {
     <GestureHandlerRootView style={styles.rootContainer}>
       <>
         <ReactNativeZoomableView
-          maxZoom={3.5}
+          maxZoom={5.5}
           minZoom={1}
           zoomStep={0.5}
           initialZoom={zoomScale}

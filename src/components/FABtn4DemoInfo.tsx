@@ -43,7 +43,7 @@ export const FABtn4Demo: React.FC<FloatingButtonProps> = ({
     const translateValue =
       index < standard_index
         ? withSpring(
-            halfScreenWidth - OFFSET * (standard_index - index) - 20,
+            halfScreenWidth - OFFSET * (standard_index - index) - 30,
             SPRING_CONFIG
           )
         : withSpring(
@@ -54,7 +54,7 @@ export const FABtn4Demo: React.FC<FloatingButtonProps> = ({
     const delay = index * 10;
 
     return {
-      backgroundColor: disabled ? "#7d7d7d" : "#2a2a2a", 
+      backgroundColor: disabled ? "#7d7d7d" : "#2a2a2a",
       transform: [
         { translateX: translateValue },
         {
@@ -135,6 +135,6 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   floatingbtnIcon: {
-    fontSize: 30,
+    fontSize: 35,
   },
 });

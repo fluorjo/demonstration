@@ -2,8 +2,8 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import React, { useState } from "react";
 import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 import Animated, {
-  StretchInY,
-  StretchOutY,
+  ReducedMotionConfig,
+  ReduceMotion,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -29,7 +29,7 @@ export default function FloatingActionBtnContainer({ buttons }) {
   const animatedStyle = useAnimatedStyle(() => {
     return {
       transform: [
-        { translateX: width/2-plusButtonSize/2 },
+        { translateX: width / 2 - plusButtonSize / 2  },
         { rotateZ: withTiming(`${rotation.value}deg`) },
       ],
     };
@@ -37,12 +37,12 @@ export default function FloatingActionBtnContainer({ buttons }) {
   return (
     <View style={styles.buttonContainer}>
       {/* <Animated.View style={styles.wrapper}> */}
-        <AnimatedPressable
-          onPress={handlePress}
-          style={[styles.shadow, mainButtonStyles.button, animatedStyle]}
-        >
-          <FontAwesome name="plus" size={24} color="white" />
-        </AnimatedPressable>
+      <AnimatedPressable
+        onPress={handlePress}
+        style={[styles.shadow, mainButtonStyles.button, animatedStyle]}
+      >
+        <FontAwesome name="plus" size={35} color="white" />
+      </AnimatedPressable>
       {/* </Animated.View> */}
 
       {/* {show && (
@@ -78,8 +78,6 @@ const mainButtonStyles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    borderColor:'#bebebe',
-    borderWidth:0.3,
 
   },
 });
