@@ -361,21 +361,21 @@ export default function SkiaSVG() {
   ];
 
   const blueFlame = "#1241ff";
-  const yellow = "#c98701d9";
-  const yellowCore = "#c98601cb";
+  const yellow = "#ffaa00ab";
+  const yellowCore = "#ca8700ac";
 
   const FlameCore = () => {
     return (
       <RoundedRect
-        x={Q3StartX}
-        y={Q3ControlY + 26}
-        width={Q2EndX - Q3StartX}
-        height={Q2EndX - Q3StartX}
-        r={24}
+        x={Q3StartX-1}
+        y={Q3ControlY + 32}
+        width={Q2EndX - Q3StartX+2}
+        height={Q2EndX - Q3StartX - 18}
+        r={20}
         color={yellowCore}
         transform={transformValue}
       >
-        <Shadow dx={0} dy={0} blur={3} color={yellow} shadowOnly={true} />
+        <Shadow dx={0} dy={0} blur={5} color={yellowCore} shadowOnly={true} />
       </RoundedRect>
     );
   };
@@ -406,6 +406,9 @@ export default function SkiaSVG() {
           <Shadow dx={1} dy={30} blur={10} color="#ff8c00d2" />
           <Shadow dx={0} dy={60} blur={40} color="#111dff8c" />
         </Path>
+        {FlameCore()}
+        {FlameCore()}
+        {FlameCore()}
         {FlameCore()}
         {FlameCore()}
         {FlameCore()}
