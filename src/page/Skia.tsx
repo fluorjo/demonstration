@@ -12,8 +12,8 @@ import {
   Shadow,
   vec,
 } from "@shopify/react-native-skia";
-import React, { useEffect, useState } from "react";
-import { Animated, Easing, Text, View } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { Animated, Button, Easing, Text, View } from "react-native";
 
 export default function SkiaSVG() {
   const [startPointX, setStartPointX] = useState(50.0); // 50
@@ -46,8 +46,13 @@ export default function SkiaSVG() {
 
   //toValue는 적당히 가까운 값 집어넣고, addListener로 변화시킬 때 랜덤값 넣어서 변화가 랜덤하게 이뤄지게 할까.
   const transformValue = [{ translateX: 100 }, { translateY: 100 }];
-  useEffect(() => {
-    Animated.loop(
+
+  const [isAnimating, setIsAnimating] = useState(false);
+  const animationRef = useRef<Animated.CompositeAnimation | null>(null);
+
+  const createAnimation = () => {
+    const animation = Animated.loop(
+
       Animated.parallel([
         Animated.sequence([
           Animated.timing(animatedStartPointX, {
@@ -90,245 +95,206 @@ export default function SkiaSVG() {
             useNativeDriver: false,
           }),
         ]),
-        // Animated.sequence([
-        //   Animated.timing(animatedQ1ControlX, {
-        //     toValue: 85,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        //   Animated.timing(animatedQ1ControlX, {
-        //     toValue: 65,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        //   Animated.timing(animatedQ1ControlX, {
-        //     toValue: 85,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        //   Animated.timing(animatedQ1ControlX, {
-        //     toValue: 75,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        // ]),
-        // Animated.sequence([
-        //   Animated.timing(animatedQ1ControlY, {
-        //     toValue: 30,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        //   Animated.timing(animatedQ1ControlY, {
-        //     toValue: 10,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        //   Animated.timing(animatedQ1ControlY, {
-        //     toValue: 30,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        //   Animated.timing(animatedQ1ControlY, {
-        //     toValue: 20,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        // ]),
-        // Animated.sequence([
-        //   Animated.timing(animatedQ1ControlX, {
-        //     toValue: 85,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        //   Animated.timing(animatedQ1ControlX, {
-        //     toValue: 65,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        //   Animated.timing(animatedQ1ControlX, {
-        //     toValue: 85,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        //   Animated.timing(animatedQ1ControlX, {
-        //     toValue: 75,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        // ]),
-        // Animated.sequence([
-        //   Animated.timing(animatedQ1ControlY, {
-        //     toValue: 30,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        //   Animated.timing(animatedQ1ControlY, {
-        //     toValue: 10,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        //   Animated.timing(animatedQ1ControlY, {
-        //     toValue: 30,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        //   Animated.timing(animatedQ1ControlY, {
-        //     toValue: 20,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        // ]),
-        // // Q2
-        // Animated.sequence([
-        //   Animated.timing(animatedQ4ControlX, {
-        //     toValue: 15,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        //   Animated.timing(animatedQ4ControlX, {
-        //     toValue: 35,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        //   Animated.timing(animatedQ4ControlX, {
-        //     toValue: 15,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        //   Animated.timing(animatedQ4ControlX, {
-        //     toValue: 25,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        // ]),
-        // Animated.sequence([
-        //   Animated.timing(animatedQ4ControlY, {
-        //     toValue: 30,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        //   Animated.timing(animatedQ4ControlY, {
-        //     toValue: 10,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        //   Animated.timing(animatedQ4ControlY, {
-        //     toValue: 30,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        //   Animated.timing(animatedQ4ControlY, {
-        //     toValue: 20,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        // ]),
-        // // Q1 End X
-        // Animated.sequence([
-        //   Animated.timing(animatedQ1EndX, {
-        //     toValue: 82,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        //   Animated.timing(animatedQ1EndX, {
-        //     toValue: 78,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        //   Animated.timing(animatedQ1EndX, {
-        //     toValue: 82,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        //   Animated.timing(animatedQ1EndX, {
-        //     toValue: 80,
-        //     duration: 2000,
-        //     easing: Easing.inOut(Easing.ease),
-        //     useNativeDriver: false,
-        //   }),
-        // ]),
+        Animated.sequence([
+          Animated.timing(animatedQ1ControlX, {
+            toValue: 85,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ1ControlX, {
+            toValue: 65,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ1ControlX, {
+            toValue: 85,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ1ControlX, {
+            toValue: 75,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+        ]),
+        Animated.sequence([
+          Animated.timing(animatedQ1ControlY, {
+            toValue: 30,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ1ControlY, {
+            toValue: 10,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ1ControlY, {
+            toValue: 30,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ1ControlY, {
+            toValue: 20,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+        ]),
+        Animated.sequence([
+          Animated.timing(animatedQ1ControlX, {
+            toValue: 85,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ1ControlX, {
+            toValue: 65,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ1ControlX, {
+            toValue: 85,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ1ControlX, {
+            toValue: 75,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+        ]),
+        Animated.sequence([
+          Animated.timing(animatedQ1ControlY, {
+            toValue: 30,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ1ControlY, {
+            toValue: 10,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ1ControlY, {
+            toValue: 30,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ1ControlY, {
+            toValue: 20,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+        ]),
+        // Q2
+        Animated.sequence([
+          Animated.timing(animatedQ4ControlX, {
+            toValue: 15,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ4ControlX, {
+            toValue: 35,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ4ControlX, {
+            toValue: 15,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ4ControlX, {
+            toValue: 25,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+        ]),
+        Animated.sequence([
+          Animated.timing(animatedQ4ControlY, {
+            toValue: 30,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ4ControlY, {
+            toValue: 10,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ4ControlY, {
+            toValue: 30,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ4ControlY, {
+            toValue: 20,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+        ]),
+        // Q1 End X
+        Animated.sequence([
+          Animated.timing(animatedQ1EndX, {
+            toValue: 82,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ1EndX, {
+            toValue: 78,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ1EndX, {
+            toValue: 82,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+          Animated.timing(animatedQ1EndX, {
+            toValue: 80,
+            duration: 2000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          }),
+        ]),
       ])
-    ).start();
+    );
 
-    // animatedStartPointX.addListener(({ value }) => {
-    //   const newStartPointX = value;
-    //   setStartPointX(value);
-    //   // const newQ1ControlY = xx + value * random?;
-    //   // setQ1ControlY(newQ1ControlY);
-    // });
-    // animatedStartPointY.addListener(({ value }) => {
-    //   const newStartPointY = value;
-    //   setStartPointY(newStartPointY);
-    //   // const newQ1ControlY = xx + value * random?;
-    //   // setQ1ControlY(newQ1ControlY);
-    // });
-    // animatedQ1ControlX.addListener(({ value }) => {
-    //   const newQ1ControlX = value;
-    //   setQ1ControlX(newQ1ControlX);
-    //   // const newQ1ControlY = xx + value * random?;
-    //   // setQ1ControlY(newQ1ControlY);
-    // });
-    // animatedQ1ControlY.addListener(({ value }) => {
-    //   const newQ1ControlY = value;
-    //   setQ1ControlY(newQ1ControlY);
-    //   // const newQ1ControlY = xx + value * random?;
-    //   // setQ1ControlY(newQ1ControlY);
-    // });
-    // animatedQ4ControlX.addListener(({ value }) => {
-    //   const newQ4ControlX = value;
-    //   setQ4ControlX(newQ4ControlX);
-    //   // const newQ4ControlY = xx + value * random?;
-    //   // setQ4ControlY(newQ4ControlY);
-    // });
-    // animatedQ4ControlY.addListener(({ value }) => {
-    //   const newQ4ControlY = value;
-    //   setQ4ControlY(newQ4ControlY);
-    //   // const newQ4ControlY = xx + value * random?;
-    //   // setQ4ControlY(newQ4ControlY);
-    // });
-    // animatedQ1EndX.addListener(({ value }) => {
-    //   const newQ1EndX = value;
-    //   setQ1EndX(newQ1EndX);
-    //   // const newQ4ControlY = xx + value * random?;
-    //   // setQ4ControlY(newQ4ControlY);
-    // });
+    animatedStartPointX.addListener(({ value }) => setStartPointX(value));
+    animatedStartPointY.addListener(({ value }) => setStartPointY(value));
+    animatedQ1ControlX.addListener(({ value }) => setQ1ControlX(value));
+    animatedQ1ControlY.addListener(({ value }) => setQ1ControlY(value));
+    animatedQ4ControlX.addListener(({ value }) => setQ4ControlX(value));
+    animatedQ4ControlY.addListener(({ value }) => setQ4ControlY(value));
+    animatedQ1EndX.addListener(({ value }) => setQ1EndX(value));
 
-    return () => {
-      animatedStartPointX.removeAllListeners();
-      animatedStartPointY.removeAllListeners();
-      animatedQ1ControlX.removeAllListeners();
-      animatedQ1ControlY.removeAllListeners();
-      animatedQ4ControlX.removeAllListeners();
-      animatedQ4ControlY.removeAllListeners();
-    };
-  }, []);
+    return animation;
+  };
+
+
+
 
   const pathString = `M ${startPointX} ${startPointY} 
   Q ${Q1ControlX} ${Q1ControlY} ${Q1EndX} ${Q1EndY}  
@@ -379,8 +345,47 @@ export default function SkiaSVG() {
       </RoundedRect>
     );
   };
+  const startAnimation = () => {
+    if (animationRef.current) {
+      animationRef.current.stop();
+    }
+    animationRef.current = createAnimation();
+    animationRef.current?.start();
+  };
+
+  const stopAnimation = () => {
+    if (animationRef.current) {
+      animationRef.current.stop();
+      animationRef.current = null; // Reset animation reference
+    }
+  };
+
+
+  const toggleAnimation = () => {
+    if (isAnimating) {
+      stopAnimation();
+    } else {
+      startAnimation();
+    }
+    setIsAnimating(!isAnimating);
+  };
+
+  useEffect(() => {
+    if (isAnimating) {
+      startAnimation();
+    }
+    return () => {
+      stopAnimation();
+    };
+  }, []);
+
   return (
     <View style={{ flex: 1 }}>
+      <Button
+        title={isAnimating ? "Stop Animation" : "Start Animation"}
+        onPress={toggleAnimation}
+      />
+
       <Canvas
         style={{
           flex: 1,
