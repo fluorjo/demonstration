@@ -360,16 +360,16 @@ export default function SkiaSVG() {
     { x: startPointX, y: startPointY, label: "Z" },
   ];
 
-  const blueFlame = "#1241ff";
-  const yellow = "#ffaa00ab";
-  const yellowCore = "#ca8700ac";
+  const blueFlame = "#0227ac";
+  const yellow = "#ff9500ab";
+  const yellowCore = "#ff9500a4";
 
   const FlameCore = () => {
     return (
       <RoundedRect
-        x={Q3StartX-1}
+        x={Q3StartX - 1}
         y={Q3ControlY + 32}
-        width={Q2EndX - Q3StartX+2}
+        width={Q2EndX - Q3StartX + 2}
         height={Q2EndX - Q3StartX - 18}
         r={20}
         color={yellowCore}
@@ -404,7 +404,7 @@ export default function SkiaSVG() {
           />
           <Shadow dx={1} dy={10} blur={40} color="#ff5900" />
           <Shadow dx={1} dy={30} blur={10} color="#ff8c00d2" />
-          <Shadow dx={0} dy={60} blur={40} color="#111dff8c" />
+          <Shadow dx={0} dy={60} blur={40} color="#0227ac" />
         </Path>
         {FlameCore()}
         {FlameCore()}
@@ -435,7 +435,7 @@ export default function SkiaSVG() {
           <Shadow
             dx={-5}
             dy={45}
-            blur={4}
+            blur={4.3}
             color={blueFlame}
             shadowOnly={true}
           />
@@ -447,7 +447,13 @@ export default function SkiaSVG() {
           start={0.25}
           end={0.47}
         >
-          <Shadow dx={5} dy={40} blur={4} color={blueFlame} shadowOnly={true} />
+          <Shadow
+            dx={5}
+            dy={40}
+            blur={4.3}
+            color={blueFlame}
+            shadowOnly={true}
+          />
         </Path>
 
         <RoundedRect
@@ -509,11 +515,11 @@ export default function SkiaSVG() {
           <LinearGradient
             start={{ x: 144, y: 410 }}
             end={{ x: 144, y: 580 }}
-            colors={["#632402bd", "#000000"]}
+            colors={["#632402a6", "#000000"]}
           />
           <Line2DPathEffect
-            width={0.8}
-            matrix={processTransform2d([{ scale: 1.1 }])}
+            width={0.9}
+            matrix={processTransform2d([{ scale: 1.4 }])}
           />
           <Shadow dx={0} dy={-10} blur={15} color="#ff000022" />
           <Shadow dx={0} dy={0} blur={0} color="#0000006c" />
@@ -525,14 +531,14 @@ export default function SkiaSVG() {
           width={11}
           height={20}
           r={25}
-          color="#ff4000e2"
+          color="#ff4000f1"
         >
           <Shadow dx={0} dy={0} blur={1} color="#FF5800" shadowOnly={true} />
-          <Shadow dx={0} dy={-4} blur={6} color="#ff5900" shadowOnly={false} />
+          <Shadow dx={0} dy={-4} blur={15} color="#FF5800" shadowOnly={false} />
           <Path1DPathEffect
             path="M 0 0 L 1 1, 4 5, 1 12 Z"
             advance={5}
-            phase={6}
+            phase={15}
             style="rotate"
           />
         </RoundedRect>
