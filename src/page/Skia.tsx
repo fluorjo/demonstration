@@ -51,25 +51,24 @@ export default function SkiaSVG() {
   const animationRef = useRef<Animated.CompositeAnimation | null>(null);
 
   const createAnimation = () => {
+    var randomValue = 3;
     const animation = Animated.loop(
-
       Animated.parallel([
         Animated.sequence([
           Animated.timing(animatedStartPointX, {
-            // 여기 값들 다 변수 + - 랜덤값 어쩌구로 해야 하려나. 이렇게 값을 지정하면 안 될듯.
-            toValue: 50,
+            toValue: startPointX,
             duration: 2000,
             easing: Easing.inOut(Easing.ease),
             useNativeDriver: false,
           }),
           Animated.timing(animatedStartPointX, {
-            toValue: 65,
+            toValue: startPointX + randomValue,
             duration: 2000,
             easing: Easing.inOut(Easing.ease),
             useNativeDriver: false,
           }),
           Animated.timing(animatedStartPointX, {
-            toValue: 55,
+            toValue: startPointX + randomValue,
             duration: 2000,
             easing: Easing.inOut(Easing.ease),
             useNativeDriver: false,
@@ -77,19 +76,19 @@ export default function SkiaSVG() {
         ]),
         Animated.sequence([
           Animated.timing(animatedStartPointY, {
-            toValue: 0,
+            toValue: startPointY,
             duration: 2000,
             easing: Easing.inOut(Easing.ease),
             useNativeDriver: false,
           }),
           Animated.timing(animatedStartPointY, {
-            toValue: -10,
+            toValue: startPointY - randomValue,
             duration: 2000,
             easing: Easing.inOut(Easing.ease),
             useNativeDriver: false,
           }),
           Animated.timing(animatedStartPointY, {
-            toValue: 10,
+            toValue: startPointY + randomValue,
             duration: 2000,
             easing: Easing.inOut(Easing.ease),
             useNativeDriver: false,
@@ -97,25 +96,25 @@ export default function SkiaSVG() {
         ]),
         Animated.sequence([
           Animated.timing(animatedQ1ControlX, {
-            toValue: 85,
+            toValue: Q1ControlX + randomValue,
             duration: 2000,
             easing: Easing.inOut(Easing.ease),
             useNativeDriver: false,
           }),
           Animated.timing(animatedQ1ControlX, {
-            toValue: 65,
+            toValue: Q1ControlX-randomValue,
             duration: 2000,
             easing: Easing.inOut(Easing.ease),
             useNativeDriver: false,
           }),
           Animated.timing(animatedQ1ControlX, {
-            toValue: 85,
+            toValue: Q1ControlX + randomValue,
             duration: 2000,
             easing: Easing.inOut(Easing.ease),
             useNativeDriver: false,
           }),
           Animated.timing(animatedQ1ControlX, {
-            toValue: 75,
+            toValue: Q1ControlX,
             duration: 2000,
             easing: Easing.inOut(Easing.ease),
             useNativeDriver: false,
@@ -147,58 +146,58 @@ export default function SkiaSVG() {
             useNativeDriver: false,
           }),
         ]),
-        Animated.sequence([
-          Animated.timing(animatedQ1ControlX, {
-            toValue: 85,
-            duration: 2000,
-            easing: Easing.inOut(Easing.ease),
-            useNativeDriver: false,
-          }),
-          Animated.timing(animatedQ1ControlX, {
-            toValue: 65,
-            duration: 2000,
-            easing: Easing.inOut(Easing.ease),
-            useNativeDriver: false,
-          }),
-          Animated.timing(animatedQ1ControlX, {
-            toValue: 85,
-            duration: 2000,
-            easing: Easing.inOut(Easing.ease),
-            useNativeDriver: false,
-          }),
-          Animated.timing(animatedQ1ControlX, {
-            toValue: 75,
-            duration: 2000,
-            easing: Easing.inOut(Easing.ease),
-            useNativeDriver: false,
-          }),
-        ]),
-        Animated.sequence([
-          Animated.timing(animatedQ1ControlY, {
-            toValue: 30,
-            duration: 2000,
-            easing: Easing.inOut(Easing.ease),
-            useNativeDriver: false,
-          }),
-          Animated.timing(animatedQ1ControlY, {
-            toValue: 10,
-            duration: 2000,
-            easing: Easing.inOut(Easing.ease),
-            useNativeDriver: false,
-          }),
-          Animated.timing(animatedQ1ControlY, {
-            toValue: 30,
-            duration: 2000,
-            easing: Easing.inOut(Easing.ease),
-            useNativeDriver: false,
-          }),
-          Animated.timing(animatedQ1ControlY, {
-            toValue: 20,
-            duration: 2000,
-            easing: Easing.inOut(Easing.ease),
-            useNativeDriver: false,
-          }),
-        ]),
+        // Animated.sequence([
+        //   Animated.timing(animatedQ1ControlX, {
+        //     toValue: 85,
+        //     duration: 2000,
+        //     easing: Easing.inOut(Easing.ease),
+        //     useNativeDriver: false,
+        //   }),
+        //   Animated.timing(animatedQ1ControlX, {
+        //     toValue: 65,
+        //     duration: 2000,
+        //     easing: Easing.inOut(Easing.ease),
+        //     useNativeDriver: false,
+        //   }),
+        //   Animated.timing(animatedQ1ControlX, {
+        //     toValue: 85,
+        //     duration: 2000,
+        //     easing: Easing.inOut(Easing.ease),
+        //     useNativeDriver: false,
+        //   }),
+        //   Animated.timing(animatedQ1ControlX, {
+        //     toValue: 75,
+        //     duration: 2000,
+        //     easing: Easing.inOut(Easing.ease),
+        //     useNativeDriver: false,
+        //   }),
+        // ]),
+        // Animated.sequence([
+        //   Animated.timing(animatedQ1ControlY, {
+        //     toValue: 30,
+        //     duration: 2000,
+        //     easing: Easing.inOut(Easing.ease),
+        //     useNativeDriver: false,
+        //   }),
+        //   Animated.timing(animatedQ1ControlY, {
+        //     toValue: 10,
+        //     duration: 2000,
+        //     easing: Easing.inOut(Easing.ease),
+        //     useNativeDriver: false,
+        //   }),
+        //   Animated.timing(animatedQ1ControlY, {
+        //     toValue: 30,
+        //     duration: 2000,
+        //     easing: Easing.inOut(Easing.ease),
+        //     useNativeDriver: false,
+        //   }),
+        //   Animated.timing(animatedQ1ControlY, {
+        //     toValue: 20,
+        //     duration: 2000,
+        //     easing: Easing.inOut(Easing.ease),
+        //     useNativeDriver: false,
+        //   }),
+        // ]),
         // Q2
         Animated.sequence([
           Animated.timing(animatedQ4ControlX, {
@@ -293,9 +292,6 @@ export default function SkiaSVG() {
     return animation;
   };
 
-
-
-
   const pathString = `M ${startPointX} ${startPointY} 
   Q ${Q1ControlX} ${Q1ControlY} ${Q1EndX} ${Q1EndY}  
   Q ${Q2ControlX} ${Q2ControlY} ${Q2EndX} ${Q2EndY}
@@ -359,7 +355,6 @@ export default function SkiaSVG() {
       animationRef.current = null; // Reset animation reference
     }
   };
-
 
   const toggleAnimation = () => {
     if (isAnimating) {
