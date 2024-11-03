@@ -13,23 +13,23 @@ import {
   vec,
 } from "@shopify/react-native-skia";
 import React, { useEffect, useRef, useState } from "react";
-import { Animated, Button, Easing, Text, View } from "react-native";
+import { Animated, Easing, Text, View } from "react-native";
 
 export default function SkiaSVG() {
   const [startPointX, setStartPointX] = useState(50.0); // 50
   const [startPointY, setStartPointY] = useState(0.0); // 0.0
-  const [Q1EndX, setQ1EndX] = useState(80.0); // 80
-  const [Q1EndY, setQ1EndY] = useState(240.0); // 240
   const [Q1ControlX, setQ1ControlX] = useState(75.0); // 75
   const [Q1ControlY, setQ1ControlY] = useState(20.0); // 20
+  const [Q1EndX, setQ1EndX] = useState(80.0); // 80
+  const [Q1EndY, setQ1EndY] = useState(240.0); // 240
   const [Q2EndX, setQ2EndX] = useState(Q1EndX - 3);
   const [Q2EndY, setQ2EndY] = useState(355); // 350
+  const [Q2ControlX, setQ2ControlX] = useState(Q1EndX); // 80
+  const [Q2ControlY, setQ2ControlY] = useState((Q1EndY + Q2EndY) / 2);
   const [Q3StartX, setQ3StartX] = useState(Q2EndX - 60);
   const [Q3StartY, setQ3StartY] = useState(Q2EndY);
   const [Q3EndX, setQ3EndX] = useState(Q1EndX - 63);
   const [Q3EndY, setQ3EndY] = useState(Q1EndY);
-  const [Q2ControlX, setQ2ControlX] = useState(Q1EndX); // 80
-  const [Q2ControlY, setQ2ControlY] = useState((Q1EndY + Q2EndY) / 2);
   const [Q3ControlX, setQ3ControlX] = useState(15); // 25
   const [Q3ControlY, setQ3ControlY] = useState(295); // 20
   const [Q4ControlX, setQ4ControlX] = useState(25); // 25
@@ -60,7 +60,6 @@ export default function SkiaSVG() {
   const [isAnimating, setIsAnimating] = useState(true);
   const animationRef = useRef<Animated.CompositeAnimation | null>(null);
 
- 
   const startRandomAnimation = (animatedValue, baseValue, range) => {
     const randomValue = baseValue + (Math.random() * 2 - 1) * range;
     Animated.timing(animatedValue, {
@@ -70,19 +69,56 @@ export default function SkiaSVG() {
       useNativeDriver: false,
     }).start(() => startRandomAnimation(animatedValue, baseValue, range));
   };
-// 의도대로 되긴 했고 여기서 뭔가 왼쪽이면 왼쪽, 오른쪽이면 오른쪽으로 한쪽으로만 움직이게 한다던가 해서 좀 더 세밀한 부분에서 자연스럽게 움직이도록 해야겠다. 
+  // 의도대로 되긴 했고 여기서 뭔가 왼쪽이면 왼쪽, 오른쪽이면 오른쪽으로 한쪽으로만 움직이게 한다던가 해서 좀 더 세밀한 부분에서 자연스럽게 움직이도록 해야겠다.
+
+  // Q1EndY 는 안 건드리는 게 나을 거 같고 다른 포인트들도 잘 봐가면서 건드려야겠다.  
+
+  // 뭔가 어떤 부분들은 같은 값 기반으로, 같은 패턴으로 움직이게 해야 할 것 같다. 
   useEffect(() => {
-    startRandomAnimation(animatedStartPointX, 50, 15);
-    startRandomAnimation(animatedStartPointY, 0, 10);
-    startRandomAnimation(animatedQ1ControlX, 75, 10);
-    startRandomAnimation(animatedQ1ControlY, 20, 10);
-    startRandomAnimation(animatedQ4ControlX, 25, 10);
-    startRandomAnimation(animatedQ4ControlY, 20, 10);
+    startRandomAnimation(animatedStartPointX, startPointX, 15);
+    startRandomAnimation(animatedStartPointY, startPointY, 10);
+
+    startRandomAnimation(animatedQ1ControlX, Q1ControlX, 10);
+    startRandomAnimation(animatedQ1ControlY, Q1ControlY, 10);
+    startRandomAnimation(animatedQ1EndX, Q1EndX, 4);
+    // startRandomAnimation(animatedQ1EndY, Q1EndY, 10);
+
+    startRandomAnimation(animatedQ2ControlX, Q2ControlX, 10);
+    startRandomAnimation(animatedQ2ControlY, Q2ControlY, 10);
+    startRandomAnimation(animatedQ2EndX, Q2EndX, 10);
+    // startRandomAnimation(animatedQ2EndY, Q2EndY, 10);
+
+    startRandomAnimation(animatedQ3StartX, Q3StartX, 10);
+    // startRandomAnimation(animatedQ3StartY, Q3StartY, 10);
+    startRandomAnimation(animatedQ3EndX, Q3EndX, 10);
+    // startRandomAnimation(animatedQ3EndY, Q3EndY, 10);
+    startRandomAnimation(animatedQ3ControlX, Q3ControlX, 10);
+    startRandomAnimation(animatedQ3ControlY, Q3ControlY, 10);
+
+    startRandomAnimation(animatedQ4ControlX, Q4ControlX, 10);
+    startRandomAnimation(animatedQ4ControlY, Q4ControlY, 10);
 
     animatedStartPointX.addListener(({ value }) => setStartPointX(value));
     animatedStartPointY.addListener(({ value }) => setStartPointY(value));
+
     animatedQ1ControlX.addListener(({ value }) => setQ1ControlX(value));
     animatedQ1ControlY.addListener(({ value }) => setQ1ControlY(value));
+    animatedQ1EndX.addListener(({ value }) => setQ1EndX(value));
+    // animatedQ1EndY.addListener(({ value }) => setQ1EndY(value));
+
+    animatedQ2ControlX.addListener(({ value }) => setQ2ControlX(value));
+    animatedQ2ControlY.addListener(({ value }) => setQ2ControlY(value));
+    animatedQ2EndX.addListener(({ value }) => setQ2EndX(value));
+    // animatedQ2EndY.addListener(({ value }) => setQ2EndY(value));
+
+    animatedQ3StartX.addListener(({ value }) => setQ3StartX(value));
+    // animatedQ3StartY.addListener(({ value }) => setQ3StartY(value));
+    animatedQ3ControlX.addListener(({ value }) => setQ3ControlX(value));
+    animatedQ3ControlY.addListener(({ value }) => setQ3ControlY(value));
+    animatedQ3EndX.addListener(({ value }) => setQ3EndX(value));
+    // animatedQ3EndY.addListener(({ value }) => setQ3EndY(value));
+
+
     animatedQ4ControlX.addListener(({ value }) => setQ4ControlX(value));
     animatedQ4ControlY.addListener(({ value }) => setQ4ControlY(value));
 
@@ -91,6 +127,22 @@ export default function SkiaSVG() {
       animatedStartPointY.removeAllListeners();
       animatedQ1ControlX.removeAllListeners();
       animatedQ1ControlY.removeAllListeners();
+      animatedQ1EndX.removeAllListeners();
+      // animatedQ1EndY.removeAllListeners();
+
+      animatedQ2ControlX.removeAllListeners();
+      animatedQ2ControlY.removeAllListeners();
+      animatedQ2EndX.removeAllListeners();
+      // animatedQ2EndY.removeAllListeners();
+
+
+      animatedQ3StartX.removeAllListeners();
+      animatedQ3StartY.removeAllListeners();
+      animatedQ3EndX.removeAllListeners();
+      // animatedQ3EndY.removeAllListeners();
+      animatedQ3ControlX.removeAllListeners();
+      animatedQ3ControlY.removeAllListeners();
+
       animatedQ4ControlX.removeAllListeners();
       animatedQ4ControlY.removeAllListeners();
     };
@@ -147,7 +199,7 @@ export default function SkiaSVG() {
   // const stopAnimation = () => {
   //   if (animationRef.current) {
   //     animationRef.current.stop();
-  //     animationRef.current = null; 
+  //     animationRef.current = null;
   //   }
   // };
 
