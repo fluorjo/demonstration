@@ -4,6 +4,7 @@ import {
   DiscretePathEffect,
   Line2DPathEffect,
   LinearGradient,
+  Oval,
   Path,
   Path1DPathEffect,
   processTransform2d,
@@ -12,8 +13,8 @@ import {
   Shadow,
   vec,
 } from "@shopify/react-native-skia";
-import React, { useEffect, useRef, useState } from "react";
-import { Animated, Easing, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Animated, Easing, StyleSheet, Text, View } from "react-native";
 
 export default function SkiaSVG() {
   const [startPointX, setStartPointX] = useState(50.0); // 50
@@ -58,9 +59,12 @@ export default function SkiaSVG() {
   const transformValue = [{ translateX: 100 }, { translateY: 100 }];
 
   const [isAnimating, setIsAnimating] = useState(true);
-  
+
   const FlameAnimation = (animatedValue, baseValue, range) => {
-    const randomValue = baseValue + Math.sin(Date.now() / 1000) * range + (Math.random() * 2 - 1) * (range / 3);
+    const randomValue =
+      baseValue +
+      Math.sin(Date.now() / 1000) * range +
+      (Math.random() * 2 - 1) * (range / 3);
 
     Animated.timing(animatedValue, {
       toValue: randomValue,
@@ -365,6 +369,52 @@ export default function SkiaSVG() {
             color="red"
           />
         ))}
+        {/* 파라핀 */}
+
+     
+        <Oval
+          x={0}
+          y={410}
+          width={100}
+          height={40}
+          color="lightblue"
+          transform={transformValue}
+        />
+        <Oval
+          x={0}
+          y={410}
+          width={100}
+          height={40}
+          color="white"
+          transform={transformValue}
+          style={"stroke"}
+        />
+           <RoundedRect
+          r={2}
+          x={0.5}
+          y={395}
+          width={99}
+          height={40}
+          color="lightblue"
+          transform={transformValue}
+        />
+        <Oval
+          x={0}
+          y={380}
+          width={100}
+          height={40}
+          color="lightblue"
+          transform={transformValue}
+        />
+        <Oval
+          x={0}
+          y={380}
+          width={100}
+          height={40}
+          color="white"
+          transform={transformValue}
+          style={"stroke"}
+        />
       </Canvas>
       {points.map((point, index) => (
         <View
@@ -383,3 +433,6 @@ export default function SkiaSVG() {
     </View>
   );
 }
+const styles = StyleSheet.create({
+  Paraffin: {},
+});
