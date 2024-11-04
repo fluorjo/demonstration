@@ -22,7 +22,7 @@ export default function SkiaSVG() {
   const [Q1ControlY, setQ1ControlY] = useState(20.0); // 20
   const [Q1EndX, setQ1EndX] = useState(80.0); // 80
   const [Q1EndY, setQ1EndY] = useState(240.0); // 240
-  const [Q2EndX, setQ2EndX] = useState(Q1EndX - 3);
+  const [Q2EndX, setQ2EndX] = useState(77);
   const [Q2EndY, setQ2EndY] = useState(355); // 350
   const [Q2ControlX, setQ2ControlX] = useState(Q1EndX); // 80
   const [Q2ControlY, setQ2ControlY] = useState((Q1EndY + Q2EndY) / 2);
@@ -58,45 +58,43 @@ export default function SkiaSVG() {
   const transformValue = [{ translateX: 100 }, { translateY: 100 }];
 
   const [isAnimating, setIsAnimating] = useState(true);
-  const animationRef = useRef<Animated.CompositeAnimation | null>(null);
-
+  
   const FlameAnimation = (animatedValue, baseValue, range) => {
-    const randomValue = baseValue + (Math.random() * 2 - 1) * range;
+    const randomValue = baseValue + Math.sin(Date.now() / 1000) * range + (Math.random() * 2 - 1) * (range / 3);
+
     Animated.timing(animatedValue, {
       toValue: randomValue,
       duration: 2000 + Math.random() * 1000,
-      easing: Easing.inOut(Easing.ease),
+      easing: Easing.bezier(0.5, 0.05, 0.5, 1),
       useNativeDriver: false,
     }).start(() => FlameAnimation(animatedValue, baseValue, range));
   };
   // 의도대로 되긴 했고 여기서 뭔가 왼쪽이면 왼쪽, 오른쪽이면 오른쪽으로 한쪽으로만 움직이게 한다던가 해서 좀 더 세밀한 부분에서 자연스럽게 움직이도록 해야겠다.
 
-  // Q1EndY 는 안 건드리는 게 나을 거 같고 다른 포인트들도 잘 봐가면서 건드려야겠다.  
-
-  // 뭔가 어떤 부분들은 같은 값 기반으로, 같은 패턴으로 움직이게 해야 할 것 같다. 
+  // 뭔가 어떤 부분들은 같은 값 기반으로, 같은 패턴으로 움직이게 해야 할 것 같다.
   useEffect(() => {
     FlameAnimation(animatedStartPointX, startPointX, 15);
     FlameAnimation(animatedStartPointY, startPointY, 10);
 
-    FlameAnimation(animatedQ1ControlX, Q1ControlX, 10);
-    FlameAnimation(animatedQ1ControlY, Q1ControlY, 10);
-    FlameAnimation(animatedQ1EndX, Q1EndX, 4);
+    FlameAnimation(animatedQ1ControlX, Q1ControlX, 8);
+    FlameAnimation(animatedQ1ControlY, Q1ControlY, 12);
+    FlameAnimation(animatedQ1EndX, Q1EndX, 3);
     // FlameAnimation(animatedQ1EndY, Q1EndY, 10);
 
-    FlameAnimation(animatedQ2ControlX, Q2ControlX, 10);
-    FlameAnimation(animatedQ2ControlY, Q2ControlY, 10);
-    FlameAnimation(animatedQ2EndX, Q2EndX, 10);
+    // FlameAnimation(animatedQ2ControlX, Q2ControlX, 9);
+    // FlameAnimation(animatedQ2ControlY, Q2ControlY, 10);
+    // FlameAnimation(animatedQ2EndX, Q2EndX, 8);
     // FlameAnimation(animatedQ2EndY, Q2EndY, 10);
 
-    FlameAnimation(animatedQ3StartX, Q3StartX, 10);
-    // FlameAnimation(animatedQ3StartY, Q3StartY, 10);
-    FlameAnimation(animatedQ3EndX, Q3EndX, 10);
-    // FlameAnimation(animatedQ3EndY, Q3EndY, 10);
-    FlameAnimation(animatedQ3ControlX, Q3ControlX, 10);
-    FlameAnimation(animatedQ3ControlY, Q3ControlY, 10);
+    // FlameAnimation(animatedQ3StartX, Q3StartX, 10);
+    // FlameAnimation(animatedQ3StartY, Q3StartY, 11);
+    FlameAnimation(animatedQ3EndX, Q3EndX, 3);
+    // FlameAnimation(animatedQ3EndY, Q3EndY, 9);
+    // FlameAnimation(animatedQ3ControlX, Q3ControlX, 11);
+    // FlameAnimation(animatedQ3ControlY, Q3ControlY, 10);
 
-    FlameAnimation(animatedQ4ControlX, Q4ControlX, 10);
-    FlameAnimation(animatedQ4ControlY, Q4ControlY, 10);
+    FlameAnimation(animatedQ4ControlX, Q4ControlX, 8);
+    FlameAnimation(animatedQ4ControlY, Q4ControlY, 12);
 
     animatedStartPointX.addListener(({ value }) => setStartPointX(value));
     animatedStartPointY.addListener(({ value }) => setStartPointY(value));
@@ -106,18 +104,17 @@ export default function SkiaSVG() {
     animatedQ1EndX.addListener(({ value }) => setQ1EndX(value));
     // animatedQ1EndY.addListener(({ value }) => setQ1EndY(value));
 
-    animatedQ2ControlX.addListener(({ value }) => setQ2ControlX(value));
-    animatedQ2ControlY.addListener(({ value }) => setQ2ControlY(value));
+    // animatedQ2ControlX.addListener(({ value }) => setQ2ControlX(value));
+    // animatedQ2ControlY.addListener(({ value }) => setQ2ControlY(value));
     // animatedQ2EndX.addListener(({ value }) => setQ2EndX(value));
     // animatedQ2EndY.addListener(({ value }) => setQ2EndY(value));
 
     // animatedQ3StartX.addListener(({ value }) => setQ3StartX(value));
     // animatedQ3StartY.addListener(({ value }) => setQ3StartY(value));
-    animatedQ3ControlX.addListener(({ value }) => setQ3ControlX(value));
+    // animatedQ3ControlX.addListener(({ value }) => setQ3ControlX(value));
     // animatedQ3ControlY.addListener(({ value }) => setQ3ControlY(value));
     animatedQ3EndX.addListener(({ value }) => setQ3EndX(value));
     // animatedQ3EndY.addListener(({ value }) => setQ3EndY(value));
-
 
     animatedQ4ControlX.addListener(({ value }) => setQ4ControlX(value));
     animatedQ4ControlY.addListener(({ value }) => setQ4ControlY(value));
@@ -130,18 +127,17 @@ export default function SkiaSVG() {
       animatedQ1EndX.removeAllListeners();
       // animatedQ1EndY.removeAllListeners();
 
-      animatedQ2ControlX.removeAllListeners();
-      animatedQ2ControlY.removeAllListeners();
-      animatedQ2EndX.removeAllListeners();
+      // animatedQ2ControlX.removeAllListeners();
+      // animatedQ2ControlY.removeAllListeners();
+      // animatedQ2EndX.removeAllListeners();
       // animatedQ2EndY.removeAllListeners();
 
-
-      animatedQ3StartX.removeAllListeners();
-      animatedQ3StartY.removeAllListeners();
+      // animatedQ3StartX.removeAllListeners();
+      // animatedQ3StartY.removeAllListeners();
       animatedQ3EndX.removeAllListeners();
       // animatedQ3EndY.removeAllListeners();
-      animatedQ3ControlX.removeAllListeners();
-      animatedQ3ControlY.removeAllListeners();
+      // animatedQ3ControlX.removeAllListeners();
+      // animatedQ3ControlY.removeAllListeners();
 
       animatedQ4ControlX.removeAllListeners();
       animatedQ4ControlY.removeAllListeners();
@@ -161,7 +157,7 @@ export default function SkiaSVG() {
     { x: Q1ControlX, y: Q1ControlY, label: "     Q1 Control" },
     { x: Q1EndX, y: Q1EndY, label: "    Q1 end" },
     { x: Q1EndX, y: Q2ControlY, label: "    Q2Control" },
-    { x: Q1EndX, y: Q2EndY, label: "    Q2End" },
+    { x: Q2EndX, y: Q2EndY, label: "    Q2End" },
     { x: Q3StartX, y: Q3StartY, label: "    Q3 Start" },
     { x: Q3ControlX, y: Q3ControlY, label: "    Q3 Control" },
     { x: Q3EndX, y: Q3EndY, label: "Q3 End " },
@@ -191,7 +187,6 @@ export default function SkiaSVG() {
 
   return (
     <View style={{ flex: 1 }}>
-
       <Canvas
         style={{
           flex: 1,
