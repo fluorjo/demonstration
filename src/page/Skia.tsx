@@ -60,14 +60,14 @@ export default function SkiaSVG() {
   const [isAnimating, setIsAnimating] = useState(true);
   const animationRef = useRef<Animated.CompositeAnimation | null>(null);
 
-  const startRandomAnimation = (animatedValue, baseValue, range) => {
+  const FlameAnimation = (animatedValue, baseValue, range) => {
     const randomValue = baseValue + (Math.random() * 2 - 1) * range;
     Animated.timing(animatedValue, {
       toValue: randomValue,
       duration: 2000 + Math.random() * 1000,
       easing: Easing.inOut(Easing.ease),
       useNativeDriver: false,
-    }).start(() => startRandomAnimation(animatedValue, baseValue, range));
+    }).start(() => FlameAnimation(animatedValue, baseValue, range));
   };
   // 의도대로 되긴 했고 여기서 뭔가 왼쪽이면 왼쪽, 오른쪽이면 오른쪽으로 한쪽으로만 움직이게 한다던가 해서 좀 더 세밀한 부분에서 자연스럽게 움직이도록 해야겠다.
 
@@ -75,28 +75,28 @@ export default function SkiaSVG() {
 
   // 뭔가 어떤 부분들은 같은 값 기반으로, 같은 패턴으로 움직이게 해야 할 것 같다. 
   useEffect(() => {
-    startRandomAnimation(animatedStartPointX, startPointX, 15);
-    startRandomAnimation(animatedStartPointY, startPointY, 10);
+    FlameAnimation(animatedStartPointX, startPointX, 15);
+    FlameAnimation(animatedStartPointY, startPointY, 10);
 
-    startRandomAnimation(animatedQ1ControlX, Q1ControlX, 10);
-    startRandomAnimation(animatedQ1ControlY, Q1ControlY, 10);
-    startRandomAnimation(animatedQ1EndX, Q1EndX, 4);
-    // startRandomAnimation(animatedQ1EndY, Q1EndY, 10);
+    FlameAnimation(animatedQ1ControlX, Q1ControlX, 10);
+    FlameAnimation(animatedQ1ControlY, Q1ControlY, 10);
+    FlameAnimation(animatedQ1EndX, Q1EndX, 4);
+    // FlameAnimation(animatedQ1EndY, Q1EndY, 10);
 
-    startRandomAnimation(animatedQ2ControlX, Q2ControlX, 10);
-    startRandomAnimation(animatedQ2ControlY, Q2ControlY, 10);
-    startRandomAnimation(animatedQ2EndX, Q2EndX, 10);
-    // startRandomAnimation(animatedQ2EndY, Q2EndY, 10);
+    FlameAnimation(animatedQ2ControlX, Q2ControlX, 10);
+    FlameAnimation(animatedQ2ControlY, Q2ControlY, 10);
+    FlameAnimation(animatedQ2EndX, Q2EndX, 10);
+    // FlameAnimation(animatedQ2EndY, Q2EndY, 10);
 
-    startRandomAnimation(animatedQ3StartX, Q3StartX, 10);
-    // startRandomAnimation(animatedQ3StartY, Q3StartY, 10);
-    startRandomAnimation(animatedQ3EndX, Q3EndX, 10);
-    // startRandomAnimation(animatedQ3EndY, Q3EndY, 10);
-    startRandomAnimation(animatedQ3ControlX, Q3ControlX, 10);
-    startRandomAnimation(animatedQ3ControlY, Q3ControlY, 10);
+    FlameAnimation(animatedQ3StartX, Q3StartX, 10);
+    // FlameAnimation(animatedQ3StartY, Q3StartY, 10);
+    FlameAnimation(animatedQ3EndX, Q3EndX, 10);
+    // FlameAnimation(animatedQ3EndY, Q3EndY, 10);
+    FlameAnimation(animatedQ3ControlX, Q3ControlX, 10);
+    FlameAnimation(animatedQ3ControlY, Q3ControlY, 10);
 
-    startRandomAnimation(animatedQ4ControlX, Q4ControlX, 10);
-    startRandomAnimation(animatedQ4ControlY, Q4ControlY, 10);
+    FlameAnimation(animatedQ4ControlX, Q4ControlX, 10);
+    FlameAnimation(animatedQ4ControlY, Q4ControlY, 10);
 
     animatedStartPointX.addListener(({ value }) => setStartPointX(value));
     animatedStartPointY.addListener(({ value }) => setStartPointY(value));
@@ -108,13 +108,13 @@ export default function SkiaSVG() {
 
     animatedQ2ControlX.addListener(({ value }) => setQ2ControlX(value));
     animatedQ2ControlY.addListener(({ value }) => setQ2ControlY(value));
-    animatedQ2EndX.addListener(({ value }) => setQ2EndX(value));
+    // animatedQ2EndX.addListener(({ value }) => setQ2EndX(value));
     // animatedQ2EndY.addListener(({ value }) => setQ2EndY(value));
 
-    animatedQ3StartX.addListener(({ value }) => setQ3StartX(value));
+    // animatedQ3StartX.addListener(({ value }) => setQ3StartX(value));
     // animatedQ3StartY.addListener(({ value }) => setQ3StartY(value));
     animatedQ3ControlX.addListener(({ value }) => setQ3ControlX(value));
-    animatedQ3ControlY.addListener(({ value }) => setQ3ControlY(value));
+    // animatedQ3ControlY.addListener(({ value }) => setQ3ControlY(value));
     animatedQ3EndX.addListener(({ value }) => setQ3EndX(value));
     // animatedQ3EndY.addListener(({ value }) => setQ3EndY(value));
 
@@ -188,45 +188,9 @@ export default function SkiaSVG() {
       </RoundedRect>
     );
   };
-  // const startAnimation = () => {
-  //   if (animationRef.current) {
-  //     animationRef.current.stop();
-  //   }
-  //   animationRef.current = createAnimation();
-  //   animationRef.current?.start();
-  // };
-
-  // const stopAnimation = () => {
-  //   if (animationRef.current) {
-  //     animationRef.current.stop();
-  //     animationRef.current = null;
-  //   }
-  // };
-
-  // const toggleAnimation = () => {
-  //   if (isAnimating) {
-  //     stopAnimation();
-  //   } else {
-  //     startAnimation();
-  //   }
-  //   setIsAnimating(!isAnimating);
-  // };
-
-  // useEffect(() => {
-  //   if (isAnimating) {
-  //     startAnimation();
-  //   }
-  //   return () => {
-  //     stopAnimation();
-  //   };
-  // }, []);
 
   return (
     <View style={{ flex: 1 }}>
-      {/* <Button
-        title={isAnimating ? "Stop Animation" : "Start Animation"}
-        onPress={toggleAnimation}
-      /> */}
 
       <Canvas
         style={{
@@ -260,16 +224,6 @@ export default function SkiaSVG() {
         {FlameCore()}
         {FlameCore()}
         {FlameCore()}
-
-        {/* <Circle
-          cx={(Q3StartX + Q2EndX) / 2}
-          cy={Q3StartY}
-          r={(Q2EndX - Q3StartX) / 2}
-          color={yellow}
-          transform={transformValue}
-        >
-          <Shadow dx={0} dy={0} blur={5} color={yellow} shadowOnly={true} />
-        </Circle> */}
 
         {/*양옆 올라오는 파란 불*/}
         <Path
