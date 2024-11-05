@@ -173,6 +173,11 @@ export default function SkiaSVG() {
   const yellow = "#ff9500ab";
   const yellowCore = "#ff9500a4";
 
+  // 파라핀
+  const paraffinTopColor = "#B8B8B8";
+  const paraffinBodyColor = "#C9C9C9";
+  const paraffinwidth = 100;
+
   const FlameCore = () => {
     return (
       <RoundedRect
@@ -371,49 +376,22 @@ export default function SkiaSVG() {
         ))}
         {/* 파라핀 */}
 
-     
-        <Oval
-          x={0}
-          y={410}
-          width={100}
-          height={40}
-          color="lightblue"
-          transform={transformValue}
-        />
-        <Oval
-          x={0}
-          y={410}
-          width={100}
-          height={40}
-          color="white"
-          transform={transformValue}
-          style={"stroke"}
-        />
-           <RoundedRect
+        <RoundedRect
           r={2}
-          x={0.5}
-          y={395}
-          width={99}
-          height={40}
-          color="lightblue"
+          x={0}
+          y={420}
+          width={paraffinwidth}
+          height={80}
+          color={paraffinBodyColor}
           transform={transformValue}
         />
         <Oval
           x={0}
-          y={380}
-          width={100}
-          height={40}
-          color="lightblue"
+          y={410}
+          width={paraffinwidth}
+          height={20}
+          color={paraffinTopColor}
           transform={transformValue}
-        />
-        <Oval
-          x={0}
-          y={380}
-          width={100}
-          height={40}
-          color="white"
-          transform={transformValue}
-          style={"stroke"}
         />
       </Canvas>
       {points.map((point, index) => (
