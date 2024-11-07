@@ -3,9 +3,11 @@ import Entypo from "@expo/vector-icons/Entypo";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import * as Location from "expo-location";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
+  Animated,
   SafeAreaView,
+  StatusBar,
   StyleSheet,
   TouchableWithoutFeedback,
 } from "react-native";
@@ -67,17 +69,22 @@ export default function App() {
   }
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isCandleActive, setIsCandleActive] = useState(false);
+  const fadeAnim = useRef(new Animated.Value(1)).current; 
   let timer: NodeJS.Timeout | null = null;
+
 
   const handleUserActivity = () => {
     if (isCandleActive) {
       setIsFullScreen(false);
+      StatusBar.setHidden(false, "fade");
       if (timer) clearTimeout(timer);
       timer = setTimeout(() => {
         setIsFullScreen(true);
-      }, 5000);
+        StatusBar.setHidden(true, "slide");
+      }, 5000); 
     }
   };
+
 
   useEffect(() => {
     if (isCandleActive) {
