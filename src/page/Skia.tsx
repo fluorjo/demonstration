@@ -55,7 +55,7 @@ export default function SkiaSVG() {
   const animatedQ4ControlX = new Animated.Value(Q4ControlX);
   const animatedQ4ControlY = new Animated.Value(Q4ControlY);
 
-  const transformValue = [{ translateX: 100 }, { translateY: 100 }];
+  const transformValue = [{ translateX: 137 }, { translateY: 100 }];
 
   const FlameAnimation = (animatedValue, baseValue, range) => {
     const randomValue =
@@ -312,7 +312,7 @@ export default function SkiaSVG() {
         {points.map((point, index) => (
           <Circle
             key={index}
-            cx={point.x + 100}
+            cx={point.x + 137}
             cy={point.y + 100}
             // cx={point.x }
             // cy={point.y }
@@ -332,8 +332,8 @@ export default function SkiaSVG() {
           transform={transformValue}
         >
           <LinearGradient
-            start={vec(0, 320)}
-            end={vec(0, 370)}
+            start={vec(37, 320)}
+            end={vec(37, 370)}
             // colors={[paraffinBodyColor, paraffinTopColor]}
             colors={["#fc7f02", "#fefefe"]}
             transform={transformValue}
@@ -348,7 +348,7 @@ export default function SkiaSVG() {
           transform={transformValue}
         >
           <RadialGradient
-            c={vec(-50, 320)}
+            c={vec(-78, 320)}
             r={50}
             colors={["#fefefe", "#fc7f02"]}
             transform={transformValue}
@@ -356,7 +356,7 @@ export default function SkiaSVG() {
         </Oval>
         {/* 심지 */}
         <RoundedRect
-          x={144}
+          x={181}
           y={452}
           width={11}
           height={70}
@@ -366,8 +366,8 @@ export default function SkiaSVG() {
           <DiscretePathEffect length={4} deviation={1.5} />
         </RoundedRect>
         <RoundedRect
-          x={144}
-          y={445}
+          x={181}
+          y={447}
           width={11}
           height={80}
           r={25}
@@ -375,8 +375,8 @@ export default function SkiaSVG() {
         >
           <DiscretePathEffect length={5} deviation={5} />
           <LinearGradient
-            start={{ x: 144, y: 410 }}
-            end={{ x: 144, y: 580 }}
+            start={{ x: 181, y: 410 }}
+            end={{ x: 181, y: 580 }}
             colors={["#4c1d032f", "#0000008b"]}
           />
           <Line2DPathEffect
@@ -388,7 +388,7 @@ export default function SkiaSVG() {
         </RoundedRect>
         {/* 심지 윗부분 */}
         <RoundedRect
-          x={144}
+          x={181}
           y={445}
           // width={110}
           // height={200}
@@ -409,8 +409,8 @@ export default function SkiaSVG() {
           <Shadow dx={0} dy={0} blur={4} color="#EFDB3A" shadowOnly={false} />
           <Shadow dx={0} dy={0} blur={4} color="#EE5C02" shadowOnly={false} />
           <Path1DPathEffect
-            path="M 0 0 L 1 1, 4 5, 1 12 Z"
-            advance={4}
+            path="M 0 0 L 1 9, 4 5, 1 12 Z"
+            advance={3}
             phase={14}
             style="rotate"
           />
@@ -433,6 +433,3 @@ export default function SkiaSVG() {
     </View>
   );
 }
-const styles = StyleSheet.create({
-  Paraffin: {},
-});
