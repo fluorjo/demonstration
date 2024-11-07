@@ -60,8 +60,8 @@ export default function SkiaSVG() {
   const FlameAnimation = (animatedValue, baseValue, range) => {
     const randomValue =
       baseValue +
-      Math.sin(Date.now() / 1000) * range * 0.5 + 
-      (Math.random() * 2 - 1) * (range / 4); 
+      Math.sin(Date.now() / 1000) * range * 0.5 +
+      (Math.random() * 2 - 1) * (range / 4);
 
     Animated.timing(animatedValue, {
       toValue: randomValue,
@@ -379,7 +379,15 @@ export default function SkiaSVG() {
           height={80}
           color={paraffinBodyColor}
           transform={transformValue}
-        />
+        >
+          <LinearGradient
+            start={vec(0, 320)}
+            end={vec(0, 370)}
+            // colors={[paraffinBodyColor, paraffinTopColor]}
+            colors={["#fc7f02","#fefefe" ]}
+            transform={transformValue}
+          />
+        </RoundedRect>
         <Oval
           x={0}
           y={410}
@@ -387,7 +395,14 @@ export default function SkiaSVG() {
           height={20}
           color={paraffinTopColor}
           transform={transformValue}
-        />
+        >
+          <RadialGradient
+            c={vec(-50, 320)}
+            r={50}
+            colors={["#fefefe", "#fc7f02"]}
+            transform={transformValue}
+          />
+        </Oval>
       </Canvas>
       {points.map((point, index) => (
         <View
