@@ -4,15 +4,19 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import * as Location from "expo-location";
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  TouchableWithoutFeedback,
+} from "react-native";
 import CandleIcon from "./src/icons/CandleIcon";
 import DemoIcon from "./src/icons/DemoIcon";
 import RestroomIcon from "./src/icons/RestroomIcon";
 import ETCPage from "./src/page/ETCPage";
+import ETCStackNavigator from "./src/page/ETCStackNavigator";
 import PoliceDemoInfoPage from "./src/page/PoliceDemoInfoPage";
 import RestRoomPage from "./src/page/RestRoomPage";
 import SkiaSVG from "./src/page/Skia";
-import ETCStackNavigator from "./src/page/ETCStackNavigator";
 
 const Tab = createBottomTabNavigator();
 // 탭바 디자인 좀 하자.
@@ -59,52 +63,92 @@ export default function App() {
     // return <LoadingComponent />;
   }
   function Candle() {
-    // return <CandlePage />;
-    // return <Flame />;
-    // return <SVG />;
     return <SkiaSVG />;
   }
+  const [isFullScreen, setIsFullScreen] = useState(false);
+  const [isCandleActive, setIsCandleActive] = useState(false);
+  let timer: NodeJS.Timeout | null = null;
 
+  const handleUserActivity = () => {
+    if (isCandleActive) {
+      setIsFullScreen(false);
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        setIsFullScreen(true);
+      }, 5000);
+    }
+  };
+
+  useEffect(() => {
+    if (isCandleActive) {
+      handleUserActivity();
+    }
+
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [isCandleActive]);
   return (
-    <SafeAreaView style={styles.container}>
-      <NavigationContainer>
-        <Tab.Navigator initialRouteName="Candle">
-          <Tab.Screen
-            name="RestRoom"
-            component={RestRoom}
-            options={{
-              title: "화장실 정보",
-              tabBarIcon: ({ color, size }) => <RestroomIcon />,
-            }}
-          />
-          <Tab.Screen
-            name="Demo"
-            component={Demo}
-            options={{
-              title: "집회 정보",
-              tabBarIcon: ({ color, size }) => <DemoIcon />,
-            }}
-          />
-          <Tab.Screen
-            name="Candle"
-            component={Candle}
-            options={{
-              title: "촛불",
-              tabBarIcon: ({ color, size }) => <CandleIcon />,
-            }}
-          />
-          <Tab.Screen
-            name="ETC"
-            component={ETCStackNavigator}
-            options={{
-              tabBarIcon: () => (
-                <Entypo name="dots-three-horizontal" size={30} color="black" />
-              ),
-            }}
-          ></Tab.Screen>
-        </Tab.Navigator>
-      </NavigationContainer>
-    </SafeAreaView>
+    <TouchableWithoutFeedback onPress={handleUserActivity}>
+      <SafeAreaView
+        style={[styles.container, isFullScreen && styles.fullScreen]}
+      >
+        <NavigationContainer>
+          <Tab.Navigator
+            screenOptions={({ route }) => ({
+              tabBarStyle:
+                isFullScreen && route.name === "Candle"
+                  ? { display: "none" }
+                  : {},
+            })}
+            initialRouteName="Candle"
+          >
+            <Tab.Screen
+              name="RestRoom"
+              component={RestRoom}
+              options={{
+                title: "화장실 정보",
+                tabBarIcon: ({ color, size }) => <RestroomIcon />,
+              }}
+            />
+            <Tab.Screen
+              name="Demo"
+              component={Demo}
+              options={{
+                title: "집회 정보",
+                tabBarIcon: ({ color, size }) => <DemoIcon />,
+              }}
+            />
+            <Tab.Screen
+              name="Candle"
+              component={SkiaSVG}
+              listeners={{
+                focus: () => setIsCandleActive(true),
+                blur: () => setIsCandleActive(false),
+              }}
+              options={{
+                title: "촛불",
+                headerShown: !isFullScreen,
+                tabBarIcon: ({ color, size }) => <CandleIcon />,
+              }}
+            />
+            <Tab.Screen
+              name="ETC"
+              component={ETCStackNavigator}
+              options={{
+                tabBarIcon: () => (
+                  <Entypo
+                    name="dots-three-horizontal"
+                    size={30}
+                    color="black"
+                  />
+                ),
+              }}
+            ></Tab.Screen>
+          </Tab.Navigator>
+        </NavigationContainer>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -112,5 +156,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  fullScreen: {
+    marginTop: 0,
+    marginBottom: 0,
   },
 });
