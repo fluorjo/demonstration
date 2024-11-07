@@ -292,56 +292,7 @@ export default function SkiaSVG() {
           />
           <Shadow dx={0} dy={0} blur={40} color="#0000004f" shadowOnly={true} />
         </RoundedRect>
-        {/* 심지 */}
-        <RoundedRect
-          x={144}
-          y={440}
-          width={11}
-          height={80}
-          r={25}
-          color="black"
-        >
-          <DiscretePathEffect length={4} deviation={1.5} />
-        </RoundedRect>
-        <RoundedRect
-          x={144}
-          y={440}
-          width={11}
-          height={80}
-          r={25}
-          color="black"
-        >
-          <DiscretePathEffect length={4} deviation={1.5} />
-          <LinearGradient
-            start={{ x: 144, y: 410 }}
-            end={{ x: 144, y: 580 }}
-            colors={["#632402a6", "#000000"]}
-          />
-          <Line2DPathEffect
-            width={0.9}
-            matrix={processTransform2d([{ scale: 1.4 }])}
-          />
-          <Shadow dx={0} dy={-10} blur={15} color="#ff000022" />
-          <Shadow dx={0} dy={0} blur={0} color="#0000006c" />
-        </RoundedRect>
-        {/* 심지 윗부분 */}
-        <RoundedRect
-          x={144}
-          y={440}
-          width={11}
-          height={20}
-          r={25}
-          color="#ff4000f1"
-        >
-          <Shadow dx={0} dy={0} blur={1} color="#FF5800" shadowOnly={true} />
-          <Shadow dx={0} dy={-4} blur={15} color="#FF5800" shadowOnly={false} />
-          <Path1DPathEffect
-            path="M 0 0 L 1 1, 4 5, 1 12 Z"
-            advance={5}
-            phase={15}
-            style="rotate"
-          />
-        </RoundedRect>
+
         {/* 빛*/}
         <Circle
           cx={startPointX}
@@ -384,7 +335,7 @@ export default function SkiaSVG() {
             start={vec(0, 320)}
             end={vec(0, 370)}
             // colors={[paraffinBodyColor, paraffinTopColor]}
-            colors={["#fc7f02","#fefefe" ]}
+            colors={["#fc7f02", "#fefefe"]}
             transform={transformValue}
           />
         </RoundedRect>
@@ -403,8 +354,58 @@ export default function SkiaSVG() {
             transform={transformValue}
           />
         </Oval>
+        {/* 심지 */}
+        <RoundedRect
+          x={144}
+          y={452}
+          width={11}
+          height={70}
+          r={25}
+          color="black"
+        >
+          <DiscretePathEffect length={4} deviation={1.5} />
+        </RoundedRect>
+        <RoundedRect
+          x={144}
+          y={445}
+          width={11}
+          height={80}
+          r={25}
+          color="black"
+        >
+          <DiscretePathEffect length={4} deviation={1.5} />
+          <LinearGradient
+            start={{ x: 144, y: 410 }}
+            end={{ x: 144, y: 580 }}
+            colors={["#632402a6", "#000000"]}
+          />
+          <Line2DPathEffect
+            width={0.9}
+            matrix={processTransform2d([{ scale: 1.4 }])}
+          />
+          <Shadow dx={0} dy={-10} blur={15} color="#ff000022" />
+          <Shadow dx={0} dy={0} blur={0} color="#0000006c" />
+        </RoundedRect>
+        {/* 심지 윗부분 */}
+        <RoundedRect
+          x={144}
+          y={445}
+          width={11}
+          height={20}
+          r={25}
+          color="#ff4000f1"
+        >
+          <Shadow dx={0} dy={0} blur={1} color="#EE5C02" shadowOnly={true} />
+          <Shadow dx={0} dy={-4} blur={15} color="#EE5C02" shadowOnly={false} />
+          <Path1DPathEffect
+            path="M 0 0 L 1 1, 4 5, 1 12 Z"
+            advance={8}
+            phase={13}
+            style="rotate"
+          />
+        </RoundedRect>
       </Canvas>
-      {points.map((point, index) => (
+      {/* {points.map((point, index) => (
         <View
           key={index}
           style={{
@@ -417,7 +418,7 @@ export default function SkiaSVG() {
         >
           <Text style={{ color: "green", fontSize: 10 }}>{point.label}</Text>
         </View>
-      ))}
+      ))} */}
     </View>
   );
 }
