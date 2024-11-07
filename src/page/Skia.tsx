@@ -14,7 +14,7 @@ import {
   vec,
 } from "@shopify/react-native-skia";
 import React, { useEffect, useState } from "react";
-import { Animated, Easing, StyleSheet, Text, View } from "react-native";
+import { Animated, Easing, StyleSheet, View } from "react-native";
 
 export default function SkiaSVG() {
   const [startPointX, setStartPointX] = useState(50.0); // 50
@@ -373,11 +373,11 @@ export default function SkiaSVG() {
           r={25}
           color="black"
         >
-          <DiscretePathEffect length={4} deviation={1.5} />
+          <DiscretePathEffect length={5} deviation={5} />
           <LinearGradient
             start={{ x: 144, y: 410 }}
             end={{ x: 144, y: 580 }}
-            colors={["#632402a6", "#000000"]}
+            colors={["#4c1d032f", "#0000008b"]}
           />
           <Line2DPathEffect
             width={0.9}
@@ -390,17 +390,28 @@ export default function SkiaSVG() {
         <RoundedRect
           x={144}
           y={445}
+          // width={110}
+          // height={200}
           width={11}
           height={20}
           r={25}
-          color="#ff4000f1"
+          // color="#ff4000f1"
+          color="#ffffff"
         >
-          <Shadow dx={0} dy={0} blur={1} color="#EE5C02" shadowOnly={true} />
-          <Shadow dx={0} dy={-4} blur={15} color="#EE5C02" shadowOnly={false} />
+          <RadialGradient
+            // c={vec(50,330)}
+            c={vec(50, 355)}
+            r={25}
+            colors={["#EE5C02", "#EFDB3A"]}
+            // colors={['blue','red']}
+            transform={transformValue}
+          />
+          <Shadow dx={0} dy={0} blur={4} color="#EFDB3A" shadowOnly={false} />
+          <Shadow dx={0} dy={0} blur={4} color="#EE5C02" shadowOnly={false} />
           <Path1DPathEffect
             path="M 0 0 L 1 1, 4 5, 1 12 Z"
-            advance={8}
-            phase={13}
+            advance={4}
+            phase={14}
             style="rotate"
           />
         </RoundedRect>
