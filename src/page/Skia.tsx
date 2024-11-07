@@ -55,27 +55,22 @@ export default function SkiaSVG() {
   const animatedQ4ControlX = new Animated.Value(Q4ControlX);
   const animatedQ4ControlY = new Animated.Value(Q4ControlY);
 
-  //toValue는 적당히 가까운 값 집어넣고, addListener로 변화시킬 때 랜덤값 넣어서 변화가 랜덤하게 이뤄지게 할까.
   const transformValue = [{ translateX: 100 }, { translateY: 100 }];
-
-  const [isAnimating, setIsAnimating] = useState(true);
 
   const FlameAnimation = (animatedValue, baseValue, range) => {
     const randomValue =
       baseValue +
-      Math.sin(Date.now() / 1000) * range +
-      (Math.random() * 2 - 1) * (range / 3);
+      Math.sin(Date.now() / 1000) * range * 0.5 + 
+      (Math.random() * 2 - 1) * (range / 4); 
 
     Animated.timing(animatedValue, {
       toValue: randomValue,
-      duration: 2000 + Math.random() * 1000,
-      easing: Easing.bezier(0.5, 0.05, 0.5, 1),
+      duration: 1500 + Math.random() * 500,
+      easing: Easing.inOut(Easing.ease),
       useNativeDriver: false,
     }).start(() => FlameAnimation(animatedValue, baseValue, range));
   };
-  // 의도대로 되긴 했고 여기서 뭔가 왼쪽이면 왼쪽, 오른쪽이면 오른쪽으로 한쪽으로만 움직이게 한다던가 해서 좀 더 세밀한 부분에서 자연스럽게 움직이도록 해야겠다.
 
-  // 뭔가 어떤 부분들은 같은 값 기반으로, 같은 패턴으로 움직이게 해야 할 것 같다.
   useEffect(() => {
     FlameAnimation(animatedStartPointX, startPointX, 15);
     FlameAnimation(animatedStartPointY, startPointY, 10);
