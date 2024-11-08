@@ -14,7 +14,7 @@ import {
   vec,
 } from "@shopify/react-native-skia";
 import React, { useEffect, useState } from "react";
-import { Animated, Easing, StyleSheet, View } from "react-native";
+import { Animated, Easing, View } from "react-native";
 
 export default function SkiaSVG() {
   const [startPointX, setStartPointX] = useState(50.0); // 50
@@ -190,13 +190,14 @@ export default function SkiaSVG() {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: "black" }}>
       <Canvas
         style={{
           flex: 1,
           backgroundColor: "black",
           justifyContent: "center",
           alignItems: "center",
+          position: "relative",
         }}
       >
         <Path path={pathString} color="white" transform={transformValue}>
@@ -333,7 +334,7 @@ export default function SkiaSVG() {
         >
           <LinearGradient
             start={vec(37, 320)}
-            end={vec(37, 370)}
+            end={vec(37, 395)}
             // colors={[paraffinBodyColor, paraffinTopColor]}
             colors={["#fc7f02", "#fefefe"]}
             transform={transformValue}

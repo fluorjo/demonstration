@@ -62,16 +62,13 @@ export default function App() {
   }
   function Demo() {
     return <PoliceDemoInfoPage />;
-    // return <LoadingComponent />;
   }
   function Candle() {
     return <SkiaSVG />;
   }
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isCandleActive, setIsCandleActive] = useState(false);
-  const fadeAnim = useRef(new Animated.Value(1)).current; 
   let timer: NodeJS.Timeout | null = null;
-
 
   const handleUserActivity = () => {
     if (isCandleActive) {
@@ -81,10 +78,9 @@ export default function App() {
       timer = setTimeout(() => {
         setIsFullScreen(true);
         StatusBar.setHidden(true, "slide");
-      }, 5000); 
+      }, 5000);
     }
   };
-
 
   useEffect(() => {
     if (isCandleActive) {
