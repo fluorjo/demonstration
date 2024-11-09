@@ -17,7 +17,7 @@ const ETCStackNavigator = () => (
       <Stack.Screen
         name="ETCPage"
         component={ETCPage}
-        options={{ title: "ETC" }}
+        options={{ title: "기타" }}
       />
       <Stack.Screen
         name="AppInfoPage"

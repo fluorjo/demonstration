@@ -310,7 +310,7 @@ export default function SkiaSVG() {
             shadowOnly={true}
           />
         </Circle>
-        {points.map((point, index) => (
+        {/* {points.map((point, index) => (
           <Circle
             key={index}
             cx={point.x + 137}
@@ -320,9 +320,8 @@ export default function SkiaSVG() {
             r={3}
             color="red"
           />
-        ))}
+        ))} */}
         {/* 파라핀 */}
-
         <RoundedRect
           r={2}
           x={0}

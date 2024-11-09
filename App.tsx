@@ -3,9 +3,8 @@ import Entypo from "@expo/vector-icons/Entypo";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import * as Location from "expo-location";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  Animated,
   SafeAreaView,
   StatusBar,
   StyleSheet,
@@ -19,7 +18,6 @@ import ETCStackNavigator from "./src/page/ETCStackNavigator";
 import PoliceDemoInfoPage from "./src/page/PoliceDemoInfoPage";
 import RestRoomPage from "./src/page/RestRoomPage";
 import SkiaSVG from "./src/page/Skia";
-
 const Tab = createBottomTabNavigator();
 // 탭바 디자인 좀 하자.
 export default function App() {
@@ -103,6 +101,8 @@ export default function App() {
                 isFullScreen && route.name === "Candle"
                   ? { display: "none" }
                   : {},
+              tabBarActiveTintColor: "#007AFF",
+              tabBarInactiveTintColor : "#666666",
             })}
             initialRouteName="Candle"
           >
@@ -111,7 +111,7 @@ export default function App() {
               component={RestRoom}
               options={{
                 title: "화장실 정보",
-                tabBarIcon: ({ color, size }) => <RestroomIcon />,
+                tabBarIcon: ({ color }) => <RestroomIcon color={color} />,
               }}
             />
             <Tab.Screen
@@ -119,7 +119,7 @@ export default function App() {
               component={Demo}
               options={{
                 title: "집회 정보",
-                tabBarIcon: ({ color, size }) => <DemoIcon />,
+                tabBarIcon: ({ color }) => <DemoIcon color={color} />,
               }}
             />
             <Tab.Screen
@@ -132,18 +132,19 @@ export default function App() {
               options={{
                 title: "촛불",
                 headerShown: !isFullScreen,
-                tabBarIcon: ({ color, size }) => <CandleIcon />,
+                tabBarIcon: ({ color }) => <CandleIcon color={color} />,
               }}
             />
             <Tab.Screen
-              name="ETC"
+              name="기타"
               component={ETCStackNavigator}
               options={{
-                tabBarIcon: () => (
+                headerShown: false,
+                tabBarIcon: ({ color }) => (
                   <Entypo
                     name="dots-three-horizontal"
                     size={30}
-                    color="black"
+                    color={color}
                   />
                 ),
               }}
