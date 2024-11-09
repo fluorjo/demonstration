@@ -73,7 +73,7 @@ export default function FloatingActionBtn({ toggleFilter, filteredType }) {
         onPress={handlePress}
         style={[styles.shadow, mainButtonStyles.button]}
       >
-        <MaterialIcons name="filter-alt" size={24} color="white" />
+        <MaterialIcons name="filter-alt" size={32} color="white" />
       </AnimatedPressable>
       <FloatingActionButton
         isExpanded={isExpanded}
