@@ -224,12 +224,7 @@ export default function PoliceDemoInfoPage() {
   const prevTranslationX = useSharedValue(0);
   const prevTranslationY = useSharedValue(0);
 
-  const animatedStyles = useAnimatedStyle(() => ({
-    transform: [
-      { translateX: translationX.value },
-      { translateY: translationY.value },
-    ],
-  }));
+
   const pan = Gesture.Pan()
     .minDistance(1)
     .onStart(() => {
@@ -389,7 +384,7 @@ export default function PoliceDemoInfoPage() {
       isExpanded: isExpanded,
       index: 2,
       IconName: "skip-previous",
-      onPress: () => changeTargetDay("left"),
+      onPress: () => changeTargetDay("right"),
       // ExtraStyle: styles.calendarButton,
     },
 
@@ -397,7 +392,7 @@ export default function PoliceDemoInfoPage() {
       isExpanded: isExpanded,
       index: 3,
       IconName: "skip-next",
-      onPress: () => changeTargetDay("right"),
+      onPress: () => changeTargetDay("left"),
       // ExtraStyle: styles.calendarButton,
     },
     {

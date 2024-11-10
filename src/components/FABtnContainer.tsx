@@ -2,13 +2,12 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import React, { useState } from "react";
 import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 import Animated, {
-  ReducedMotionConfig,
-  ReduceMotion,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
 import { FABtn4Demo } from "./FABtn4DemoInfo";
+import { translate } from "@shopify/react-native-skia";
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 const { width } = Dimensions.get("window");
@@ -29,7 +28,7 @@ export default function FloatingActionBtnContainer({ buttons }) {
   const animatedStyle = useAnimatedStyle(() => {
     return {
       transform: [
-        { translateX: width / 2 - plusButtonSize / 2  },
+        { translateX: width / 2 - plusButtonSize / 2 },
         { rotateZ: withTiming(`${rotation.value}deg`) },
       ],
     };
@@ -41,7 +40,7 @@ export default function FloatingActionBtnContainer({ buttons }) {
         onPress={handlePress}
         style={[styles.shadow, mainButtonStyles.button, animatedStyle]}
       >
-        <FontAwesome name="plus" size={35} color="white" />
+        <FontAwesome name="plus" size={43} color="white" style={[styles.plusButton]} />
       </AnimatedPressable>
       {/* </Animated.View> */}
 
@@ -78,7 +77,7 @@ const mainButtonStyles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-
+    position: "absolute",
   },
 });
 
@@ -93,6 +92,10 @@ const styles = StyleSheet.create({
     bottom: 20,
     zIndex: 1,
     // backgroundColor:'red'
+  },
+  plusButton:{
+    transform: [{ translateX: 0.5 }, { translateY: 2 }],
+
   },
   // wrapper: {
   //   position: "relative",
