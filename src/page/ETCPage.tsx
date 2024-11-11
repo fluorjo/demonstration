@@ -81,7 +81,9 @@ export default function ETCPage() {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.feedbackButton}
-        onPress={() => Linking.openURL(`https://qr.kakaopay.com/${kakaoPayAddress}`)}
+        onPress={() =>
+          Linking.openURL(`https://qr.kakaopay.com/${kakaoPayAddress}`)
+        }
       >
         <View style={styles.IconContainer}>
           <FontAwesome

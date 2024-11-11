@@ -18,6 +18,7 @@ import ETCStackNavigator from "./src/page/ETCStackNavigator";
 import PoliceDemoInfoPage from "./src/page/PoliceDemoInfoPage";
 import RestRoomPage from "./src/page/RestRoomPage";
 import SkiaSVG from "./src/page/Skia";
+import AppInfoPage from "./src/page/AppInfoPage";
 const Tab = createBottomTabNavigator();
 // 탭바 디자인 좀 하자.
 export default function App() {
@@ -94,6 +95,7 @@ export default function App() {
       <SafeAreaView
         style={[styles.container, isFullScreen && styles.fullScreen]}
       >
+        {/* <AppInfoPage/> */}
         <NavigationContainer>
           <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -104,7 +106,7 @@ export default function App() {
               tabBarActiveTintColor: "#007AFF",
               tabBarInactiveTintColor : "#666666",
             })}
-            initialRouteName="Candle"
+            initialRouteName="기타"
           >
             <Tab.Screen
               name="RestRoom"
@@ -150,7 +152,7 @@ export default function App() {
               }}
             ></Tab.Screen>
           </Tab.Navigator>
-        </NavigationContainer>
+        </NavigationContainer> 
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
