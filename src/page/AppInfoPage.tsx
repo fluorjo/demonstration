@@ -5,11 +5,11 @@ const screenWidth = Math.round(Dimensions.get("window").width);
 const Images = [
   {
     num: 1,
-    imageSource: require("/Users/fluor/Documents/c/demo-expo/assets/appManual/map1.png"),
+    imageSource: require("/Users/fluor/Documents/c/demo-expo/assets/appManual/map.png"),
   },
   {
     num: 2,
-    imageSource: require("/Users/fluor/Documents/c/demo-expo/assets/appManual/candle.png"),
+    imageSource: require("/Users/fluor/Documents/c/demo-expo/assets/appManual/map2.png"),
   },
   {
     num: 3,
@@ -17,25 +17,24 @@ const Images = [
   },
 ];
 const AppInfoPage = () => {
-  const width = Dimensions.get("window").width;
-  const height = Dimensions.get("window").height;
+  // const width = Dimensions.get("window").width;
+  // const height = Dimensions.get("window").height;
   return (
     <View style={styles.container}>
       <Carousel
         loop
-        width={width}
-        height={height}
+        width={340}
+        height={500}
         autoPlay={false}
         data={Images}
         scrollAnimationDuration={1000}
         onSnapToItem={(index) => console.log("current index:", index)}
         style={styles.carousel}
         renderItem={({ item: { imageSource } }) => (
-          <>
             <Image
               style={{
                 flex: 1,
-                borderWidth: 1,
+                borderWidth: 0,
                 justifyContent: "center",
                 width: "100%",
                 height: "100%",
@@ -45,7 +44,6 @@ const AppInfoPage = () => {
               source={imageSource}
               resizeMode="contain"
             />
-          </>
         )}
       />
     </View>
@@ -62,12 +60,13 @@ const styles = StyleSheet.create({
   },
   carousel: {
     backgroundColor: "#572e2e",
-    width: 340,
-    height: 500,
+    // width: 340,
+    // height: 500,
     borderRadius: 30,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    borderWidth: 2,
   },
   overlay: {
     flex: 1,
