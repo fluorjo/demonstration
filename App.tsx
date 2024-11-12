@@ -95,8 +95,8 @@ export default function App() {
       <SafeAreaView
         style={[styles.container, isFullScreen && styles.fullScreen]}
       >
-        {/* <AppInfoPage/>  */}
-         <NavigationContainer>
+        <AppInfoPage/> 
+         {/* <NavigationContainer>
           <Tab.Navigator
             screenOptions={({ route }) => ({
               tabBarStyle:
@@ -152,7 +152,7 @@ export default function App() {
               }}
             ></Tab.Screen>
           </Tab.Navigator>
-        </NavigationContainer>
+        </NavigationContainer> */}
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );

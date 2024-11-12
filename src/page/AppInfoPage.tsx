@@ -20,7 +20,7 @@ const AppInfoPage = () => {
   const width = Dimensions.get("window").width;
   const height = Dimensions.get("window").height;
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       <Carousel
         loop
         width={width}
@@ -29,18 +29,23 @@ const AppInfoPage = () => {
         data={Images}
         scrollAnimationDuration={1000}
         onSnapToItem={(index) => console.log("current index:", index)}
+        style={styles.carousel}
         renderItem={({ item: { imageSource } }) => (
-          <Image
-            style={{
-              flex: 1,
-              borderWidth: 1,
-              justifyContent: "center",
-              width: "100%",
-              height: "100%",
-            }}
-            source={imageSource}
-            resizeMode="cover"
-          />
+          <>
+            <Image
+              style={{
+                flex: 1,
+                borderWidth: 1,
+                justifyContent: "center",
+                width: "100%",
+                height: "100%",
+                // position:'absolute',
+                // top:-55,
+              }}
+              source={imageSource}
+              resizeMode="contain"
+            />
+          </>
         )}
       />
     </View>
@@ -48,6 +53,22 @@ const AppInfoPage = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    // backgroundColor: "white",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  carousel: {
+    backgroundColor: "#572e2e",
+    width: 340,
+    height: 500,
+    borderRadius: 30,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   overlay: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.6)",
