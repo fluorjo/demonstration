@@ -1,39 +1,49 @@
 import React from "react";
-import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
-import Carousel from "../components/Carousel";
+import { Dimensions, Image, StyleSheet, View } from "react-native";
+import Carousel from "react-native-reanimated-carousel";
 const screenWidth = Math.round(Dimensions.get("window").width);
 const Images = [
   {
     num: 1,
-    color: '#86E3CE',
+    imageSource: require("/Users/fluor/Documents/c/demo-expo/assets/appManual/map1.png"),
   },
   {
     num: 2,
-    color: '#D0E6A5',
+    imageSource: require("/Users/fluor/Documents/c/demo-expo/assets/appManual/image.png"),
   },
   {
     num: 3,
-    color: '#FFDD94',
-  },
-  {
-    num: 4,
-    color: '#FA897B',
-  },
-  {
-    num: 5,
-    color: '#CCABD8',
+    color: "#FFDD94",
   },
 ];
 const AppInfoPage = () => {
+  const width = Dimensions.get("window").width;
+  const height = Dimensions.get("window").height;
   return (
-    // <Modal visible={visible} transparent={true} animationType="fade">
-    <Carousel
-          gap={16}
-          offset={36}
-          pages={Images}
-          pageWidth={screenWidth - (16 + 36) * 2}
-        />
-    // </Modal>
+    <View style={{ flex: 1 }}>
+      <Carousel
+        loop
+        width={width}
+        height={height}
+        autoPlay={false}
+        data={Images}
+        scrollAnimationDuration={1000}
+        onSnapToItem={(index) => console.log("current index:", index)}
+        renderItem={({ item: { imageSource } }) => (
+          <Image
+            style={{
+              flex: 1,
+              borderWidth: 1,
+              justifyContent: "center",
+              width: 400,
+              height: 400,
+            }}
+            source={imageSource}
+            resizeMode="cover"
+          />
+        )}
+      />
+    </View>
   );
 };
 
