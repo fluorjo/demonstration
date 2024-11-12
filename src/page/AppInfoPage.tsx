@@ -9,11 +9,11 @@ const Images = [
   },
   {
     num: 2,
-    imageSource: require("/Users/fluor/Documents/c/demo-expo/assets/appManual/image.png"),
+    imageSource: require("/Users/fluor/Documents/c/demo-expo/assets/appManual/candle.png"),
   },
   {
     num: 3,
-    color: "#FFDD94",
+    imageSource: require("/Users/fluor/Documents/c/demo-expo/assets/appManual/info.png"),
   },
 ];
 const AppInfoPage = () => {
@@ -35,8 +35,8 @@ const AppInfoPage = () => {
               flex: 1,
               borderWidth: 1,
               justifyContent: "center",
-              width: 400,
-              height: 400,
+              width: "100%",
+              height: "100%",
             }}
             source={imageSource}
             resizeMode="cover"
