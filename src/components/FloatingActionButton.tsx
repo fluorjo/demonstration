@@ -1,5 +1,5 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import React from "react";
+import React, { useState } from "react";
 import { Image, Pressable, StyleSheet, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
@@ -59,10 +59,13 @@ const FloatingActionButton = ({
 
 export default function FloatingActionBtn({ toggleFilter, filteredType }) {
   const isExpanded = useSharedValue(false);
+  const [expanded, setExpanded] = useState(false);
 
   const handlePress = () => {
     isExpanded.value = !isExpanded.value;
+    setExpanded(!expanded);
   };
+
   const getBackgroundColor = (type) => {
     return filteredType.includes(type) ? "#ffffff" : "#7d7d7d";
   };
@@ -71,9 +74,17 @@ export default function FloatingActionBtn({ toggleFilter, filteredType }) {
     <View style={styles.buttonContainer}>
       <AnimatedPressable
         onPress={handlePress}
-        style={[styles.shadow, mainButtonStyles.button]}
+        style={[
+          styles.shadow,
+          mainButtonStyles.button,
+          { opacity: expanded ? 0.7 : 1 },
+        ]}
       >
-        <MaterialIcons name="filter-alt" size={32} color="white" />
+        <MaterialIcons
+          name={expanded ? "filter-alt-off" : "filter-alt"}
+          size={32}
+          color="white"
+        />
       </AnimatedPressable>
       <FloatingActionButton
         isExpanded={isExpanded}
