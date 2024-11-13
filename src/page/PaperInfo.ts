@@ -6,10 +6,13 @@ export default async function getPaperInfo(targetDate: string) {
     var formattedDate = `${Number(date.split("-")[1])}월${
       date.split("-")[2]
     }일`;
+    if (formattedDate[3] === "0") {
+      var formattedDate = formattedDate.substring(0, 3)+formattedDate.substring(4,6);
+    }
     var searchQuery = `[오늘의 주요일정]사회(${formattedDate}`;
     var encodedQuery = encodeURIComponent(searchQuery);
     var searchUrl = `https://m.search.daum.net/search?nil_profile=btn&w=news&DA=SBC&q=${encodedQuery}`;
-    console.log(searchUrl)
+    console.log(searchUrl);
     var HTMLresponse = await fetch(searchUrl);
     const daumUrl = "http://v.daum.net/v/";
     var htmlString = (await HTMLresponse.text())
