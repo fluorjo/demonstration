@@ -27,13 +27,13 @@ const Indicator: React.FC<IndicatorProps> = ({ focused }) => {
     />
   );
 };
-
+//750 * 1110
 const AppInfoPage = () => {
   // const width = Dimensions.get("window").width;
   // const height = Dimensions.get("window").height;
   const [index, setIndex] = useState(0);
-  const carouselWidth = 340;
-  const carouselHeight = 500;
+  const carouselWidth = 375;
+  const carouselHeight = 555;
   return (
     <View style={styles.container}>
       <Carousel

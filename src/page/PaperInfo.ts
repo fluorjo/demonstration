@@ -9,6 +9,7 @@ export default async function getPaperInfo(targetDate: string) {
     var searchQuery = `[오늘의 주요일정]사회(${formattedDate}`;
     var encodedQuery = encodeURIComponent(searchQuery);
     var searchUrl = `https://m.search.daum.net/search?nil_profile=btn&w=news&DA=SBC&q=${encodedQuery}`;
+    console.log(searchUrl)
     var HTMLresponse = await fetch(searchUrl);
     const daumUrl = "http://v.daum.net/v/";
     var htmlString = (await HTMLresponse.text())
