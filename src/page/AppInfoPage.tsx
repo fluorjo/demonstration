@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Dimensions, Image, StyleSheet, View } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 const screenWidth = Math.round(Dimensions.get("window").width);
@@ -16,36 +16,61 @@ const Images = [
     imageSource: require("/Users/fluor/Documents/c/demo-expo/assets/appManual/info.png"),
   },
 ];
+interface IndicatorProps {
+  focused: boolean;
+}
+
+const Indicator: React.FC<IndicatorProps> = ({ focused }) => {
+  return (
+    <View
+      style={[styles.Indicator, focused ? styles.focused : styles.unfocused]}
+    />
+  );
+};
+
 const AppInfoPage = () => {
   // const width = Dimensions.get("window").width;
   // const height = Dimensions.get("window").height;
+  const [index, setIndex] = useState(0);
+  const carouselWidth = 340;
+  const carouselHeight = 500;
   return (
     <View style={styles.container}>
       <Carousel
         loop
-        width={340}
-        height={500}
+        width={carouselWidth}
+        height={carouselHeight}
         autoPlay={false}
         data={Images}
-        scrollAnimationDuration={1000}
-        onSnapToItem={(index) => console.log("current index:", index)}
+        scrollAnimationDuration={500}
+        // onSnapToItem={(index) => console.log("current index:", index)}
+        onProgressChange={(progress) => {
+          const progressToIndex = Math.round(-progress / carouselWidth);
+          setIndex(progressToIndex);
+          console.log(progressToIndex);
+        }}
         style={styles.carousel}
         renderItem={({ item: { imageSource } }) => (
-            <Image
-              style={{
-                flex: 1,
-                borderWidth: 0,
-                justifyContent: "center",
-                width: "100%",
-                height: "100%",
-                // position:'absolute',
-                // top:-55,
-              }}
-              source={imageSource}
-              resizeMode="contain"
-            />
+          <Image
+            style={{
+              flex: 1,
+              borderWidth: 0,
+              justifyContent: "center",
+              width: "100%",
+              height: "100%",
+              // position:'absolute',
+              // top:-55,
+            }}
+            source={imageSource}
+            resizeMode="contain"
+          />
         )}
       />
+      <View style={[styles.IndicatorWrapper]}>
+        {Array.from({ length: Images.length }, (_, i) => i).map((i) => (
+          <Indicator key={`indicator_${i}`} focused={i === index} />
+        ))}
+      </View>
     </View>
   );
 };
@@ -57,6 +82,7 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 20,
   },
   carousel: {
     backgroundColor: "#572e2e",
@@ -94,6 +120,28 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     margin: 0,
     opacity: 0.4,
+  },
+  IndicatorWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 16,
+    marginBottom: 16,
+    backgroundColor: "#8e2d2d6c",
+  },
+  Indicator: {
+    marginTop: 0,
+    marginBottom: 4,
+    marginLeft: 4,
+    backgroundColor: "#262626",
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+  },
+  focused: {
+    backgroundColor: "#262626",
+  },
+  unfocused: {
+    backgroundColor: "#dfdfdf",
   },
 });
 
