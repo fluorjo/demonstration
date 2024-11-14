@@ -9,7 +9,7 @@ const Images = [
   },
   {
     num: 2,
-    imageSource: require("/Users/fluor/Documents/c/demo-expo/assets/appManual/map2.png"),
+    imageSource: require("/Users/fluor/Documents/c/demo-expo/assets/appManual/info.png"),
   },
   {
     num: 3,
@@ -32,8 +32,8 @@ const AppInfoPage = () => {
   // const width = Dimensions.get("window").width;
   // const height = Dimensions.get("window").height;
   const [index, setIndex] = useState(0);
-  const carouselWidth = 375;
-  const carouselHeight = 555;
+  const carouselWidth = 350;
+  const carouselHeight = 518;
   return (
     <View style={styles.container}>
       <Carousel
@@ -123,19 +123,20 @@ const styles = StyleSheet.create({
   },
   IndicatorWrapper: {
     flexDirection: "row",
-    display:'flex',
+    display: "flex",
     alignItems: "center",
-    alignContent:'center',
+    alignContent: "center",
     marginTop: 16,
     marginBottom: 16,
-    borderRadius:10,
+    borderRadius: 10,
     backgroundColor: "#00000061",
+    bottom:-12
   },
   Indicator: {
     // marginTop: 0,
     // marginBottom: 4,
-    marginVertical:4,
-    marginHorizontal:5,
+    marginVertical: 4,
+    marginHorizontal: 5,
     backgroundColor: "#000000b0",
     width: 12,
     height: 12,
