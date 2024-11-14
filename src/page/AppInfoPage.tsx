@@ -13,7 +13,7 @@ const Images = [
   },
   {
     num: 3,
-    imageSource: require("/Users/fluor/Documents/c/demo-expo/assets/appManual/info.png"),
+    imageSource: require("/Users/fluor/Documents/c/demo-expo/assets/appManual/candle.png"),
   },
 ];
 interface IndicatorProps {
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 20,
+    marginTop: 10,
   },
   carousel: {
     // backgroundColor: "#572e2e",
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    borderWidth: 2,
+    borderWidth: 1,
   },
   overlay: {
     flex: 1,
