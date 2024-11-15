@@ -247,7 +247,7 @@ export default function PoliceDemoInfoPage() {
       setIsArrowVisible(true);
     })
     .onEnd(() => {
-      console.log(translationX.value);
+      // console.log(translationX.value);
 
       // if (zoomScale === 1) {
       //   if (translationX.value > 50) {

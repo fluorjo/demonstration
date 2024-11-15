@@ -47,7 +47,7 @@ const AppInfoPage = () => {
         onProgressChange={(progress) => {
           const progressToIndex = Math.round(-progress / carouselWidth);
           setIndex(progressToIndex);
-          console.log(progressToIndex);
+          // console.log(progressToIndex);
         }}
         style={styles.carousel}
         renderItem={({ item: { imageSource } }) => (

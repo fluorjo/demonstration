@@ -20,7 +20,6 @@ import RestRoomPage from "./src/page/RestRoomPage";
 import SkiaSVG from "./src/page/Skia";
 import AppInfoPage from "./src/page/AppInfoPage";
 const Tab = createBottomTabNavigator();
-// 탭바 디자인 좀 하자.
 export default function App() {
   const [city, setCity] = useState<string>();
   const [currentLatitude, setLatitude] = useState<number>();
@@ -126,7 +125,7 @@ export default function App() {
             />
             <Tab.Screen
               name="Candle"
-              component={SkiaSVG}
+              component={Candle}
               listeners={{
                 focus: () => setIsCandleActive(true),
                 blur: () => setIsCandleActive(false),

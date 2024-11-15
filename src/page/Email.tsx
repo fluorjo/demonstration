@@ -3,7 +3,7 @@ import * as MailComposer from 'expo-mail-composer';
 export const sendEmail = async () => {
     let options = {
       subject: '문의사항 제목을 입력해주세요',
-      recipients: ['fluor@fff.com'],
+      recipients: ['ezdev62@gmail.com'],
       body: '문의사항 내용을 입력해주세요',
     };
 
