@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Dimensions, Image, StyleSheet, View } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
+import Animated, { useSharedValue, useAnimatedReaction, runOnJS } from "react-native-reanimated";
+
 const screenWidth = Math.round(Dimensions.get("window").width);
 const Images = [
   {
@@ -16,6 +18,7 @@ const Images = [
     imageSource: require("/Users/fluor/Documents/c/demo-expo/assets/appManual/candle.png"),
   },
 ];
+
 interface IndicatorProps {
   focused: boolean;
 }
@@ -27,13 +30,22 @@ const Indicator: React.FC<IndicatorProps> = ({ focused }) => {
     />
   );
 };
-//750 * 1110
+
 const AppInfoPage = () => {
-  // const width = Dimensions.get("window").width;
-  // const height = Dimensions.get("window").height;
   const [index, setIndex] = useState(0);
   const carouselWidth = 350;
   const carouselHeight = 518;
+  const progress = useSharedValue(0);
+
+  useAnimatedReaction(
+    () => Math.round(-progress.value / carouselWidth), 
+    (calculatedIndex) => {
+      if (calculatedIndex !== index) {
+        runOnJS(setIndex)(calculatedIndex);
+      }
+    }
+  );
+
   return (
     <View style={styles.container}>
       <Carousel
@@ -43,11 +55,8 @@ const AppInfoPage = () => {
         autoPlay={false}
         data={Images}
         scrollAnimationDuration={500}
-        // onSnapToItem={(index) => console.log("current index:", index)}
-        onProgressChange={(progress) => {
-          const progressToIndex = Math.round(-progress / carouselWidth);
-          setIndex(progressToIndex);
-          // console.log(progressToIndex);
+        onProgressChange={(progressValue) => {
+          progress.value = progressValue; 
         }}
         style={styles.carousel}
         renderItem={({ item: { imageSource } }) => (
@@ -58,8 +67,6 @@ const AppInfoPage = () => {
               justifyContent: "center",
               width: "100%",
               height: "100%",
-              // position:'absolute',
-              // top:-55,
             }}
             source={imageSource}
             resizeMode="contain"
@@ -78,63 +85,29 @@ const AppInfoPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: "white",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     marginTop: 10,
   },
   carousel: {
-    // backgroundColor: "#572e2e",
-    // width: 340,
-    // height: 500,
     borderRadius: 30,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
   },
-  overlay: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  highlight: {
-    position: "absolute",
-    backgroundColor: "transparent",
-    borderWidth: 20,
-    borderColor: "#fff",
-    borderRadius: 10,
-  },
-  text: {
-    color: "white",
-    marginTop: 20,
-    position: "absolute",
-    top: 300,
-  },
-  AppGuideImage: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover",
-    margin: 0,
-    opacity: 0.4,
-  },
   IndicatorWrapper: {
     flexDirection: "row",
-    display: "flex",
     alignItems: "center",
     alignContent: "center",
     marginTop: 16,
     marginBottom: 16,
     borderRadius: 10,
     backgroundColor: "#00000061",
-    bottom:-12
+    bottom: -12,
   },
   Indicator: {
-    // marginTop: 0,
-    // marginBottom: 4,
     marginVertical: 4,
     marginHorizontal: 5,
     backgroundColor: "#000000b0",
@@ -146,7 +119,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#000000",
   },
   unfocused: {
-    // backgroundColor: "#000000b0",
     backgroundColor: "#ffffff",
   },
 });

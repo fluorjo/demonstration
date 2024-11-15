@@ -1,3 +1,4 @@
+
 import {
   Canvas,
   Circle,
@@ -14,7 +15,10 @@ import {
   vec,
 } from "@shopify/react-native-skia";
 import React, { useEffect, useState } from "react";
-import { Animated, Easing, View } from "react-native";
+import { Animated, Easing, View ,Dimensions} from "react-native";
+// 안드로이드 기기에서 보니까 너무 위로 올라가고 이상해진다. 고쳐야 함. 
+
+const screenWidth = Math.round(Dimensions.get("window").width);
 
 export default function SkiaSVG() {
   const [startPointX, setStartPointX] = useState(50.0); // 50
